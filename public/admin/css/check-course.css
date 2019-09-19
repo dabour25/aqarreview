@@ -1,0 +1,24 @@
+*{
+    margin: 0px;
+}
+.table{
+    width: 500px;
+}
+.table-div{
+ margin-top: 100px;
+ margin-left: 250px;
+ font-weight: bold;
+}
+.check-box-div{ 
+    margin-top: 50px;
+    margin-left: 250px;
+
+}
+.p{
+    font-size: 22px;
+    font-weight: bold;
+color: orange;
+}
+.form-check{
+    
+}

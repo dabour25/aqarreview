@@ -1,0 +1,55 @@
+.body{
+    margin:0px;
+}
+.background{ 
+    background-image: url("55.png");
+    background-repeat: no-repeat;
+    margin-left: 20px;
+	width:80%;
+	background-size: 100%;
+	background-position: center;
+}
+.box{
+    width: 60%;
+    height: 400px;
+    margin: auto;
+    margin-top: 75px;
+    background-color: rgba(216, 196, 235, 0.425);
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	min-width:400px;
+
+}
+.box1{ 
+    height: 100px;
+    background-color: #d8c4eb;
+}
+.box1:hover{ 
+	opacity:0.9;
+}
+.p1{ font-family: Lucida 	;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    font-variant: small-caps;
+color: gray;
+padding-top: 20px;
+}
+.control{ border: none;
+   background-color: rgba(216, 196, 235, 0);
+    margin-top:35px;
+    margin-left: 20px;
+    height: 100px;
+    width: 300px;
+}
+.control:focus{ 
+    background-color: rgba(216, 196, 235, 0);
+    outline: none;
+}
+.nbtn{ text-align: center;
+    margin-left: 38%;
+    width: 150px;
+    background-color: rgb(114, 100, 110);
+    border: none;
+border-radius: 0px;
+}

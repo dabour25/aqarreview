@@ -132,12 +132,16 @@ class process extends Controller
 			        $photoName.='.'.$v->getClientOriginalExtension();
 			        $v->move($photosPath,$photoName);
 	        	}else{
-		        	$ph[$k]=str_random(32);
-			        $ph[$k].='.'.$v->getClientOriginalExtension();
-			        $v->move($photosPath,$ph[$k]);
+		        	$ph[$k-1]=str_random(32);
+			        $ph[$k-1].='.'.$v->getClientOriginalExtension();
+			        $v->move($photosPath,$ph[$k-1]);
 			    }
 	        }
-	        $phs=implode('|', $ph);
+	        if(count($images)>1){
+	        	$phs=implode('|', $ph);
+	        }else{
+	        	$phs='';
+	        }
 	    }else{
 	    	$phs='';
 	    }
@@ -175,7 +179,6 @@ class process extends Controller
   		$valarr=[
 	       'name'=>'required|max:50|min:3',
 	       'phone'=>'required|max:30|min:10',
-	       'email'=>'max:50|min:5|email',
 	    ];
 	    $this->validate($req,$valarr);
 	    $name=$req->input('name');

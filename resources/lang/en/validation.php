@@ -135,6 +135,9 @@ return [
 		'area' => [
             'required' => 'Area is Required',
         ],
+        'message' => [
+            'required' => 'Message is Required',
+        ]
     ],
 
     /*

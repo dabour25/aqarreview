@@ -21,30 +21,28 @@
             </div>
         </div>
         <!-- Search area 3 start -->
-        <form action="/search" method="post">
-            @csrf
             <div class="search-area-5 ar">
                 <div class="container">
                     <div class="inline-search-area">
                         <div class="row">
     						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-group">
-                                <input type="text" class="form-control" placeholder="عن ماذا تبحث - فى اى منطقة - حى - مدينة ؟"   name="search">
+                                <input type="text" class="form-control" placeholder="عن ماذا تبحث - فى اى منطقة - حى - مدينة ؟"   id="search">
                             </div>
     						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                                <select class="selectpicker search-fields" name="type">
-                                    <option value="all">النوع</option>
-                                    <option value="1">شراء</option>
-                                    <option value="2">إيجار</option>
+                                <select class="selectpicker search-fields" id="type">
+                                    <option value="all" class="ar">النوع</option>
+                                    <option value="1" class="ar">شراء</option>
+                                    <option value="2" class="ar">إيجار</option>
                                 </select>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                                 <div class="range-slider">
-                                    <div data-min="0" data-max="5000000"  data-min-name="min" data-max-name="max" data-unit="ج.م" class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                    <div data-min="0" data-max="10000000"  data-min-name="min" data-max-name="max" data-unit="ج.م" class="range-slider-ui ui-slider" aria-disabled="false"></div>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                                <button class="btn button-theme btn-search btn-block" type="submit">
+                                <button class="btn button-theme btn-search btn-block" id="searchbtn">
                                     <i class="fa fa-search"></i><strong> إبحث </strong>
                                 </button>
                             </div>
@@ -52,7 +50,14 @@
                     </div>
                 </div>
             </div>
-        </form>
+            <script type="text/javascript">
+                $('#searchbtn').click(function(){
+                    if($('#search').val()==''){
+                        $('#search').val('all');
+                    }
+                    location.href='/search/'+$('#search').val()+'/'+$('#type').val()+'/'+$('[name=min]').val()+'/'+$('[name=max]').val();
+                });
+            </script>
         <!-- Search area 3 end -->
     </div>
 </div>
@@ -68,6 +73,7 @@
             <p>آخر العروض المقدمة</p>
         </div>
         <div class="row">
+            @if(count($newads)>0)
 			@foreach($newads as $n)
             <div class="col-lg-4 col-md-6">
                 <div class="property-box">
@@ -93,7 +99,7 @@
                             @endif
                             <div class="price-box"><span>{{$n->price}} ج.م</span> {{$n->gen_type==2?'/شهر':''}}</div>
                             @if($n->image=='')
-                            <img class="d-block w-100" src="{{asset('/img/ads')}}/default.jpg" alt="properties" style="height: 330px;object-fit: contain">
+                            <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$links[5]->value}}" alt="properties" style="height: 330px;object-fit: contain">
                             @else
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" alt="properties" style="height: 330px;object-fit: contain">
                             @endif
@@ -152,6 +158,12 @@
                 });
             </script>
             @endforeach
+            @else
+            <h3>لا يوجد إعلانات حالياً</h3>
+            @endif
+            @if(count($newads)==3)
+            <a href="/search" class="btn btn-white btn-read-more">عرض المزيد</a>
+            @endif
         </div>
     </div>
 </div>
@@ -175,17 +187,15 @@
             </div>
         </div>
         <!-- Search area 3 start -->
-        <form action="/search" method="post">
-            @csrf
             <div class="search-area-5">
                 <div class="container">
                     <div class="inline-search-area">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-group">
-                                <input type="text" class="form-control" placeholder="what are you loking for - city - town - area ?" name="search">
+                                <input type="text" class="form-control" placeholder="what are you loking for - city - town - area ?" id="search">
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                                <select class="selectpicker search-fields" name="type">
+                                <select class="selectpicker search-fields" id="type">
                                     <option value="all">Type</option>
                                     <option value="1">Buy</option>
                                     <option value="2">Rent</option>
@@ -198,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                                <button class="btn button-theme btn-search btn-block" type="submit">
+                                <button class="btn button-theme btn-search btn-block" id="searchbtn">
                                     <i class="fa fa-search"></i><strong> Search ! </strong>
                                 </button>
                             </div>
@@ -206,7 +216,14 @@
                     </div>
                 </div>
             </div>
-        </form>
+            <script type="text/javascript">
+                $('#searchbtn').click(function(){
+                    if($('#search').val()==''){
+                        $('#search').val('all');
+                    }
+                    location.href='/search/'+$('#search').val()+'/'+$('#type').val()+'/'+$('[name=min]').val()+'/'+$('[name=max]').val();
+                });
+            </script>
         <!-- Search area 3 end -->
     </div>
 </div>
@@ -222,6 +239,7 @@
             <p>Leatest Ads</p>
         </div>
         <div class="row">
+            @if(count($newads)>0)
             @foreach($newads as $n)
             <div class="col-lg-4 col-md-6">
                 <div class="property-box">
@@ -247,7 +265,7 @@
                             @endif
                             <div class="price-box"><span>{{$n->price}} EGP</span> {{$n->gen_type==2?'/month':''}}</div>
                             @if($n->image=='')
-                            <img class="d-block w-100" src="{{asset('/img/ads')}}/default.jpg" alt="properties" style="height: 330px;object-fit: contain">
+                            <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$links[5]->value}}" alt="properties" style="height: 330px;object-fit: contain">
                             @else
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" alt="properties" style="height: 330px;object-fit: contain">
                             @endif
@@ -306,6 +324,12 @@
                 });
             </script>
             @endforeach
+            @else
+            <h3>No Ads Yet</h3>
+            @endif
+            @if(count($newads)==3)
+            <a href="/search" class="btn btn-white btn-read-more">Show More</a>
+            @endif       
         </div>
     </div>
 </div>

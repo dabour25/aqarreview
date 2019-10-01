@@ -47,11 +47,20 @@
               <br>
               <button type="submit" class="btn btn-primary">Save</button>
             </form>
+            <hr>
+            <form action="/admindb/adsdefault" method="post" enctype="multipart/form-data">
+              @csrf
+              <label>Default Ads Image</label>
+              <br>
+              <img src="{{asset('/img/ads')}}/{{$data[5]->value}}" width="150px">
+              <br><br>
+              <input type="file" name="default">
+              <br><br>
+              <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </div>
           </div>
         </div>
-
   </div>
   <!-- /.content-wrapper -->
 

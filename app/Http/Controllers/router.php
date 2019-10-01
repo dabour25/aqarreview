@@ -92,11 +92,14 @@ class router extends Controller
         return view('single',compact('page','ad','name','phone','email'));
     }
     public function ad($id){
-        $ad=Ads::where('id',$id)->first();
+        $ad=Ads::where('id',$id)->where('show',1)->first();
         if(empty($ad)){
             return redirect('/');
         }
         $data=Adspro::where('ad',$id)->first();
+        if(empty($data)){
+            return redirect('/');
+        }
         $name=$data->name;$phone=$data->phone;
         if($data->email_show==1){
             $email=$data->email;
@@ -111,7 +114,7 @@ class router extends Controller
         return view('single',compact('page','ad','name','phone','email','fav'));
     }
     public function cat($cat){
-        $ads=Ads::where('type',$cat)->where('show',1)->orderBy('id','desc')->get();
+        $ads=Ads::where('type',$cat)->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -138,7 +141,7 @@ class router extends Controller
         return view('ads',compact('page','ads','pagear','fav'));
     }
     public function rcat($cat){
-        $ads=Ads::where('type',$cat)->where('gen_type',2)->where('show',1)->orderBy('id','desc')->get();
+        $ads=Ads::where('type',$cat)->where('gen_type',2)->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -167,7 +170,7 @@ class router extends Controller
         return view('ads',compact('page','ads','pagear','fav'));
     }
     public function scat($cat){
-        $ads=Ads::where('type',$cat)->where('gen_type',1)->where('show',1)->orderBy('id','desc')->get();
+        $ads=Ads::where('type',$cat)->where('gen_type',1)->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -195,18 +198,14 @@ class router extends Controller
         }
         return view('ads',compact('page','ads','pagear','fav'));
     }
-    public function search(Request $req){
-        $search=$req->input('search');
-        $type=$req->input('type');
-        $min=$req->input('min');
-        $max=$req->input('max');
-        if($search==null){
+    public function search($search,$type,$min,$max){
+        if($search=='all'){
             if($type=='all'){
                 if(Session::has('lang'))
                     $searchn="ALL";
                 else
                     $searchn="الكل ";
-                $ads=Ads::orderBy('id','desc')->whereBetween('price', [$min,$max])->where('show',1)->get();
+                $ads=Ads::orderBy('id','desc')->whereBetween('price', [$min,$max])->where('show',1)->paginate(21);
             }else{
                 if(Session::has('lang'))
                     $searchn="ALL ";
@@ -223,7 +222,7 @@ class router extends Controller
                     else
                         $searchn.="إيجار";
                 }
-                $ads=Ads::where('gen_type',$type)->where('show',1)->orderBy('id','desc')->whereBetween('price', [$min,$max])->get();
+                $ads=Ads::where('gen_type',$type)->where('show',1)->orderBy('id','desc')->whereBetween('price', [$min,$max])->paginate(21);
             }
         }else{
             if($type=='all'){
@@ -231,8 +230,9 @@ class router extends Controller
                 $ads=Ads::orderBy('id','desc')
                 ->where(function ($query) use ($search) {
                     $query->where('title','like','%'.$search.'%')
-                        ->orwhere('description','like','%'.$search.'%');})
-                ->where('show',1)->whereBetween('price', [$min,$max])->get();
+                        ->orwhere('description','like','%'.$search.'%')
+                        ->orwhere('address','like','%'.$search.'%');})
+                ->where('show',1)->whereBetween('price', [$min,$max])->paginate(21);
             }else{
                 $searchn=$search;
                 if($type==1){
@@ -250,9 +250,10 @@ class router extends Controller
                 $ads=Ads::where('gen_type',$type)
                 ->where(function ($query) use ($search) {
                     $query->where('title','like','%'.$search.'%')
-                        ->orwhere('description','like','%'.$search.'%');})
+                        ->orwhere('description','like','%'.$search.'%')
+                        ->orwhere('address','like','%'.$search.'%');})
                 ->where('show',1)
-                ->orderBy('id','desc')->whereBetween('price', [$min,$max])->get();
+                ->orderBy('id','desc')->whereBetween('price', [$min,$max])->paginate(21);
             }
         }
         $page='SEARCH : '.$searchn;
@@ -264,8 +265,12 @@ class router extends Controller
         return view('ads',compact('page','ads','pagear','search','type','min','max','fav'));
     }
     public function gsearch(){
-        $search='ALL';
-        $ads=Ads::orderBy('id','desc')->get();
+        if(Session::has('lang')){
+            $search="ALL";
+        }else{
+            $search="الكل";
+        }
+        $ads=Ads::orderBy('id','desc')->paginate(21);
         $page='SEARCH : '.$search;
         $pagear='بحث عن : '.$search;
         $fav=[];

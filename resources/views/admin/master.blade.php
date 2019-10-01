@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <title>Aqar Review Admin DB</title>
 
     <!-- Bootstrap core CSS-->
     <link href="{{asset('admin/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -53,18 +54,18 @@
       <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="/admindb/approve" title="{{$newads}} New Ads">
-            <i class="fas fa-bell fa-fw"></i>
             @if($newads>0)
             <span class="badge badge-danger">{{$newads}}</span>
             @endif
+            <i class="fas fa-bell fa-fw"></i>
           </a>
         </li>
         <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="/admindb/messages" title="{{$messagescount}} New Messages">
-            <i class="fas fa-envelope fa-fw"></i>
             @if($messagescount>0)
             <span class="badge badge-danger">{{$messagescount}}</span>
             @endif
+            <i class="fas fa-envelope fa-fw"></i>
           </a>
         </li>
         <li class="nav-item dropdown no-arrow">

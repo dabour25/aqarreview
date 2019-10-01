@@ -23,7 +23,7 @@
 	  <div class="carousel-inner">
 		<div class="carousel-item active">
 			@if($ad->image=='')
-			<img class="d-block w-100" src="{{asset('img/ads')}}/default.jpg" alt="Primary slide" style="height: 600px;object-fit: contain">
+			<img class="d-block w-100" src="{{asset('img/ads')}}/{{$links[5]->value}}" alt="Primary slide" style="height: 600px;object-fit: contain">
 			@else
 		  <img class="d-block w-100 zoomimg" src="{{asset('img/ads')}}/{{$ad->image}}" alt="Primary slide" style="height: 600px;object-fit: contain" id="fim">
 		  @endif
@@ -205,7 +205,7 @@
 	  <div class="carousel-inner">
 		<div class="carousel-item active">
 			@if($ad->image=='')
-			<img class="d-block w-100" src="{{asset('img/ads')}}/default.jpg" alt="Primary slide" style="height: 600px;object-fit: contain">
+			<img class="d-block w-100" src="{{asset('img/ads')}}/{{$links[5]->value}}" alt="Primary slide" style="height: 600px;object-fit: contain">
 			@else
 		  <img class="d-block w-100 zoomimg" src="{{asset('img/ads')}}/{{$ad->image}}" alt="Primary slide" style="height: 600px;object-fit: contain" id="fim">
 		  @endif

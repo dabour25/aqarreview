@@ -35,7 +35,7 @@ Route::get('/rent/{cat}','router@rcat');
 Route::get('/sell/{cat}','router@scat');
 
 Route::get('/search','router@gsearch');
-Route::post('/search','router@search');
+Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
 Route::get('/profile','router@profile');
 Route::post('/edituser','process@edituser');
@@ -61,5 +61,6 @@ Route::get('/admindb/users/{filter}','adminrouter@usersf');
 Route::post('/admindb/editusers','adminprocess@editusers');
 Route::get('/admindb/links','adminrouter@links');
 Route::post('/admindb/links','adminprocess@links');
+Route::post('/admindb/adsdefault','adminprocess@adsdefault');
 
 Auth::routes();

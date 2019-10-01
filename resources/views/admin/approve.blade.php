@@ -33,11 +33,12 @@
         <div class="container">
           <div class="card-body">
                 <div class="list-group">
-                  @foreach($ads as $ad)
-                <a style="cursor: pointer" data-toggle="collapse" data-target="#ad{{$ad->id}}" class="list-group-item"><b>New Advertise : {{$ad->title}}</a>
+                @foreach($ads as $ad)
+                <a style="cursor: pointer" data-toggle="collapse" data-target="#ad{{$ad->id}}" class="list-group-item"><b>New Advertise : {{$ad->title}}</b></a>
                 <div id="ad{{$ad->id}}" class="collapse">
                   <a href="/admindb/review/{{$ad->id}}" class="btn btn-success" target="blank">Review</a>
                   <a href="/admindb/approvea/{{$ad->id}}" class="btn btn-primary">Approve</a>
+                  <a href="/admindb/removead/{{$ad->id}}" class="btn btn-danger">Remove</a>
                 </div>
                 @endforeach
                 @foreach($oldads as $oad)
@@ -46,16 +47,16 @@
                 <div id="ad{{$oad->id}}" class="collapse">
                   <a href="/admindb/review/{{$oad->id}}" class="btn btn-success" target="blank">Review</a>
                   <a href="/admindb/approvea/{{$oad->id}}" class="btn btn-primary">Approve</a>
+                  <a href="/admindb/removead/{{$oad->id}}" class="btn btn-danger">Remove</a>
                 </div>
                 @endforeach
                 </div>
             </div>
           </div>
+          {{ $oldads->links() }}
           </div>
         </div>
-
   </div>
   <!-- /.content-wrapper -->
-
 </div>
 @stop

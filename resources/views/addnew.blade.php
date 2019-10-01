@@ -28,7 +28,7 @@
 		</div>
 		<div class="col-sm-6">
 			<label>السعر</label>
-			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="1000" name="price"  value="{{old('price')}}">
+			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="أدخل السعر هنا" name="price"  value="{{old('price')}}">
 		</div>
 		<div class="col-sm-12">
 			<label>الوصف</label>
@@ -36,7 +36,7 @@
 		</div>
 		<div class="col-sm-6">
 			<label>المساحة (متر مربع)</label>
-			<input type="text" class="form-control {{ $errors->has('area') ? ' is-invalid' : '' }}" placeholder="120" name="area" value="{{old('area')}}">
+			<input type="text" class="form-control {{ $errors->has('area') ? ' is-invalid' : '' }}" placeholder="أدخل المساحة هنا" name="area" value="{{old('area')}}">
 		</div>
 		<div class="col-sm-6">
 			<label>النوع العام</label>
@@ -100,19 +100,19 @@
 		</script>
 		<div class="col-sm-6" id="floor">
 			<label>الطابق</label>
-			<input type="text" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="1" name="floor" value="{{old('floor')}}">
+			<input type="text" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="أدخل  رقم الطابق هنا" name="floor" value="{{old('floor')}}">
 		</div>
 		<div class="col-sm-6" id="rooms">
 			<label>الغرف</label>
-			<input type="text" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="3" name="rooms" value="{{old('rooms')}}">
+			<input type="text" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="أدخل عدد الغرف هنا" name="rooms" value="{{old('rooms')}}">
 		</div>
 		<div class="col-sm-6" id="pathroom">
 			<label>عدد الحمامات</label>
-			<input type="text" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="2" name="pathroom" value="{{old('pathroom')}}">
+			<input type="text" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="أدخل عدد الحمامات هنا" name="pathroom" value="{{old('pathroom')}}">
 		</div>
 		<div class="col-sm-6" id="kitchens">
 			<label>عدد المطابخ</label>
-			<input type="text" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="1" name="kitchens" value="{{old('kitchens')}}">
+			<input type="text" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="أدخل عدد المطابخ هنا" name="kitchens" value="{{old('kitchens')}}">
 		</div>
 		<div class="col-sm-6" id="finish">
 			<label>التشطيب</label>
@@ -190,7 +190,7 @@
 		</div>
 		<div class="col-sm-6">
 			<label>price (EGP)</label>
-			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="1000" name="price" value="{{old('price')}}">
+			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="Insert price here" name="price" value="{{old('price')}}">
 		</div>
 		<div class="col-sm-12">
 			<label>description</label>
@@ -198,7 +198,7 @@
 		</div>
 		<div class="col-sm-6">
 			<label>area (meter square)</label>
-			<input type="text" class="form-control {{ $errors->has('area') ? ' is-invalid' : '' }}" placeholder="120" name="area" value="{{old('area')}}">
+			<input type="text" class="form-control {{ $errors->has('area') ? ' is-invalid' : '' }}" placeholder="Insert area here" name="area" value="{{old('area')}}">
 		</div>
 		<div class="col-sm-6">
 			<label>general type</label>
@@ -250,19 +250,19 @@
 		</script>
 		<div class="col-sm-6" id="floor">
 			<label>floor</label>
-			<input type="text" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="1" name="floor" value="{{old('floor')}}">
+			<input type="text" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="Insert floor number here" name="floor" value="{{old('floor')}}">
 		</div>
 		<div class="col-sm-6" id="rooms">
 			<label>Rooms</label>
-			<input type="text" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="3" name="rooms" value="{{old('rooms')}}">
+			<input type="text" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="Insert rooms count here" name="rooms" value="{{old('rooms')}}">
 		</div>
 		<div class="col-sm-6" id="pathroom">
 			<label>Pathrooms Count</label>
-			<input type="text" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="2" name="pathroom" value="{{old('pathroom')}}">
+			<input type="text" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="Insert Pathrooms count here" name="pathroom" value="{{old('pathroom')}}">
 		</div>
 		<div class="col-sm-6" id="kitchens">
 			<label>kitchens Count</label>
-			<input type="text" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="1" name="kitchens" value="{{old('kitchens')}}">
+			<input type="text" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="Insert Kitchens count here" name="kitchens" value="{{old('kitchens')}}">
 		</div>
 		<div class="col-sm-6" id="finish">
 			<label>finish</label>

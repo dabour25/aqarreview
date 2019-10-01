@@ -90,4 +90,21 @@ class adminprocess extends Controller
 	    session()->push('m','Data Updates Saved');
 		return back();
 	}
+	public function adsdefault(Request $req){
+	    $valarr=[
+	       'default'=>'required|max:8192|mimes:jpg,jpeg,gif,png',
+	    ];
+	    $this->validate($req,$valarr);
+	    $image=$req->file('default');
+	    $old=Links::where('id',6)->first();
+	    @unlink('img/ads/'.$old->value);
+	    $photosPath = public_path('/img/ads');
+	    $photoName='default';
+		$photoName.='.'.$image->getClientOriginalExtension();
+		$image->move($photosPath,$photoName);
+		Links::where('id',6)->update(['value'=>$photoName]);
+		session()->push('m','success');
+	    session()->push('m','Image Updated Saved');
+		return back();
+	}
 }

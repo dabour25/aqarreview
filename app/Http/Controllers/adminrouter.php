@@ -46,9 +46,9 @@ class adminrouter extends Controller
      }
 
      public function approve(){
-      $ads=Ads::where('seen',0)->orderBy('id','desc')->get();
-      $oldads=Ads::where('seen',1)->where('show',0)->orderBy('id','desc')->get();
-      Ads::where('seen',0)->update(['seen'=>1]);
+      $ads=Ads::where('seen',0)->orderBy('id','desc')->paginate(10);
+      $oldads=Ads::where('seen',1)->where('show',0)->orderBy('id','desc')->paginate(10);
+      Ads::where('seen',0)->orderBy('id','desc')->limit(10)->update(['seen'=>1]);
       return view('admin/approve',compact('ads','oldads'));
      }
 

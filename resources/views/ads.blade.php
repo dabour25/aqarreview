@@ -19,17 +19,15 @@
 <!-- Page Content-->
 <h3 class="title">{{$pagear}}</h3>
     <!-- Search area 3 start -->
-        <form action="/search" method="post">
-            @csrf
             <div class="ar">
                 <div class="container">
                     <div class="inline-search-area">
                         <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-group">
-                                <input type="text" class="form-control" placeholder="عن ماذا تبحث - فى اى منطقة - حى - مدينة ؟" name="search" value="{{isset($search)?$search:''}}">
+                                <input type="text" class="form-control" placeholder="عن ماذا تبحث - فى اى منطقة - حى - مدينة ؟" id="search" value="{{isset($search)&&$search!='all'?$search:''}}">
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 form-group">
-                                <select class="selectpicker search-fields" name="type">
+                                <select class="selectpicker search-fields" id="type">
                                     <option value="all" {{isset($type)&&$type=="all"?'selected':''}}>النوع</option>
                                     <option value="1" {{isset($type)&&$type=="1"?'selected':''}}>شراء</option>
                                     <option value="2" {{isset($type)&&$type=="2"?'selected':''}}>إيجار</option>
@@ -37,12 +35,12 @@
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 form-group">
                                 <div class="range-slider">
-                                    <div data-min="0" data-max="5000000"  data-min-name="min" data-max-name="max" data-unit="ج.م" class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                    <div data-min="0" data-max="10000000"  data-min-name="min" data-max-name="max" data-unit="ج.م" class="range-slider-ui ui-slider" aria-disabled="false"></div>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-                                <button class="btn button-theme btn-search btn-block" type="submit">
+                                <button class="btn button-theme btn-search btn-block" id="searchbtn">
                                     <i class="fa fa-search"></i><strong> إبحث </strong>
                                 </button>
                             </div>
@@ -50,7 +48,14 @@
                     </div>
                 </div>
             </div>
-        </form>
+        <script type="text/javascript">
+            $('#searchbtn').click(function(){
+                if($('#search').val()==''){
+                    $('#search').val('all');
+                }
+                location.href='/search/'+$('#search').val()+'/'+$('#type').val()+'/'+$('[name=min]').val()+'/'+$('[name=max]').val();
+            });
+        </script>
     <!-- Search area 3 end -->
 <!-- Featured Properties start -->
 <div class="featured-properties content-area-14" style="padding-top:40px;">
@@ -78,7 +83,7 @@
                             </div>
                             <div class="price-box"><span>{{$n->price}} ج.م</span> {{$n->gen_type==2?'/شهر':''}}</div>
                             @if($n->image=='')
-                                <img class="d-block w-100" src="{{asset('img/ads')}}/default.jpg" style="height: 330px;object-fit: contain">
+                                <img class="d-block w-100" src="{{asset('img/ads')}}/{{$links[5]->value}}" style="height: 330px;object-fit: contain">
                                 @else
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" style="height: 330px;object-fit: contain">
                             @endif
@@ -138,6 +143,7 @@
             </script>
             @endforeach
         </div>
+        {{ $ads->links() }}
     </div>
 </div>
 <!-- Featured Properties end -->
@@ -146,16 +152,14 @@
 <!-- Page Content-->
 <h3 class="title">{{$page}}</h3>
 <!-- Search area 3 start -->
-        <form action="/search" method="post">
-            @csrf
             <div class="">
                 <div class="container">
     				<div class="row">
     					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-group">
-    						<input type="text" class="form-control" placeholder="what are you loking for - city - town - area ?" name="search" value="{{isset($search)?$search:''}}">
+    						<input type="text" class="form-control" placeholder="what are you loking for - city - town - area ?" id="search" value="{{isset($search)&$search!='all'?$search:''}}">
     					</div>
     					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 form-group">
-    						<select class="selectpicker search-fields" name="type">
+    						<select class="selectpicker search-fields" id="type">
     							<option value="all" {{isset($type)&&$type=="all"?'selected':''}}>Type</option>
     							<option value="1" {{isset($type)&&$type=="1"?'selected':''}}>Buy</option>
     							<option value="2" {{isset($type)&&$type=="2"?'selected':''}}>Rent</option>
@@ -168,14 +172,21 @@
     						</div>
     					</div>
     					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
-    						<button class="btn button-theme btn-search btn-block" type="submit">
+    						<button class="btn button-theme btn-search btn-block" id="searchbtn">
     							<i class="fa fa-search"></i><strong> Search ! </strong>
     						</button>
     					</div>
                     </div>
                 </div>
             </div>
-        </form>
+        <script type="text/javascript">
+            $('#searchbtn').click(function(){
+                if($('#search').val()==''){
+                    $('#search').val('all');
+                }
+                location.href='/search/'+$('#search').val()+'/'+$('#type').val()+'/'+$('[name=min]').val()+'/'+$('[name=max]').val();
+            });
+        </script>
         <!-- Search area 3 end -->
 <!-- Featured Properties start -->
 <div class="featured-properties content-area-14" style="padding-top:40px;">
@@ -203,7 +214,7 @@
                             </div>
                             <div class="price-box"><span>{{$n->price}} EGP</span> {{$n->gen_type==2?'/Month':''}}</div>
                             @if($n->image=='')
-                                <img class="d-block w-100" src="{{asset('img/ads')}}/default.jpg" style="height: 330px;object-fit: contain">
+                                <img class="d-block w-100" src="{{asset('img/ads')}}/{{$links[5]->value}}" style="height: 330px;object-fit: contain">
                                 @else
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" style="height: 330px;object-fit: contain">
                             @endif
@@ -263,6 +274,7 @@
             </script>
             @endforeach
         </div>
+        {{ $ads->links() }}
     </div>
 </div>
 <!-- Featured Properties end -->

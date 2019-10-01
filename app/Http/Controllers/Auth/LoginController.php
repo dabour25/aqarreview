@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use App\Links;
+use View;
 
 class LoginController extends Controller
 {
@@ -51,6 +53,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        $links = Links::all();
+        View::share('links',$links);
         $this->middleware('guest')->except('logout');
     }
 }

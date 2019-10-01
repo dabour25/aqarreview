@@ -277,7 +277,7 @@ class router extends Controller
         if(Auth::user()){
             $fav=Fav::where('user',Auth::user()->id)->get();
         }
-        return view('ads',compact('page','ads','pagear','fav'));
+        return view('ads',compact('page','ads','pagear','fav','search'));
     }
     public function profile(){
         if(!Auth::user()){
@@ -292,7 +292,7 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ads::where('user',Auth::user()->id)->orderBy('id','desc')->get();
+        $ads=Ads::where('user',Auth::user()->id)->orderBy('id','desc')->paginate(21);
         $page='Your Ads';
         $pagear='إعلاناتك';
         $fav=[];
@@ -307,7 +307,7 @@ class router extends Controller
         }
         $ads=Ads::join('favourites','favourites.ad','=','ads.id')
         ->where('favourites.user',Auth::user()->id)->orderBy('favourites.id','desc')
-        ->select('ads.*')->get();
+        ->select('ads.*')->paginate(21);
         $page='Your Favourite Ads';
         $pagear='إعلاناتك المفضلة';
         $fav=[];

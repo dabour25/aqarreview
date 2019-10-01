@@ -59,6 +59,7 @@ Route::get('/admindb/removead/{id}','adminprocess@removead');
 Route::get('/admindb/users','adminrouter@users');
 Route::get('/admindb/users/{filter}','adminrouter@usersf');
 Route::post('/admindb/editusers','adminprocess@editusers');
+Route::get('/admindb/removeuser/{id}','adminprocess@removeuser');
 Route::get('/admindb/links','adminrouter@links');
 Route::post('/admindb/links','adminprocess@links');
 Route::post('/admindb/adsdefault','adminprocess@adsdefault');

@@ -107,4 +107,14 @@ class adminprocess extends Controller
 	    session()->push('m','Image Updated Saved');
 		return back();
 	}
+	public function removeuser($id){
+		$ads=Ads::where('user',$id)->get();
+		foreach ($ads as $v) {
+			Ads::where('id',$id)->update(['user'=>0]);
+		}
+		Users::where('id',$id)->delete();
+		session()->push('m','success');
+	    session()->push('m','User Removed Successfully');
+		return back();
+	}
 }

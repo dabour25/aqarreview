@@ -10,12 +10,12 @@ use Socialite;
 use Session;
 use Schema;
 //DB Connect
-use App\Users;
-use App\Messages;
-use App\Ads;
-use App\Adspro;
-use App\Fav;
-use App\Links;
+use App\Models\Users;
+use App\Models\Messages;
+use App\Models\Ads;
+use App\Models\Adspro;
+use App\Models\Fav;
+use App\Models\Links;
 
 class router extends Controller
 {
@@ -31,7 +31,7 @@ class router extends Controller
         if(empty($chk)){
             Users::insert(['name'=>'My Admin','email'=>'admin@admin.com','password'=>Hash::make('Admin2019'),'role'=>'admin']);
         }
-		$page='HOME PAGE';
+		$page=trans('strings.home_page');
         $newads=Ads::where('show',1)->orderBy('id','desc')->take(3)->get();
         $fav=[];
         if(Auth::user()){

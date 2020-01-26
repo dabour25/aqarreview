@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <title>AQAR REVIEW | {{isset($page)?$page:'ERROR!'}}</title>
+    <title>@lang('strings.aqar_review') | {{isset($page)?$page:'ERROR!'}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
 

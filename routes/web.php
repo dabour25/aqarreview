@@ -48,20 +48,20 @@ Route::get('/favourites','router@favlist');
 Route::get('/securepoint/{keyi}/{keyii}','router@securepoint');
 
 //Admin
+Route::group(['prefix' =>'admindb','middleware' => 'auth'],function () {
+    Route::get('/', 'adminrouter@index');
+    Route::get('/messages', 'adminrouter@messages');
+    Route::get('/approve', 'adminrouter@approve');
+    Route::get('/review/{id}', 'adminrouter@review');
+    Route::get('/approvea/{id}', 'adminprocess@approve');
+    Route::get('/adscontrol', 'adminrouter@adscontrol');
+    Route::get('/removead/{id}', 'adminprocess@removead');
 
-Route::get('/admindb','adminrouter@index');
-Route::get('/admindb/messages','adminrouter@messages');
-Route::get('/admindb/approve','adminrouter@approve');
-Route::get('/admindb/review/{id}','adminrouter@review');
-Route::get('/admindb/approvea/{id}','adminprocess@approve');
-Route::get('/admindb/adscontrol','adminrouter@adscontrol');
-Route::get('/admindb/removead/{id}','adminprocess@removead');
-Route::get('/admindb/users','adminrouter@users');
-Route::get('/admindb/users/{filter}','adminrouter@usersf');
-Route::post('/admindb/editusers','adminprocess@editusers');
-Route::get('/admindb/removeuser/{id}','adminprocess@removeuser');
-Route::get('/admindb/links','adminrouter@links');
-Route::post('/admindb/links','adminprocess@links');
-Route::post('/admindb/adsdefault','adminprocess@adsdefault');
+    Route::resource('/users','Admin\UserController');
+
+    Route::get('/links', 'adminrouter@links');
+    Route::post('/links', 'adminprocess@links');
+    Route::post('/adsdefault', 'adminprocess@adsdefault');
+});
 
 Auth::routes();

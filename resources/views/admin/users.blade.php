@@ -41,8 +41,9 @@
       </div>
     @endif
     <!-- Page Content -->
-      <form action="/admindb/editusers" method="post">
+      <form action="/admindb/users/1" method="post">
         @csrf
+        {{method_field("PUT")}}
         <button type="submit" class="btn btn-primary">Save Changes</button>
         <select class="form-control" style="width: 150px;display: inline;position: relative; top: 2px;left:20px;" id="filter">
           <option value="">Select Filter</option>
@@ -58,7 +59,7 @@
             if($('#filter').val()==""){
               location.href='/admindb/users';
             }else{
-              location.href='/admindb/users/'+$('#filter').val();
+              location.href='/admindb/users?filter='+$('#filter').val();
             }
           });
         </script>
@@ -78,7 +79,7 @@
                 </thead>
                 <tbody>
                   @foreach($users as $k=>$a)
-                  <tr>
+                  <td>
                     <th scope="row">{{$k+1}}</th>
                     <td><input type="text" class="form-control" name="name[{{$a->id}}]" value="{{$a->name}}"></td>
                     <td><input type="text" class="form-control" name="email[{{$a->id}}]" value="{{$a->email}}"></td>
@@ -95,7 +96,12 @@
                         <option value="renter" {{$a->role=='renter'?'selected':''}}>Renter</option>
                       </select>
                     </td>
-                    <td><a href="/admindb/removeuser/{{$a->id}}" class="btn btn-danger">X</a></td>
+                    <td><a id="remove{{$a->id}}" class="btn btn-danger">X</a></td>
+                      <script>
+                        $('#remove{{$a->id}}').click(function () {
+                          $("#remove-form{{$a->id}}").submit();
+                        });
+                      </script>
                     @else
                     <td>Admin</td>
                     <td></td>
@@ -109,6 +115,13 @@
             {{ $users->links() }}
           </div>
         </form>
+@foreach($users as $a)
+  <form action="/admindb/users/{{$a->id}}" method="POST" id="remove-form{{$a->id}}">
+    @csrf
+    {{method_field("DELETE")}}
+  </form>
+  @endforeach
+
         </div>
 
   </div>

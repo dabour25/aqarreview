@@ -9,16 +9,16 @@ use Auth;
 use Socialite;
 use Session;
 //DB Connect
-use App\Users;
-use App\Messages;
-use App\Ads;
-use App\Adspro;
-use App\Links;
+use App\Models\Users;
+use App\Models\Messages;
+use App\Models\Ads;
+use App\Models\Adspro;
+use App\Models\Links;
 
 class adminrouter extends Controller
 {
-	public function __construct(){
-		$this->middleware('auth');
+
+    public function __construct(){
         $this->middleware(function ($request, $next) {
             $role = Auth::user()->role;
             if($role!='admin'){
@@ -32,7 +32,6 @@ class adminrouter extends Controller
         $newads = Ads::where('seen',0)->count();
         View::share('newads',$newads);
     }
-
     public function index(){
       $usercount=Users::count();
     	return view('admin/index',compact('usercount'));
@@ -68,20 +67,14 @@ class adminrouter extends Controller
       else
         return redirect('/review/'.$id.'/'.$name.'/'.$phone);
      }
+
      public function adscontrol(){
       $ads=Ads::join('ads_profile','ads_profile.ad','=','ads.id')
       ->where('seen',1)->orderBy('ads.id','desc')
       ->select('ads.id as adid','ads.title','ads_profile.*')->paginate(20);
       return view('admin/adscontrol',compact('ads'));
      }
-     public function users(){
-      $users=Users::orderBy('id','desc')->paginate(10);
-      return view('admin/users',compact('users'));
-     }
-     public function usersf($filter){
-      $users=Users::where('role',$filter)->orderBy('id','desc')->paginate(10);
-      return view('admin/users',compact('users','filter'));
-     }
+
      public function links(){
       $data=Links::all();
       return view('admin/links',compact('data'));

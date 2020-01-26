@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
-use App\Links;
+use App\Models\Links;
 use View;
 
 class LoginController extends Controller

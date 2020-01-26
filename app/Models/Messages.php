@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Fav extends Model
+class Messages extends Model
 {
-    protected $table='favourites';
+    protected $table='messages';
     public $timestamps = false;
 }

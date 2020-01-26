@@ -2,8 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\User;
-use App\Ads;
-use App\Adspro;
+use App\Models\Ads;
+use App\Models\Adspro;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 

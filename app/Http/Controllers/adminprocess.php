@@ -8,16 +8,15 @@ use Hash;
 use Session;
 use View;
 //DB Connect
-use App\Users;
-use App\Messages;
-use App\Ads;
-use App\Adspro;
-use App\Links;
+use App\Models\Users;
+use App\Models\Messages;
+use App\Models\Ads;
+use App\Models\Adspro;
+use App\Models\Links;
 
 class adminprocess extends Controller
 {
 	public function __construct(){
-		$this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $role = Auth::user()->role;
             if($role!='admin'){
@@ -53,30 +52,6 @@ class adminprocess extends Controller
 	    session()->push('m','Advertise Removed!');
   		return back();
     }
-    public function editusers(Request $req){
-	    $name=$req->input('name');
-	    $phone=$req->input('phone');
-		$email=$req->input('email');
-		$password=$req->input('password');
-		$role=$req->input('role');
-		$users=Users::all();
-		foreach ($users as $u) {
-			if (array_key_exists($u->id,$password)){
-				if($password[$u->id]!=null){
-					$pass=Hash::make($password[$u->id]);
-				}else{
-					$pass=$u->password;
-				}
-				if($u->id==1){
-					$role[1]='admin';
-				}
-				Users::where('id',$u->id)->update(['name'=>$name[$u->id],'phone'=>$phone[$u->id],'email'=>$email[$u->id],'password'=>$pass,'role'=>$role[$u->id]]);	
-			}
-		}
-		session()->push('m','success');
-	    session()->push('m','All Users Updates Saved');
-		return back();
-	}
 	public function links(Request $req){
 	    $phone=$req->input('phone');
 		$email=$req->input('email');

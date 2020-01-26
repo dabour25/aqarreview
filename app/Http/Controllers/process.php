@@ -8,11 +8,11 @@ use Hash;
 use Session;
 use View;
 //DB Connect
-use App\Messages;
-use App\Users;
-use App\Ads;
-use App\Adspro;
-use App\Fav;
+use App\Models\Messages;
+use App\Models\Users;
+use App\Models\Ads;
+use App\Models\Adspro;
+use App\Models\Fav;
 
 class process extends Controller
 {

@@ -113,15 +113,13 @@
             </div>
             </div>
             {{ $users->links() }}
-          </div>
         </form>
-@foreach($users as $a)
-  <form action="/admindb/users/{{$a->id}}" method="POST" id="remove-form{{$a->id}}">
-    @csrf
-    {{method_field("DELETE")}}
-  </form>
-  @endforeach
-
+        @foreach($users as $a)
+          <form action="/admindb/users/{{$a->id}}" method="POST" id="remove-form{{$a->id}}">
+            @csrf
+            {{method_field("DELETE")}}
+          </form>
+          @endforeach
         </div>
 
   </div>

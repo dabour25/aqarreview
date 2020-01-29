@@ -20,12 +20,12 @@
             </div>
         </div>
         <!-- Search area 3 start -->
-            <div class="search-area-5 ar">
+            <div class="search-area-5 {{app()->getLocale()=="ar"?"ar":""}}">
                 <div class="container">
                     <div class="inline-search-area">
                         <div class="row">
     						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 form-group">
-                                <input type="text" class="form-control" placeholder="عن ماذا تبحث - فى اى منطقة - حى - مدينة ؟"   id="search">
+                                <input type="text" class="form-control" placeholder="@lang('strings.search_string')"   id="search">
                             </div>
     						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                                 <select class="selectpicker search-fields" id="type">
@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 form-group">
                                 <div class="range-slider">
-                                    <div data-min="0" data-max="10000000"  data-min-name="min" data-max-name="max" data-unit="ج.م" class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                    <div data-min="0" data-max="10000000"  data-min-name="min" data-max-name="max" data-unit="@lang('strings.le')" class="range-slider-ui ui-slider" aria-disabled="false"></div>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
 
 <!-- Featured Properties start -->
 <div class="featured-properties content-area-14" style="padding-top:40px;">
-    <div class="container ar">
+    <div class="container {{app()->getLocale()=="ar"?"ar":""}}">
         <!-- Main title -->
         <div class="main-title">
             <h1>@lang('strings.whats_new')</h1>
@@ -90,13 +90,13 @@
                                     }
                                 ?>
                                 @if(!$fa)
-                                <i id="fav{{$n->id}}" class="fa fa-star-o star" title="إضافة الى المفضلة"></i>
+                                <i id="fav{{$n->id}}" class="fa fa-star-o star" title="@lang('strings.add_to_favourites')"></i>
                                 @else
-                                <i id="fav{{$n->id}}" class="fa fa-star star" title="إزالة من المفضلة"></i>
+                                <i id="fav{{$n->id}}" class="fa fa-star star" title="@lang('strings.remove_from_favourites')"></i>
                                 @endif
                             </div>
                             @endif
-                            <div class="price-box"><span>{{$n->price}} ج.م</span> {{$n->gen_type==2?'/شهر':''}}</div>
+                            <div class="price-box"><span>{{$n->price}} @lang('strings.le')</span> {{$n->gen_type==2?'/شهر':''}}</div>
                             @if($n->image=='')
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$links[5]->value}}" alt="properties" style="height: 330px;object-fit: contain">
                             @else
@@ -116,7 +116,7 @@
                         <ul class="facilities-list clearfix">
                             @if($n->type==3)
                             <li>
-                                <i class="flaticon-ui"></i>متر {{$n->size}}
+                                <i class="flaticon-ui"></i>@lang('strings.meter') {{$n->size}}
                             </li>
                             @else
                             <li>
@@ -126,7 +126,7 @@
                                 <i class="flaticon-bathroom"></i>حمامات: {{$n->pathroom}}
                             </li>
                             <li>
-                                <i class="flaticon-ui"></i>متر {{$n->size}}
+                                <i class="flaticon-ui"></i>@lang('strings.meter') {{$n->size}}
                             </li>
                             <li>
                                 <i class="flaticon-car"></i> {{$n->parking==1?'جراج':'لا يوجد جراج'}}
@@ -158,10 +158,10 @@
             </script>
             @endforeach
             @else
-            <h3>لا يوجد إعلانات حالياً</h3>
+            <h3>@lang('strings.no_ads')</h3>
             @endif
             @if(count($newads)==3)
-            <a href="/search" class="btn btn-white btn-read-more">عرض المزيد</a>
+            <a href="/search" class="btn btn-white btn-read-more">@lang('strings.show_more')</a>
             @endif
         </div>
     </div>

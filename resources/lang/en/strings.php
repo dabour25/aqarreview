@@ -37,5 +37,12 @@
         'houses'=>'houses',
         'shops'=>'Shops',
         'terms_conditions'=>'Terms and Conditions',
+        'meter'=>'Meter',
+        'no_ads'=>'No Ads Added Yet',
+        'le'=>'L.E',
+        'search_string'=>'What are you looking for - city - area ?',
+        'add_to_favourites'=>'Add to favourites',
+        'remove_from_favourites'=>'Remove from favourites',
+        'show_more'=>'Show more',
 	]
 ?>

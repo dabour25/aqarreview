@@ -190,7 +190,7 @@
                 <a class="navbar-brand company-logo" href="/">
                     <img src="{{asset('img/logos/black-logo.png')}}" alt="logo">
                 </a>
-                <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav header-ml">
                         <li class="nav-item dropdown active tinylang">
                             <a class="nav-link" href="{{app()->getLocale()=="ar"?"/en":"/ar"}}">

@@ -270,7 +270,7 @@ class router extends Controller
         }else{
             $search="الكل";
         }
-        $ads=Ads::orderBy('id','desc')->paginate(21);
+        $ads=Ads::where('show',1)->orderBy('id','desc')->paginate(21);
         $page='SEARCH : '.$search;
         $pagear='بحث عن : '.$search;
         $fav=[];

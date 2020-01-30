@@ -31,7 +31,7 @@
                 <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password">
             </div>
             <div class="col-sm-12" style="margin-top:20px;">
-                <a href="#">@lang('strings.reset_password') ?</a>
+                <a href="#">@lang('strings.reset_password')</a>
             </div>
             <div class="col-sm-12">
                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}><span style="margin-right: 20px">@lang('strings.remember')</span>

@@ -50,7 +50,7 @@ $factory->define(Ads::class, function (Faker $faker) {
 
 $factory->define(Adspro::class, function (Faker $faker) {
     return [
-		'ad' => $this->id,
+		'ad' => 1,
         'name' => $faker->name,
 		'email' => $faker->unique()->safeEmail,
         'phone' => rand(0, 1000000),

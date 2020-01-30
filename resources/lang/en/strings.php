@@ -105,5 +105,9 @@
         'review'=>'Review',
         'publish'=>'Publish',
         'show_email'=>'Show Email to users',
+        'other_details'=>'Other details',
+        'remove_ad'=>'Remove Advertise',
+        'show_advertiser_data'=>'Show Advertiser Data',
+        'edit'=>'Edit',
 	]
 ?>

@@ -105,5 +105,9 @@
         'review'=>'مراجعة',
         'publish'=>'نشر',
         'show_email'=>'أظهر البريد للمستخدمين',
+        'other_details'=>'تفاصيل أخرى',
+        'remove_ad'=>'حذف الإعلان',
+        'show_advertiser_data'=>'عرض بيانات المعلن',
+        'edit'=>'تعديل',
 	]
 ?>

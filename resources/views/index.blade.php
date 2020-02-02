@@ -96,7 +96,7 @@
                                 @endif
                             </div>
                             @endif
-                            <div class="price-box"><span>{{$n->price}} @lang('strings.le')</span> {{$n->gen_type==2?'/شهر':''}}</div>
+                            <div class="price-box"><span>{{$n->price}} @lang('strings.le')</span> {{$n->gen_type==2?trans('strings.per_month'):''}}</div>
                             @if($n->image=='')
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$links[5]->value}}" alt="properties" style="height: 330px;object-fit: contain">
                             @else
@@ -120,16 +120,16 @@
                             </li>
                             @else
                             <li>
-                                <i class="flaticon-bed"></i>غرف:  {{$n->rooms}}
+                                <i class="flaticon-bed"></i>@lang('strings.rooms'):  {{$n->rooms}}
                             </li>
                             <li>
-                                <i class="flaticon-bathroom"></i>حمامات: {{$n->pathroom}}
+                                <i class="flaticon-bathroom"></i>@lang('strings.bathrooms'): {{$n->pathroom}}
                             </li>
                             <li>
                                 <i class="flaticon-ui"></i>@lang('strings.meter') {{$n->size}}
                             </li>
                             <li>
-                                <i class="flaticon-car"></i> {{$n->parking==1?'جراج':'لا يوجد جراج'}}
+                                <i class="flaticon-car"></i> {{$n->parking==1?trans('strings.park'):trans('strings.no_park')}}
                             </li>
                             @endif
                         </ul>

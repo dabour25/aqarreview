@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 		
 		
 		//For Test Mode Only
-		//factory('App\Ads',500)->create();
-		//factory('App\Adspro',500)->create();
+		//factory('App\Models\Ads',10000)->create();
+		//factory('App\Models\Adspro',10000)->create();
     }
 }

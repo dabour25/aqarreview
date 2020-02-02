@@ -75,22 +75,18 @@ class router extends Controller
         $page='ADVERTISE DATA';
         return view('adpro',compact('page','adid'));
     }
-    public function review($adid,$name,$phone){
+    public function review($adid,Request $request){
         $page='REVIEW ADVERTISE';
         $ad=Ads::where('id',$adid)->first();
         if(empty($ad)){
             return redirect('/');
         }
-        return view('single',compact('page','ad','name','phone'));
-    }
-    public function reviewe($adid,$name,$phone,$email){
-        $page='REVIEW ADVERTISE';
-        $ad=Ads::where('id',$adid)->first();
-        if(empty($ad)){
-            return redirect('/');
-        }
+        $name=$request["name"];
+        $phone=$request["phone"];
+        $email=$request["email"];
         return view('single',compact('page','ad','name','phone','email'));
     }
+
     public function ad($id){
         $ad=Ads::where('id',$id)->where('show',1)->first();
         if(empty($ad)){

@@ -50,23 +50,20 @@ class adminrouter extends Controller
       Ads::where('seen',0)->orderBy('id','desc')->limit(10)->update(['seen'=>1]);
       return view('admin/approve',compact('ads','oldads'));
      }
+    public function review($id){
+         $adpro = Adspro::where('ad', $id)->first();
+         if (empty($adpro)) {
+             $error = \Illuminate\Validation\ValidationException::withMessages([
+                 'redirect' => ['This Advertise Still Haven\'t communication data'],
+             ]);
+             throw $error;
+         }
+         $name = $adpro->name;
+         $phone = $adpro->phone;
+         $email = $adpro->email;
 
-     public function review($id){
-      $adpro=Adspro::where('ad',$id)->first();
-      if(empty($adpro)){
-        $error = \Illuminate\Validation\ValidationException::withMessages([
-           'redirect' => ['This Advertise Still Haven\'t communication data'],
-        ]);
-        throw $error;
-      }
-      $name=$adpro->name;
-      $phone=$adpro->phone;
-      $email=$adpro->email;
-      if($email!='')
-        return redirect('/review/'.$id.'/'.$name.'/'.$phone.'/'.$email);
-      else
-        return redirect('/review/'.$id.'/'.$name.'/'.$phone);
-     }
+         return redirect('/review/' . $id . '?name=' . $name . '&phone=' . $phone . '&email=' . $email);
+    }
 
      public function adscontrol(){
       $ads=Ads::join('ads_profile','ads_profile.ad','=','ads.id')

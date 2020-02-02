@@ -26,8 +26,7 @@ Route::post('/addnew','process@addnew');
 Route::get('/adpro/{adid}','router@adpro');
 Route::post('/addpro/{adid}','process@adpro');
 
-Route::get('/review/{adid}/{name}/{phone}','router@review');
-Route::get('/review/{adid}/{name}/{phone}/{email}','router@reviewe');
+Route::get('/review/{adid}','router@review');
 
 Route::get('/ad/{id}','router@ad');
 Route::get('/cat/{cat}','router@cat');

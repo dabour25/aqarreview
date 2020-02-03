@@ -35,7 +35,7 @@ class router extends Controller
         $newads=Ads::where('show',1)->orderBy('id','desc')->take(3)->get();
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
     	return view('index',compact('page','newads','fav'));
     }
@@ -288,12 +288,12 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ads::where('user',Auth::user()->id)->orderBy('id','desc')->paginate(21);
+        $ads=Ads::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(21);
         $page='Your Ads';
         $pagear='إعلاناتك';
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
         return view('ads',compact('page','ads','pagear','fav'));
     }
@@ -308,7 +308,7 @@ class router extends Controller
         $pagear='إعلاناتك المفضلة';
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
         return view('ads',compact('page','ads','pagear','fav'));
     }

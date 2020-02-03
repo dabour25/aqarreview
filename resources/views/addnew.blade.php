@@ -27,37 +27,37 @@
 		</div>
 		<div class="col-sm-6">
 			<label>@lang('strings.price')</label>
-			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="@lang('strings.price_str')" name="price"  value="{{old('price')}}">
+			<input type="number" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="@lang('strings.price_str')" name="price"  value="{{old('price')}}">
 		</div>
 		<div class="col-sm-12">
 			<label>@lang('strings.description')</label>
-			<textarea class="form-control {{ $errors->has('desc') ? ' is-invalid' : '' }}" name="desc">{{old('desc')}}</textarea>
+			<textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{old('description')}}</textarea>
 		</div>
 		<div class="col-sm-6">
 			<label> @lang('strings.area')(@lang('strings.meter_square'))</label>
-			<input type="text" class="form-control {{ $errors->has('area') ? ' is-invalid' : '' }}" placeholder="@lang('strings.area_str')" name="area" value="{{old('area')}}">
+			<input type="number" class="form-control {{ $errors->has('size') ? ' is-invalid' : '' }}" placeholder="@lang('strings.area_str')" name="size" value="{{old('size')}}">
 		</div>
 		<div class="col-sm-6">
 			<label>@lang('strings.gen_type')</label>
-			<select class="form-control" id="gentype" name="gentype">
-				<option value="1" {{old('gentype')==1?'selected':''}}>@lang('strings.sell')</option>
-				<option value="2" {{old('gentype')==2?'selected':''}}>@lang('strings.rent')</option>
+			<select class="form-control" id="general_type" name="general_type">
+				<option value="sell" {{old('general_type')=='sell'?'selected':''}}>@lang('strings.sell')</option>
+				<option value="rent" {{old('general_type')=='rent'?'selected':''}}>@lang('strings.rent')</option>
 			</select>
 		</div>
 		<div class="col-sm-6">
 			<label>@lang('strings.type')</label>
 			<select class="form-control" name="type" id="type">
-				<option value="1" {{old('type')==1?'selected':''}}>@lang('strings.apartment')</option>
-                <option value="2" {{old('type')==2?'selected':''}}>@lang('strings.villa')</option>
-				<option id="land" value="3" {{old('type')==3?'selected':''}}>@lang('strings.land')</option>
-				<option id="homes" value="4" {{old('type')==4?'selected':''}}>@lang('strings.houses')</option>
-                <option value="5" {{old('type')==5?'selected':''}}>@lang('strings.shop')</option>
-				<option value="6" {{old('type')==6?'selected':''}}>@lang('strings.chalet')</option>
+				<option value="apartment" {{old('type')=='apartment'?'selected':''}}>@lang('strings.apartment')</option>
+                <option value="villa" {{old('type')=='villa'?'selected':''}}>@lang('strings.villa')</option>
+				<option id="land" value="land" {{old('type')=='land'?'selected':''}}>@lang('strings.land')</option>
+				<option id="homes" value="houses" {{old('type')=='houses'?'selected':''}}>@lang('strings.houses')</option>
+                <option value="shop" {{old('type')=='shop'?'selected':''}}>@lang('strings.shop')</option>
+				<option value="chalet" {{old('type')=='chalet'?'selected':''}}>@lang('strings.chalet')</option>
 			</select>
 		</div>
 		<script type="text/javascript">
-			$('#gentype').change(function(){
-				if($('#gentype').val()==2){
+			$('#general_type').change(function(){
+				if($('#general_type').val()=='rent'){
 					$('#land').hide();
 					$('#homes').hide();
 				}else{
@@ -66,7 +66,7 @@
 				}
 			});
 			$('#type').change(function(){
-				if($('#type').val()==3){
+				if($('#type').val()=='land'){
 					$('#floor').hide();
 					$('#rooms').hide();
 					$('#pathroom').hide();
@@ -84,7 +84,7 @@
 					$('#parking').show();
 				}
 			});
-			@if(old('type')==3)
+			@if(old('type')=='land')
 			function f(){
 				$('#floor').hide();
 				$('#rooms').hide();
@@ -99,40 +99,40 @@
 		</script>
 		<div class="col-sm-6" id="floor">
 			<label>@lang('strings.floor')</label>
-			<input type="text" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="@lang('strings.floor_str')" name="floor" value="{{old('floor')}}">
+			<input type="number" class="form-control {{ $errors->has('floor') ? ' is-invalid' : '' }}" placeholder="@lang('strings.floor_str')" name="floor" value="{{old('floor')}}">
 		</div>
 		<div class="col-sm-6" id="rooms">
 			<label>@lang('strings.rooms')</label>
-			<input type="text" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="@lang('strings.rooms_str')" name="rooms" value="{{old('rooms')}}">
+			<input type="number" class="form-control {{ $errors->has('rooms') ? ' is-invalid' : '' }}" placeholder="@lang('strings.rooms_str')" name="rooms" value="{{old('rooms')}}">
 		</div>
 		<div class="col-sm-6" id="pathroom">
 			<label>@lang('strings.bathrooms_count')</label>
-			<input type="text" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="pathroom" value="{{old('pathroom')}}">
+			<input type="number" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="pathroom" value="{{old('pathroom')}}">
 		</div>
 		<div class="col-sm-6" id="kitchens">
 			<label>@lang('strings.kitchens')</label>
-			<input type="text" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="@lang('strings.kitchens_str')" name="kitchens" value="{{old('kitchens')}}">
+			<input type="number" class="form-control {{ $errors->has('kitchens') ? ' is-invalid' : '' }}" placeholder="@lang('strings.kitchens_str')" name="kitchens" value="{{old('kitchens')}}">
 		</div>
 		<div class="col-sm-6" id="finish">
 			<label>@lang('strings.finishing')</label>
 			<select class="form-control" name="finish">
-				<option value="1" {{old('finish')==1?'selected':''}}>@lang('strings.full')</option>
-                <option value="2" {{old('finish')==2?'selected':''}}>@lang('strings.not_full')</option>
-                <option value="3" {{old('finish')==3?'selected':''}}>@lang('strings.red_brick')</option>
+				<option value="full" {{old('finish')==1?'selected':'full'}}>@lang('strings.full')</option>
+                <option value="not_full" {{old('finish')==2?'selected':'not_full'}}>@lang('strings.not_full')</option>
+                <option value="red_bricks" {{old('finish')==3?'selected':'red_bricks'}}>@lang('strings.red_brick')</option>
 			</select>
 		</div>
 		<div class="col-sm-6" id="furniture">
 			<label>@lang('strings.furniture')</label>
 			<select class="form-control" name="furniture">
-				<option value="1" {{old('furniture')==1?'selected':''}}>@lang('strings.yes')</option>
-                <option value="2" {{old('furniture')==2?'selected':''}}>@lang('strings.no')</option>
+				<option value="yes" {{old('furniture')=='yes'?'selected':''}}>@lang('strings.yes')</option>
+                <option value="no" {{old('furniture')=='no'?'selected':''}}>@lang('strings.no')</option>
 			</select>
 		</div>
 		<div class="col-sm-6" id="parking">
 			<label>@lang('strings.park')</label>
 			<select class="form-control" name="parking">
-				<option value="1" {{old('parking')==1?'selected':''}}>@lang('strings.yes')</option>
-                <option value="2" {{old('parking')==2?'selected':''}}>@lang('strings.no')</option>
+				<option value="yes" {{old('parking')=='yes'?'selected':''}}>@lang('strings.yes')</option>
+                <option value="no" {{old('parking')=='no'?'selected':''}}>@lang('strings.no')</option>
 			</select>
 		</div>
 		<div class="col-sm-12">
@@ -177,11 +177,11 @@
 </form>
 <!-- // End Page Content -->
 <script type="text/javascript">
-	@if(old('gentype')==2)
+	@if(old('general_type')=='rent')
 		$('#land').hide();
 		$('#homes').hide();
 	@endif
-	@if(old('type')==3)
+	@if(old('type')=='land')
 		$('#floor').hide();
 		$('#rooms').hide();
 		$('#pathroom').hide();

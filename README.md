@@ -1,10 +1,3 @@
-<style type="text/css">
-	small{
-		color: darkred;
-		font-size: 16px;
-	}
-</style>
-
 <h1>Welcome to Aqar Review website Documentation</h1>
 <h3>System Technology</h3>
 <ul>

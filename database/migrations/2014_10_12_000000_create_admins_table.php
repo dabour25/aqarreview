@@ -13,15 +13,12 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
 			$table->charset = 'utf8';
 			$table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
-            $table->string('name',50);
             $table->string('email',50)->unique();
-            $table->string('password',70);
-			$table->string('phone',30)->nullable($value = true);
-			$table->enum('role',["user","renter","owner","broker","engineer","blocked"]);
+            $table->string('password',100);
             $table->rememberToken();
 			$table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

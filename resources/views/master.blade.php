@@ -99,14 +99,14 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light">
             @if(app()->getLocale()=='ar')
-                <a class="lang langbtn" href="{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
+                <a class="lang langbtn" href="lang/{{app()->getLocale()=="ar"?"en":"ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
                     <ul class="navbar-nav header-ml">
                         <li class="nav-item dropdown active tinylang">
-                            <a class="nav-link" href="{{app()->getLocale()=="ar"?"/en":"/ar"}}">
+                            <a class="nav-link" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
                                 @lang('strings.langu')
                             </a>
                         </li>
@@ -193,7 +193,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav header-ml">
                         <li class="nav-item dropdown active tinylang">
-                            <a class="nav-link" href="{{app()->getLocale()=="ar"?"/en":"/ar"}}">
+                            <a class="nav-link" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
                                 @lang('strings.langu')
                             </a>
                         </li>
@@ -271,7 +271,7 @@
                     </ul>
 
                 </div>
-                <a class="lang langbtn" href="{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
+                <a class="lang langbtn" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
                 <a class="lang tinylang langbtn" href="/addnew">@lang('strings.add_advertise')</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -417,90 +417,3 @@
 <script  src="{{asset('js/ie10-viewport-bug-workaround.js')}}"></script>
 </body>
 </html>
-
-<!--
-<footer class="footer">
-    <div class="container footer-inner">
-        <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                <div class="footer-item clearfix">
-                    <img src="{{asset('img/logos/logo.png')}}" alt="logo" class="f-logo">
-                    <ul class="contact-info">
-					@if(isset($links))
-                        @if(!empty($links[1]->value))
-                        <li>
-                            <i class="flaticon-mail"></i><a href="mailto:{{$links[1]->value}}">{{$links[1]->value}}</a>
-                        </li>
-                        @endif
-                        <li>
-                            <i class="flaticon-phone"></i><a href="tel:{{$links[0]->value}}">{{$links[0]->value}}</a>
-                        </li>
-					@endif
-                    </ul>
-                    <div class="clearfix"></div>
-                    <div class="social-list-2">
-                        <ul>
-							@if(isset($links))
-                            <li><a href="{{$links[2]->value}}" class="facebook-bg" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="{{$links[3]->value}}" class="twitter-bg" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="{{$links[4]->value}}" class="google-bg" target="_blank"><i class="fa fa-instagram"></i></a></li>
-							@endif
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                <div class="footer-item">
-                    <h4 class="footerg">
-                        Short Links
-                    </h4>
-                    <ul class="links">
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li>
-                            <a href="#">About Us</a>
-                        </li>
-                        <li>
-                            <a href="#">Terms & Conditions</a>
-                        </li>
-                        <li>
-                            <a href="/contact">Contact Us</a>
-                        </li>
-                        <li>
-                            <a href="{{Auth::user()?'/profile':'/log'}}">Account</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                <div class="footer-item">
-                    <h4 class="footerg">
-                        Categories
-                    </h4>
-                    <ul class="links">
-                        <li>
-                            <a href="/cat/5">Shops</a>
-                        </li>
-                        <li>
-                            <a href="/cat/2">Villas</a>
-                        </li>
-                        <li>
-                            <a href="/cat/3">Lands</a>
-                        </li>
-                        <li>
-                            <a href="/cat/1">Apartments</a>
-                        </li>
-                        <li>
-                            <a href="/cat/4">Houses</a>
-                        </li>
-                        <li>
-                            <a href="/cat/6">Chalets</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
--->

@@ -102,7 +102,7 @@
 			<div class="property-box">
 				<div class="detail" style="margin:0;box-shadow:0 0 0;">
 					<ul class="facilities-list clearfix">
-						@if($ad->type==3)
+						@if($ad->type=="land")
 						<li>
 							<i class="flaticon-ui"></i>@lang('strings.area') : {{$ad->size}} @lang('strings.meter')
 						</li>
@@ -117,16 +117,16 @@
 							<i class="flaticon-ui"></i>@lang('strings.area') : {{$ad->size}} @lang('strings.meter')
 						</li>
 						<li>
-							<i class="flaticon-car"></i>{{$ad->parking==1?trans('strins.park'):trans('strings.no_park')}}
+							<i class="flaticon-car"></i>{{$ad->parking=="yes"?trans('strins.park'):trans('strings.no_park')}}
 						</li>
 						<li>
 							<i class="fa fa-building"></i>@lang('strings.floor') : {{$ad->floor}}
 						</li>
 						<li>
 							<i class="fa fa-leaf"></i>@lang('strings.finishing') :
-							@if($ad->finish==1)
+							@if($ad->finish=="full")
 								@lang('strings.full')
-							@elseif($ad->finish==2)
+							@elseif($ad->finish=="not_full")
 								@lang('strings.not_full')
 							@else
 								@lang('strings.red_brick')

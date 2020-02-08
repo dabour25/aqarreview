@@ -35,7 +35,7 @@ $factory->define(Ads::class, function (Faker $faker) {
         'price' => rand(0, 1000000),
         'description' => Str::random(15),
         'size' =>rand(0, 1000),
-		'gen_type' =>rand(1, 2),
+		'general_type' =>rand("sell", "rent"),
 		'type' => rand(1,5),
 		'floor' =>rand(0, 10),
 		'rooms' =>rand(0, 10),

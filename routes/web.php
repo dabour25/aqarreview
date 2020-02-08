@@ -14,8 +14,7 @@ Route::post('/reg','process@reg');
 Route::get('/log','router@log');
 Route::get('/out','Auth\LoginController@logout');
 
-Route::get('/ar','router@ar');
-Route::get('/en','router@en');
+Route::get('lang/{language}','router@lang');
 
 Route::get('/contact','router@contact');
 Route::post('/sendmes','process@sendmes');

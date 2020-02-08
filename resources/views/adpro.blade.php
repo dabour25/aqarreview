@@ -62,12 +62,12 @@
 		}else{
 			if($('#showemail').prop("checked")==true){
 				window.open(
-				  '{{Request::root()}}/review/{{$adid}}/'+$('#name').val()+'/'+$('#phone').val()+'/'+$('#email').val(),
+				  '{{Request::root()}}/review/{{$adid}}?name='+$('#name').val()+'&phone='+$('#phone').val()+'&email='+$('#email').val(),
 				  '_blank'
 				);
 			}else{
 				window.open(
-				  '{{Request::root()}}/review/{{$adid}}/'+$('#name').val()+'/'+$('#phone').val(),
+				  '{{Request::root()}}/review/{{$adid}}?name='+$('#name').val()+'&phone='+$('#phone').val(),
 				  '_blank'
 				);
 			}

@@ -9,7 +9,6 @@ class Users extends Model
 {
     use SoftDeletes;
     protected $table='users';
-    public $timestamps = false;
 
     public function scopeFilter($query,$request){
         if($request->filter){

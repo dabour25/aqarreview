@@ -35,7 +35,7 @@ class router extends Controller
         $newads=Ads::where('show',1)->orderBy('id','desc')->take(3)->get();
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
     	return view('index',compact('page','newads','fav'));
     }
@@ -75,22 +75,18 @@ class router extends Controller
         $page='ADVERTISE DATA';
         return view('adpro',compact('page','adid'));
     }
-    public function review($adid,$name,$phone){
+    public function review($adid,Request $request){
         $page='REVIEW ADVERTISE';
         $ad=Ads::where('id',$adid)->first();
         if(empty($ad)){
             return redirect('/');
         }
-        return view('single',compact('page','ad','name','phone'));
-    }
-    public function reviewe($adid,$name,$phone,$email){
-        $page='REVIEW ADVERTISE';
-        $ad=Ads::where('id',$adid)->first();
-        if(empty($ad)){
-            return redirect('/');
-        }
+        $name=$request["name"];
+        $phone=$request["phone"];
+        $email=$request["email"];
         return view('single',compact('page','ad','name','phone','email'));
     }
+
     public function ad($id){
         $ad=Ads::where('id',$id)->where('show',1)->first();
         if(empty($ad)){
@@ -292,12 +288,12 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ads::where('user',Auth::user()->id)->orderBy('id','desc')->paginate(21);
+        $ads=Ads::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(21);
         $page='Your Ads';
         $pagear='إعلاناتك';
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
         return view('ads',compact('page','ads','pagear','fav'));
     }
@@ -312,7 +308,7 @@ class router extends Controller
         $pagear='إعلاناتك المفضلة';
         $fav=[];
         if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
+            $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
         return view('ads',compact('page','ads','pagear','fav'));
     }

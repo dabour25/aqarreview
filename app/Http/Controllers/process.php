@@ -26,11 +26,7 @@ class process extends Controller
 	       'message'=>'required|max:1000',
 	    ];
 	    $this->validate($req,$valarr);
-	    $name=$req->input('name');
-		$email=$req->input('email');
-		$subject=$req->input('subject');
-		$message=$req->input('message');
-		Messages::insert(['name'=>$name,'email'=>$email,'subject'=>$subject,'message'=>$message]);
+		Messages::create($req->all());
 		session()->push('m','success');
 	    session()->push('m','Message Sent To Admin Successfully');
 		return back();
@@ -62,50 +58,38 @@ class process extends Controller
 	  }
 	  public function addnew(Request $req){
 	  	$type=$req->input('type');
-	  	if($type!=3){
+	  	if($type!='land'){
 			$valarr=[
 		       'title'=>'required|max:60|min:3',
 		       'price'=>'required|numeric',
-		       'desc'=>'required|max:1000',
-		       'area'=>'required|numeric',
-		       'gentype'=>'required',
+		       'description'=>'required|max:1000',
+		       'size'=>'required|numeric',
+		       'general_type'=>'required|in:sell,rent',
 		       'type'=>'required',
 		       'floor'=>'required|numeric',
 		       'rooms'=>'required|numeric',
 		       'pathroom'=>'required|numeric',
 		       'kitchens'=>'required|numeric',
-		       'finish'=>'required|numeric',
-		       'furniture'=>'required|numeric',
-		       'parking'=>'required|numeric',
+		       'finish'=>'required',
+		       'furniture'=>'required|in:yes,no',
+		       'parking'=>'required|in:yes,no',
 		       'address'=>'required|min:1|max:1000'
 		    ];
 		}else{
 			$valarr=[
 		       'title'=>'required|max:60|min:3',
 		       'price'=>'required|numeric',
-		       'desc'=>'required|max:1000',
-		       'area'=>'required|numeric',
-		       'gentype'=>'required',
+		       'description'=>'required|max:1000',
+		       'size'=>'required|numeric',
+		       'general_type'=>'required|in:sell,rent',
 		       'type'=>'required',
 		       'address'=>'required|max:1000'
 		    ];
 		}
 	    $this->validate($req,$valarr);
-	    $title=$req->input('title');
-		$price=$req->input('price');
-		$desc=$req->input('desc');
-		$area=$req->input('area');
-		$gentype=$req->input('gentype');
-		
-		$floor=$req->input('floor');
-		$rooms=$req->input('rooms');
-		$pathroom=$req->input('pathroom');
-		$kitchens=$req->input('kitchens');
-		$finish=$req->input('finish');
-		$furniture=$req->input('furniture');
-		$parking=$req->input('parking');
+
 		$images=$req->file('images');
-		$address=$req->input('address');
+
 		if(!empty($images)){
 			if(count($images)>20){
 				if(Session::has('lang')){
@@ -150,17 +134,12 @@ class process extends Controller
         }else{
         	$user=0;
         }
-		Ads::insert(['title'=>$title,'price'=>$price,
-			'description'=>$desc,'size'=>$area,
-			'gen_type'=>$gentype,'type'=>$type,
-			'floor'=>$floor,'rooms'=>$rooms,
-			'pathroom'=>$pathroom,'kitchen'=>$kitchens,
-			'finish'=>$finish,'furniture'=>$furniture,
-			'parking'=>$parking,'address'=>$address,
-			'image'=>$photoName,'images'=>$phs,
-			'user'=>$user
-		]);
-		$ad=Ads::orderBy('id','desc')->first();
+        $data=$req->except('_token');
+		$data["user_id"]=$user;
+		$data["image"]=$photoName;
+		$data["images"]=$phs;
+		Ads::create($data);
+		$ad=Ads::latest()->first();
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Advertise Sent But You must add this data to brodcast Advertise');
@@ -181,19 +160,16 @@ class process extends Controller
 	       'phone'=>'required|max:30|min:10',
 	    ];
 	    $this->validate($req,$valarr);
-	    $name=$req->input('name');
-	    $phone=$req->input('phone');
-		$email=$req->input('email');
 		$showemail=$req->input('showemail');
-		$show=0;
 		if($showemail){
-			$show=1;
 			$valarr=[
 		       'email'=>'required|max:50|min:5|email',
 		    ];
 		    $this->validate($req,$valarr);
 		}
-		Adspro::insert(['name'=>$name,'phone'=>$phone,'email'=>$email,'email_show'=>$show,'ad'=>$id]);	
+		$data=$req->except("_token");
+		$data["ad"]=$id;
+		Adspro::create($data);
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Advertise is now fully ready, Waiting Admin Approval');

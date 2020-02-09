@@ -17,13 +17,13 @@ class CreateAdsProfileTable extends Migration
 			$table->charset = 'utf8';
 			$table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
-			$table->bigInteger('ad', false, true);
+			$table->bigInteger('ad_id', false, true);
 			$table->string('name',80);
 			$table->string('email',80)->nullable($value = true);
 			$table->string('phone',30);
-			$table->tinyInteger('email_show', false, true)->default('1');
+			$table->boolean('email_show')->default(true);
 			
-			$table->foreign('ad')->references('id')->on('ads');
+			$table->foreign('ad_id')->references('id')->on('ads');
         });
     }
 

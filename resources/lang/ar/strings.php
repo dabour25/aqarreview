@@ -109,5 +109,9 @@
         'remove_ad'=>'حذف الإعلان',
         'show_advertiser_data'=>'عرض بيانات المعلن',
         'edit'=>'تعديل',
+        'engineer'=>'مهندس',
+        'contractor'=>'مقاول',
+        'corporation'=>'شركة',
+        'age'=>'العمر',
 	]
 ?>

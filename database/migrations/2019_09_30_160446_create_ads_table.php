@@ -18,7 +18,7 @@ class CreateAdsTable extends Migration
 			$table->charset = 'utf8';
 			$table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
-			$table->bigInteger('user_id')->default(0);
+			$table->bigInteger('user_id',false,true)->nullable();
 			$table->string('title',60);
 			$table->decimal('price',20,2);
 			$table->text('description');
@@ -27,22 +27,21 @@ class CreateAdsTable extends Migration
             $table->enum('type',['apartment','villa','land','houses','shop','chalet']);
             $table->smallInteger('floor', false, true)->nullable();
             $table->smallInteger('rooms', false, true)->nullable();
-            $table->smallInteger('pathroom', false, true)->nullable();
-            $table->smallInteger('kitchen', false, true)->nullable();
+            $table->smallInteger('bathrooms', false, true)->nullable();
+            $table->smallInteger('kitchens', false, true)->nullable();
             $table->enum('finish', ['full','not_full','red_bricks'])->default('full');
             $table->enum('furniture',['yes','no'])->default('no');
             $table->enum('parking',['yes','no'])->default('no');
-            $table->text('image')->nullable();
-            $table->text('images')->nullable();
             $table->text('address');
-            $table->tinyInteger('seen', false, true)->default(0);
-            $table->tinyInteger('show', false, true)->default(0);
+            $table->boolean('seen')->default(false);
+            $table->boolean('show')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->bigInteger('updated_by',false,true)->nullable();
             $table->softDeletes();
 
-            $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('admins');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

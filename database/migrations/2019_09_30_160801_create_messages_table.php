@@ -21,7 +21,7 @@ class CreateMessagesTable extends Migration
 			$table->string('email',50);
 			$table->string('subject',80);
 			$table->text('message');
-			$table->tinyInteger('seen', false, true)->default(0);
+			$table->boolean('seen')->default(false);
 			//$table->timestamp('date')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('date')->useCurrent();
         });

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdminsTable extends Migration
+class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
-			$table->charset = 'utf8';
-			$table->collation = 'utf8_unicode_ci';
+        Schema::create('posts', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
-            $table->string('email',50)->unique();
-            $table->string('password',100);
-            $table->rememberToken();
-			$table->timestamp('created_at')->useCurrent();
+            $table->bigInteger('user_id',false,true);
+            $table->enum('privacy',['all,users,followers,me']);
+            $table->text('content');
+            $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -33,6 +35,6 @@ class CreateAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('posts');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFavouritesTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateFavouritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favourites', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->bigIncrements('id');
-			$table->bigInteger('user_id', false, true);
-			$table->bigInteger('ad_id', false, true);
-			
-			$table->foreign('ad_id')->references('id')->on('ads')->onDelete('cascade');
-			$table->foreign('user_id')->references('id')->on('users');
+            $table->text('url');
+            $table->bigInteger('imagable_id',false,true);
+            $table->string('imagable_type');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
@@ -30,6 +29,6 @@ class CreateFavouritesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('favourites');
+        Schema::dropIfExists('images');
     }
 }

@@ -24,7 +24,7 @@
 		<div class="row {{app()->getLocale()=='ar'?'ar':''}}">
 			<div class="col-sm-6">
 				<label>@lang('strings.name')</label>
-				<input type="text" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="name" value="{{old('name')}}">
+				<input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{old('name')}}">
 			</div>
 			<div class="col-sm-6">
 				<label>@lang('strings.email')</label>
@@ -39,6 +39,10 @@
 				<input type="password" class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation">
 			</div>
 			<div class="col-sm-6">
+				<label>@lang('strings.age')</label>
+				<input type="date" class="form-control {{ $errors->has('age') ? ' is-invalid' : '' }}" name="age">
+			</div>
+			<div class="col-sm-6">
 				<label>@lang('strings.phone')</label>
 				<input type="text" class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" placeholder="@lang('strings.optional')" name="phone">
 			</div>
@@ -50,6 +54,9 @@
 					<option value="broker">@lang('strings.broker')</option>
 					<option value="owner">@lang('strings.owner')</option>
 					<option value="renter">@lang('strings.renter')</option>
+					<option value="engineer">@lang('strings.engineer')</option>
+					<option value="contractor">@lang('strings.contractor')</option>
+					<option value="corporation">@lang('strings.corporation')</option>
 				</select>
 			</div>
 			<div class="col-sm-12" style="margin-top:20px;">

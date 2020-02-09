@@ -109,5 +109,9 @@
         'remove_ad'=>'Remove Advertise',
         'show_advertiser_data'=>'Show Advertiser Data',
         'edit'=>'Edit',
+        'engineer'=>'Engineer',
+        'contractor'=>'Contractor',
+        'corporation'=>'Corporation',
+        'age'=>'Age',
 	]
 ?>

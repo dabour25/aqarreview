@@ -9,45 +9,37 @@ use Auth;
 use Socialite;
 use Session;
 //DB Connect
-use App\Models\Users;
-use App\Models\Messages;
-use App\Models\Ads;
+use App\Models\User;
+use App\Models\Message;
+use App\Models\Ad;
 use App\Models\Adspro;
-use App\Models\Links;
+use App\Models\Link;
 
 class adminrouter extends Controller
 {
 
     public function __construct(){
-        $this->middleware(function ($request, $next) {
-            $role = Auth::user()->role;
-            if($role!='admin'){
-                return redirect('/');
-            }else{
-                return $next($request);
-            }
-        });
-        $messagescount = Messages::where('seen',0)->count();
+        $messagescount = Message::where('seen',0)->count();
         View::share('messagescount',$messagescount);
-        $newads = Ads::where('seen',0)->count();
+        $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
     }
     public function index(){
-      $usercount=Users::count();
+      $usercount=User::count();
     	return view('admin/index',compact('usercount'));
     }
 
     public function messages(){
-      $newmes=Messages::where('seen',0)->orderBy('id','desc')->get();
-      $oldmes=Messages::where('seen',1)->orderBy('id','desc')->get();
-      Messages::where('seen',0)->update(['seen'=>1]);
+      $newmes=Message::where('seen',0)->orderBy('id','desc')->get();
+      $oldmes=Message::where('seen',1)->orderBy('id','desc')->get();
+      Message::where('seen',0)->update(['seen'=>1]);
       return view('admin/messages',compact('newmes','oldmes'));
      }
 
      public function approve(){
-      $ads=Ads::where('seen',0)->orderBy('id','desc')->paginate(10);
-      $oldads=Ads::where('seen',1)->where('show',0)->orderBy('id','desc')->paginate(10);
-      Ads::where('seen',0)->orderBy('id','desc')->limit(10)->update(['seen'=>1]);
+      $ads=Ad::where('seen',0)->orderBy('id','desc')->paginate(10);
+      $oldads=Ad::where('seen',1)->where('show',0)->orderBy('id','desc')->paginate(10);
+      Ad::where('seen',0)->orderBy('id','desc')->limit(10)->update(['seen'=>1]);
       return view('admin/approve',compact('ads','oldads'));
      }
     public function review($id){
@@ -66,14 +58,14 @@ class adminrouter extends Controller
     }
 
      public function adscontrol(){
-      $ads=Ads::join('ads_profile','ads_profile.ad','=','ads.id')
+      $ads=Ad::join('ads_profile','ads_profile.ad','=','ads.id')
       ->where('seen',1)->orderBy('ads.id','desc')
       ->select('ads.id as adid','ads.title','ads_profile.*')->paginate(20);
       return view('admin/adscontrol',compact('ads'));
      }
 
      public function links(){
-      $data=Links::all();
+      $data=Link::all();
       return view('admin/links',compact('data'));
      }
 }

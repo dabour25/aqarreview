@@ -113,5 +113,6 @@
         'contractor'=>'مقاول',
         'corporation'=>'شركة',
         'age'=>'العمر',
+        'blocked_account_message'=>'تم حظر هذا الحساب من الموقع',
 	]
 ?>

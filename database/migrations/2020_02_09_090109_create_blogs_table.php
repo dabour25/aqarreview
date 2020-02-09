@@ -17,6 +17,7 @@ class CreateBlogsTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
+            $table->string('slug')->unique();
             $table->bigInteger('user_id',false,true);
             $table->enum('privacy',['all,users,followers,me']);
             $table->text('content');

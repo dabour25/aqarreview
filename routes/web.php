@@ -11,7 +11,10 @@ Route::get('/home','router@index');
 
 Route::get('/reg','router@reg');
 Route::post('/reg','process@reg');
-Route::get('/log','router@log');
+Route::get('/log','Auth\LoginController@showUserLoginForm');
+Route::get('/log/admin','Auth\LoginController@showAdminLoginForm');
+Route::post('/login/my-admin','Auth\LoginController@adminLogin');
+Route::post('/login/user','Auth\LoginController@userLogin');
 Route::get('/out','Auth\LoginController@logout');
 
 Route::get('lang/{language}','router@lang');
@@ -46,7 +49,7 @@ Route::get('/favourites','router@favlist');
 Route::get('/securepoint/{keyi}/{keyii}','router@securepoint');
 
 //Admin
-Route::group(['prefix' =>'admindb','middleware' => 'auth'],function () {
+Route::group(['prefix' =>'admindb','middleware' => 'auth:admin'],function () {
     Route::get('/', 'adminrouter@index');
     Route::get('/messages', 'adminrouter@messages');
     Route::get('/approve', 'adminrouter@approve');

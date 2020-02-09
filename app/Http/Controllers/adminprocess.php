@@ -8,23 +8,15 @@ use Hash;
 use Session;
 use View;
 //DB Connect
-use App\Models\Users;
-use App\Models\Messages;
-use App\Models\Ads;
+use App\Models\User;
+use App\Models\Message;
+use App\Models\Ad;
 use App\Models\Adspro;
-use App\Models\Links;
+use App\Models\Link;
 
 class adminprocess extends Controller
 {
 	public function __construct(){
-        $this->middleware(function ($request, $next) {
-            $role = Auth::user()->role;
-            if($role!='admin'){
-                return redirect('/');
-            }else{
-                return $next($request);
-            }
-        });
 	}
 	public function approve($id){
 	    $adpro=Adspro::where('ad',$id)->first();
@@ -34,20 +26,20 @@ class adminprocess extends Controller
 	        ]);
 	        throw $error;
 	    }
-      	Ads::where('id',$id)->update(['show'=>1]);
+      	Ad::where('id',$id)->update(['show'=>1]);
       	session()->push('m','success');
 	    session()->push('m','Advertise Approved!');
   		return back();
     }
     public function removead($id){
-      	$ad=Ads::where('id',$id)->first();
+      	$ad=Ad::where('id',$id)->first();
       	$images=explode('|', $ad->images);
       	foreach ($images as $k => $img) {
       		@unlink('img/ads/'.$img);
       	}
       	@unlink('img/ads/'.$ad->image);
       	Adspro::where('ad',$id)->delete();
-      	Ads::where('id',$id)->delete();
+      	Ad::where('id',$id)->delete();
       	session()->push('m','success');
 	    session()->push('m','Advertise Removed!');
   		return back();
@@ -71,23 +63,23 @@ class adminprocess extends Controller
 	    ];
 	    $this->validate($req,$valarr);
 	    $image=$req->file('default');
-	    $old=Links::where('id',6)->first();
+	    $old=Link::where('id',6)->first();
 	    @unlink('img/ads/'.$old->value);
 	    $photosPath = public_path('/img/ads');
 	    $photoName='default';
 		$photoName.='.'.$image->getClientOriginalExtension();
 		$image->move($photosPath,$photoName);
-		Links::where('id',6)->update(['value'=>$photoName]);
+		Link::where('id',6)->update(['value'=>$photoName]);
 		session()->push('m','success');
 	    session()->push('m','Image Updated Saved');
 		return back();
 	}
 	public function removeuser($id){
-		$ads=Ads::where('user',$id)->get();
+		$ads=Ad::where('user',$id)->get();
 		foreach ($ads as $v) {
-			Ads::where('id',$id)->update(['user'=>0]);
+			Ad::where('id',$id)->update(['user'=>0]);
 		}
-		Users::where('id',$id)->delete();
+		User::where('id',$id)->delete();
 		session()->push('m','success');
 	    session()->push('m','User Removed Successfully');
 		return back();

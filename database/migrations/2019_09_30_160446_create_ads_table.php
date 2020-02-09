@@ -20,6 +20,7 @@ class CreateAdsTable extends Migration
             $table->bigIncrements('id');
 			$table->bigInteger('user_id',false,true)->nullable();
 			$table->string('title',60);
+            $table->string('slug')->unique();
 			$table->decimal('price',20,2);
 			$table->text('description');
 			$table->float('size',50,2);

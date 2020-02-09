@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Illuminate\Support\Str;
 use Session;
 use View;
 //DB Connect
-use App\Models\Messages;
-use App\Models\Users;
-use App\Models\Ads;
+use App\Models\Message;
+use App\Models\User;
+use App\Models\Ad;
 use App\Models\Adspro;
 use App\Models\Fav;
 
@@ -26,7 +27,7 @@ class process extends Controller
 	       'message'=>'required|max:1000',
 	    ];
 	    $this->validate($req,$valarr);
-		Messages::create($req->all());
+		Message::create($req->all());
 		session()->push('m','success');
 	    session()->push('m','Message Sent To Admin Successfully');
 		return back();
@@ -40,15 +41,10 @@ class process extends Controller
 	       'role'=>'required'
 	    ];
 	    $this->validate($req,$valarr);
-	    $name=$req->input('name');
-	    $phone=$req->input('phone');
-		$email=$req->input('email');
-		$password=Hash::make($req->input('password'));
-		$role=$req->input('role');
-		if($role=='admin'){
-			$role='user';
-		}
-		Users::insert(['name'=>$name,'phone'=>$phone,'email'=>$email,'password'=>$password,'role'=>$role]);	
+	    $data=$req->except('_token','password_confirmation');
+	    $data['slug']=Str::slug($data["name"]).'-'.Str::random(4).rand(10,99);
+	    $data['password']=Hash::make($data["password"]);
+		User::create($data);
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Registered Successfully , you can login now');
@@ -138,8 +134,8 @@ class process extends Controller
 		$data["user_id"]=$user;
 		$data["image"]=$photoName;
 		$data["images"]=$phs;
-		Ads::create($data);
-		$ad=Ads::latest()->first();
+		Ad::create($data);
+		$ad=Ad::latest()->first();
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Advertise Sent But You must add this data to brodcast Advertise');
@@ -207,7 +203,7 @@ class process extends Controller
 		return back();
 	  }
 	  public function removead($id){
-      	$ad=Ads::where('id',$id)->where('user',Auth::user()->id)->first();
+      	$ad=Ad::where('id',$id)->where('user',Auth::user()->id)->first();
       	if(empty($ad)){
       		session()->push('m','danger');
 	    	session()->push('m','Advertise Not Found - Un Authorized!');
@@ -219,7 +215,7 @@ class process extends Controller
       	}
       	@unlink('img/ads/'.$ad->image);
       	Adspro::where('ad',$id)->delete();
-      	Ads::where('id',$id)->delete();
+      	Ad::where('id',$id)->delete();
       	session()->push('m','success');
 	    session()->push('m','Advertise Removed!');
   		return redirect('/search');

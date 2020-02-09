@@ -10,29 +10,24 @@ use Socialite;
 use Session;
 use Schema;
 //DB Connect
-use App\Models\Users;
-use App\Models\Messages;
-use App\Models\Ads;
+use App\Models\User;
+use App\Models\Message;
+use App\Models\Ad;
 use App\Models\Adspro;
 use App\Models\Fav;
-use App\Models\Links;
+use App\Models\Link;
 
 class router extends Controller
 {
 	public function __construct(){
         $this->middleware('Locate', ['only' => ['en','ar']]);
-		$links = Links::all();
+		$links = Link::all();
         View::share('links',$links);
     }
 
     public function index(){
-        //First Admin
-        $chk=Users::Where('id',1)->first();
-        if(empty($chk)){
-            Users::insert(['name'=>'My Admin','email'=>'admin@admin.com','password'=>Hash::make('Admin2019'),'role'=>'admin']);
-        }
 		$page=trans('strings.home_page');
-        $newads=Ads::where('show',1)->orderBy('id','desc')->take(3)->get();
+        $newads=Ad::where('show',1)->orderBy('id','desc')->take(3)->get();
         $fav=[];
         if(Auth::user()){
             $fav=Fav::where('user_id',Auth::user()->id)->get();
@@ -45,16 +40,8 @@ class router extends Controller
     }
     public function reg(){
         if(!Auth::user()){
-            $page='REGISTERATION';
+            $page=trans('strings.register');
             return view('reg',compact('page'));
-        }else{
-            return redirect('/');
-        }
-    }
-    public function log(){
-        if(!Auth::user()){
-            $page='LOGIN';
-            return view('auth/login',compact('page'));
         }else{
             return redirect('/');
         }
@@ -77,7 +64,7 @@ class router extends Controller
     }
     public function review($adid,Request $request){
         $page='REVIEW ADVERTISE';
-        $ad=Ads::where('id',$adid)->first();
+        $ad=Ad::where('id',$adid)->first();
         if(empty($ad)){
             return redirect('/');
         }
@@ -88,7 +75,7 @@ class router extends Controller
     }
 
     public function ad($id){
-        $ad=Ads::where('id',$id)->where('show',1)->first();
+        $ad=Ad::where('id',$id)->where('show',1)->first();
         if(empty($ad)){
             return redirect('/');
         }
@@ -110,7 +97,7 @@ class router extends Controller
         return view('single',compact('page','ad','name','phone','email','fav'));
     }
     public function cat($cat){
-        $ads=Ads::where('type',$cat)->where('show',1)->orderBy('id','desc')->paginate(21);
+        $ads=Ad::where('type',$cat)->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -137,7 +124,7 @@ class router extends Controller
         return view('ads',compact('page','ads','pagear','fav'));
     }
     public function rcat($cat){
-        $ads=Ads::where('type',$cat)->where('general_type','rent')->where('show',1)->orderBy('id','desc')->paginate(21);
+        $ads=Ad::where('type',$cat)->where('general_type','rent')->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -166,7 +153,7 @@ class router extends Controller
         return view('ads',compact('page','ads','pagear','fav'));
     }
     public function scat($cat){
-        $ads=Ads::where('type',$cat)->where('general_type','sell')->where('show',1)->orderBy('id','desc')->paginate(21);
+        $ads=Ad::where('type',$cat)->where('general_type','sell')->where('show',1)->orderBy('id','desc')->paginate(21);
         if($cat==1){
             $page='APARTMENTS';
             $pagear='شقق';
@@ -201,7 +188,7 @@ class router extends Controller
                     $searchn="ALL";
                 else
                     $searchn="الكل ";
-                $ads=Ads::orderBy('id','desc')->whereBetween('price', [$min,$max])->where('show',1)->paginate(21);
+                $ads=Ad::orderBy('id','desc')->whereBetween('price', [$min,$max])->where('show',1)->paginate(21);
             }else{
                 if(Session::has('lang'))
                     $searchn="ALL ";
@@ -218,12 +205,12 @@ class router extends Controller
                     else
                         $searchn.="إيجار";
                 }
-                $ads=Ads::where('general_type',$type)->where('show',1)->orderBy('id','desc')->whereBetween('price', [$min,$max])->paginate(21);
+                $ads=Ad::where('general_type',$type)->where('show',1)->orderBy('id','desc')->whereBetween('price', [$min,$max])->paginate(21);
             }
         }else{
             if($type=='all'){
                 $searchn=$search;
-                $ads=Ads::orderBy('id','desc')
+                $ads=Ad::orderBy('id','desc')
                 ->where(function ($query) use ($search) {
                     $query->where('title','like','%'.$search.'%')
                         ->orwhere('description','like','%'.$search.'%')
@@ -243,7 +230,7 @@ class router extends Controller
                         $searchn.=" إيجار";
                     }
                 }
-                $ads=Ads::where('general_type',$type)
+                $ads=Ad::where('general_type',$type)
                 ->where(function ($query) use ($search) {
                     $query->where('title','like','%'.$search.'%')
                         ->orwhere('description','like','%'.$search.'%')
@@ -266,7 +253,7 @@ class router extends Controller
         }else{
             $search="الكل";
         }
-        $ads=Ads::where('show',1)->orderBy('id','desc')->paginate(21);
+        $ads=Ad::where('show',1)->orderBy('id','desc')->paginate(21);
         $page='SEARCH : '.$search;
         $pagear='بحث عن : '.$search;
         $fav=[];
@@ -288,8 +275,8 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ads::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(21);
-        $page='Your Ads';
+        $ads=Ad::where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(21);
+        $page='Your Ad';
         $pagear='إعلاناتك';
         $fav=[];
         if(Auth::user()){
@@ -301,10 +288,10 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ads::join('favourites','favourites.ad','=','ads.id')
+        $ads=Ad::join('favourites','favourites.ad','=','ads.id')
         ->where('favourites.user',Auth::user()->id)->orderBy('favourites.id','desc')
         ->select('ads.*')->paginate(21);
-        $page='Your Favourite Ads';
+        $page='Your Favourite Ad';
         $pagear='إعلاناتك المفضلة';
         $fav=[];
         if(Auth::user()){

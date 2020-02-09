@@ -44,7 +44,7 @@
         'terms_conditions'=>'Terms and Conditions',
         'meter'=>'Meter',
         'meter_square'=>'Meter Square',
-        'no_ads'=>'No Ads Added Yet',
+        'no_ads'=>'No Ad Added Yet',
         'le'=>'L.E',
         'search_string'=>'What are you looking for - city - area ?',
         'add_to_favourites'=>'Add to favourites',
@@ -113,5 +113,6 @@
         'contractor'=>'Contractor',
         'corporation'=>'Corporation',
         'age'=>'Age',
+        'blocked_account_message'=>'This account has been blocked from site',
 	]
 ?>

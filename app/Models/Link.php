@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Links extends Model
+class Link extends Model
 {
-    protected $table='links';
+    protected $fillable=['name','value'];
     public $timestamps = false;
 }

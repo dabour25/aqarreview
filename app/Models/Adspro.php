@@ -12,6 +12,6 @@ class Adspro extends Model
     protected $fillable=["ad","name","email","phone","email_show"];
 
     public function advertise(){
-        return $this->belongsTo(Ads::class,'ad');
+        return $this->belongsTo(Ad::class,'ad');
     }
 }

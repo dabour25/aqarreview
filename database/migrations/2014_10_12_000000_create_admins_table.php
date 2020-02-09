@@ -17,6 +17,7 @@ class CreateAdminsTable extends Migration
 			$table->charset = 'utf8';
 			$table->collation = 'utf8_unicode_ci';
             $table->bigIncrements('id');
+            $table->string('slug')->unique();
             $table->string('email',50)->unique();
             $table->string('password',100);
             $table->rememberToken();

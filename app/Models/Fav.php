@@ -13,6 +13,6 @@ class Fav extends Model
         return $this->belongsTo(Users::class,'user_id');
     }
     public function ad(){
-        return $this->belongsTo(Ads::class,'ad_id');
+        return $this->belongsTo(Ad::class,'ad_id');
     }
 }

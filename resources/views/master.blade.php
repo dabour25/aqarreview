@@ -122,18 +122,20 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if(Auth::user())
-                                @lang('strings.welcome') {{substr(Auth::user()->name,0,6)}} ..
+                                @if(Auth::guard('admin')->user())
+                                @lang('strings.welcome') {{substr(Auth::guard('admin')->user()->email,0,6)}} ..
+                                @elseif(Auth::user())
+                                    @lang('strings.welcome') {{substr(Auth::user()->name,0,6)}} ..
                                 @else
                                 @lang('strings.account')
                                 @endif
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                @if(!Auth::user())
+                                @if(!Auth::user()&&!Auth::guard('admin')->user())
                                 <li><a class="dropdown-item" href="/log">@lang('strings.login')</a></li>
                                 <li><a class="dropdown-item" href="/reg">@lang('strings.register')</a></li>
                                 @else
-                                @if(Auth::user()->role=='admin')
+                                @if(Auth::guard('admin')->user())
                                 <li><a class="dropdown-item" href="/admindb">@lang('strings.admin_db')</a></li>
                                 @else
                                 <li><a class="dropdown-item" href="/profile">@lang('strings.profile')</a></li>

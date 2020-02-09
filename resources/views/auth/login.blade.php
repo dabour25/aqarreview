@@ -14,11 +14,11 @@
     @endif
     @if(Session::has('m'))
       <?php $a=[]; $a=session()->pull('m'); ?>
-      <div class="alert alert-{{$a[0]}} {{app()->getLocale()=='ar'?'ar':''}}" style="width: 40%">
+      <div class="alert alert-{{$a[0]}} {{app()->getLocale()=='ar'?'ar':''}}">
         {{$a[1]}}
       </div>
     @endif
-<form method="POST" action="{{ route('login') }}">
+<form method="POST" action="/login{{isset($key)&&$key=='my-Admin925'?'/my-admin':'/user'}}">
     @csrf
     <div class="form-group loginform">
         <div class="row {{app()->getLocale()=='ar'?'ar':''}}">

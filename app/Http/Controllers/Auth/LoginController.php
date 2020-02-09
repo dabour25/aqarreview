@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Auth;
-use App\Models\Links;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\Link;
 use View;
 
 class LoginController extends Controller
@@ -24,37 +26,60 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    public function redirectTo(){      
-    // User role
-    $role = Auth::user()->role; 
-    // Check user role
-    switch ($role) {
-        case 'admin':
-                return '/admindb';
-            break;
-        case 'user':
-                return '/';
-            break;
-        
-        default:
-                return '/'; 
-            break;
-        }
-    }
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $links = Links::all();
+        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:web')->except('logout');
+        $links = Link::all();
         View::share('links',$links);
         $this->middleware('guest')->except('logout');
+    }
+    public function showAdminLoginForm()
+    {
+        $page=trans('strings.login');
+        return view('auth.login',compact('page'))->withKey('my-Admin925');
+    }
+    public function showUserLoginForm()
+    {
+        $page=trans('strings.login');
+        return view('auth.login',compact('page'));
+    }
+
+    public function adminLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+
+            return redirect()->intended('/admindb');
+        }
+        return back()->withInput($request->only('email', 'remember'));
+    }
+    public function userLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email'   => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+        $chkBlock=User::where('email',$request->email)->first();
+        if($chkBlock&&$chkBlock->role=="blocked"){
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'account' => [trans('strings.blocked_account_message')],
+            ]);
+            throw $error;
+        }
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
+
+            return redirect()->intended('/');
+        }
+        return back()->withInput($request->only('email', 'remember'));
     }
 }

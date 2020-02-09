@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\User;
-use App\Models\Ads;
+use App\Models\Ad;
 use App\Models\Adspro;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
@@ -29,7 +29,7 @@ $factory->define(User::class, function (Faker $faker) {
 });
 
 //For Test Mode Only !!!
-$factory->define(Ads::class, function (Faker $faker) {
+$factory->define(Ad::class, function (Faker $faker) {
     return [
         'title' => $faker->name,
         'price' => rand(0, 1000000),

@@ -21,9 +21,27 @@ class AdsController extends Controller
         $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
     }
-
-    public function destroy($id){
-        User::remove($id);
+	
+	public function update($slug){
+		$ad=Ad::where('slug',$slug)->first();
+	    $adpro=Adspro::where('ad',$ad->id)->first();
+	    if(empty($adpro)){
+	        $error = \Illuminate\Validation\ValidationException::withMessages([
+	           'redirect' => ['This Advertise Still Haven\'t communication data'],
+	        ]);
+	        throw $error;
+	    }
+      	Ad::where('slug',$slug)->update(['show'=>1]);
+      	session()->push('m','success');
+	    session()->push('m','Advertise Approved!');
+  		return back();
+    }
+	
+    public function destroy($slug){
+		Ad::where('slug',$slug)->update(["deleted_by"=>Auth::guard('admin')->user()->id]);
+        Ad::remove($slug);
+		session()->push('m','success');
+	    session()->push('m','Advertise Removed!');
         return back();
     }
 }

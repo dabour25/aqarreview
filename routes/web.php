@@ -50,19 +50,15 @@ Route::get('/securepoint/{keyi}/{keyii}','router@securepoint');
 
 //Admin
 Route::group(['prefix' =>'admindb','middleware' => 'auth:admin'],function () {
-    Route::get('/', 'adminrouter@index');
-    Route::get('/messages', 'adminrouter@messages');
-    Route::get('/approve', 'adminrouter@approve');
-    Route::get('/review/{id}', 'adminrouter@review');
-    Route::get('/approvea/{id}', 'adminprocess@approve');
-    Route::get('/adscontrol', 'adminrouter@adscontrol');
-    Route::get('/removead/{id}', 'adminprocess@removead');
+    Route::get('/', 'Admin\adminrouter@index');
+    Route::get('/messages', 'Admin\adminrouter@messages');
 
+    Route::resource('/ads','Admin\AdsController');
     Route::resource('/users','Admin\UserController');
 
-    Route::get('/links', 'adminrouter@links');
-    Route::post('/links', 'adminprocess@links');
-    Route::post('/adsdefault', 'adminprocess@adsdefault');
+    Route::get('/links', 'Admin\adminrouter@links');
+    Route::post('/links', 'Admin\adminprocess@links');
+    Route::post('/adsdefault', 'Admin\adminprocess@adsdefault');
 });
 
 Auth::routes();

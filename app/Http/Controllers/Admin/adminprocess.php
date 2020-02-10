@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -18,32 +19,7 @@ class adminprocess extends Controller
 {
 	public function __construct(){
 	}
-	public function approve($id){
-	    $adpro=Adspro::where('ad',$id)->first();
-	    if(empty($adpro)){
-	        $error = \Illuminate\Validation\ValidationException::withMessages([
-	           'redirect' => ['This Advertise Still Haven\'t communication data'],
-	        ]);
-	        throw $error;
-	    }
-      	Ad::where('id',$id)->update(['show'=>1]);
-      	session()->push('m','success');
-	    session()->push('m','Advertise Approved!');
-  		return back();
-    }
-    public function removead($id){
-      	$ad=Ad::where('id',$id)->first();
-      	$images=explode('|', $ad->images);
-      	foreach ($images as $k => $img) {
-      		@unlink('img/ads/'.$img);
-      	}
-      	@unlink('img/ads/'.$ad->image);
-      	Adspro::where('ad',$id)->delete();
-      	Ad::where('id',$id)->delete();
-      	session()->push('m','success');
-	    session()->push('m','Advertise Removed!');
-  		return back();
-    }
+	
 	public function links(Request $req){
 	    $phone=$req->input('phone');
 		$email=$req->input('email');
@@ -72,16 +48,6 @@ class adminprocess extends Controller
 		Link::where('id',6)->update(['value'=>$photoName]);
 		session()->push('m','success');
 	    session()->push('m','Image Updated Saved');
-		return back();
-	}
-	public function removeuser($id){
-		$ads=Ad::where('user',$id)->get();
-		foreach ($ads as $v) {
-			Ad::where('id',$id)->update(['user'=>0]);
-		}
-		User::where('id',$id)->delete();
-		session()->push('m','success');
-	    session()->push('m','User Removed Successfully');
 		return back();
 	}
 }

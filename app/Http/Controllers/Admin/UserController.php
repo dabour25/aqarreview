@@ -54,8 +54,19 @@ class UserController extends Controller
     }
 
     public function destroy($slug){
-        User::where('slug',$slug)->update(["deleted_by"=>Auth::guard('admin')->user()->id]);
-        User::remove($slug);
+        $user=User::where('slug',$slug)->first();
+        if($user){
+            $user->update(["deleted_by"=>Auth::guard('admin')->user()->id]);
+            $user->remove($slug);
+            session()->push('m','success');
+            session()->push('m','User Removed');
+        }else{
+            $user=User::where('slug',$slug)->withTrashed()->first();
+            $user->update(["deleted_by"=>null]);
+            $user->restore($slug);
+            session()->push('m','success');
+            session()->push('m','User Restored');
+        }
         return back();
     }
 }

@@ -18,7 +18,11 @@ class User extends Authenticatable
     protected $guard = 'user';
     public function scopeFilter($query,$request){
         if($request->filter){
-            $query->where('role',$request->filter);
+            if($request->filter=='removed'){
+                $query->onlyTrashed();
+            }else{
+                $query->where('role',$request->filter);
+            }
         }
         return $query;
     }

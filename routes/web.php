@@ -22,8 +22,10 @@ Route::get('lang/{language}','router@lang');
 Route::get('/contact','router@contact');
 Route::post('/sendmes','process@sendmes');
 
-Route::get('/addnew','router@addnew');
-Route::post('/addnew','process@addnew');
+//Route::get('/addnew','router@addnew');
+//Route::post('/addnew','process@addnew');
+
+Route::resource('/ads','User\AdsController');
 
 Route::get('/adpro/{adid}','router@adpro');
 Route::post('/addpro/{adid}','process@adpro');

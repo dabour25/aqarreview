@@ -114,5 +114,6 @@
         'corporation'=>'شركة',
         'age'=>'العمر',
         'blocked_account_message'=>'تم حظر هذا الحساب من الموقع',
+        'image_count_error'=>'عدد الصور لا يجب ان يتعدى 20 صورة',
 	]
 ?>

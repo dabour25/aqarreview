@@ -114,5 +114,6 @@
         'corporation'=>'Corporation',
         'age'=>'Age',
         'blocked_account_message'=>'This account has been blocked from site',
+        'image_count_error'=>'Images Count Must Be Less than 20',
 	]
 ?>

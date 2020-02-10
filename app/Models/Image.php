@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    public $timestamps = false;
     protected $fillable=['url','imagable_id','imagable_type'];
     public function imagable(){
         return $this->morphTo();

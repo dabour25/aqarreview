@@ -13,4 +13,7 @@ class Ad extends Model
     public function updater(){
         return $this->belongsTo(Admin::class,'updated_by');
     }
+    public function images(){
+        return $this->morphMany('App\Models\Image', 'imagable');
+    }
 }

@@ -52,99 +52,8 @@ class process extends Controller
 	    	session()->push('m','تم التسجيل بنجاح يمكنك تسجيل دخول الان');
 		return redirect('/log');
 	  }
-	  public function addnew(Request $req){
-	  	$type=$req->input('type');
-	  	if($type!='land'){
-			$valarr=[
-		       'title'=>'required|max:60|min:3',
-		       'price'=>'required|numeric',
-		       'description'=>'required|max:1000',
-		       'size'=>'required|numeric',
-		       'general_type'=>'required|in:sell,rent',
-		       'type'=>'required',
-		       'floor'=>'required|numeric',
-		       'rooms'=>'required|numeric',
-		       'pathroom'=>'required|numeric',
-		       'kitchens'=>'required|numeric',
-		       'finish'=>'required',
-		       'furniture'=>'required|in:yes,no',
-		       'parking'=>'required|in:yes,no',
-		       'address'=>'required|min:1|max:1000'
-		    ];
-		}else{
-			$valarr=[
-		       'title'=>'required|max:60|min:3',
-		       'price'=>'required|numeric',
-		       'description'=>'required|max:1000',
-		       'size'=>'required|numeric',
-		       'general_type'=>'required|in:sell,rent',
-		       'type'=>'required',
-		       'address'=>'required|max:1000'
-		    ];
-		}
-	    $this->validate($req,$valarr);
-
-		$images=$req->file('images');
-
-		if(!empty($images)){
-			if(count($images)>20){
-				if(Session::has('lang')){
-					$error = \Illuminate\Validation\ValidationException::withMessages([
-					   'images' => ['Images Count Must Be Less than 20'],
-					]);
-					throw $error;
-				}else{
-					$error = \Illuminate\Validation\ValidationException::withMessages([
-					   'images' => ['عدد الصور لا يجب ان يتعدى 20'],
-					]);
-					throw $error;
-				}
-				
-			}
-		}else{
-			$photoName='';
-		}
-	    if(!empty($images)){
-	    	$photosPath = public_path('/img/ads');
-	        foreach ($images as $k => $v) {
-	        	if($k==0){
-			    	$photoName=str_random(32);
-			        $photoName.='.'.$v->getClientOriginalExtension();
-			        $v->move($photosPath,$photoName);
-	        	}else{
-		        	$ph[$k-1]=str_random(32);
-			        $ph[$k-1].='.'.$v->getClientOriginalExtension();
-			        $v->move($photosPath,$ph[$k-1]);
-			    }
-	        }
-	        if(count($images)>1){
-	        	$phs=implode('|', $ph);
-	        }else{
-	        	$phs='';
-	        }
-	    }else{
-	    	$phs='';
-	    }
-        if(Auth::user()){
-        	$user=Auth::user()->id;
-        }else{
-        	$user=0;
-        }
-        $data=$req->except('_token');
-		$data["user_id"]=$user;
-		$data["image"]=$photoName;
-		$data["images"]=$phs;
-		Ad::create($data);
-		$ad=Ad::latest()->first();
-		session()->push('m','success');
-		if(Session::has('lang'))
-	    	session()->push('m','Advertise Sent But You must add this data to brodcast Advertise');
-	    else
-	    	session()->push('m','تم إرسال إعلانك لكن عليك ملئ هذة البيانات والتأكيد لنشر إعلانك');
-		return redirect('/adpro/'.$ad->id);
-	}
 	public function adpro($id,Request $req){
-		$chk=Adspro::where('ad',$id)->first();
+		$chk=Adspro::where('ad_id',$id)->first();
 		if(!empty($chk)){
 			$error = \Illuminate\Validation\ValidationException::withMessages([
 			   'redirect' => ['This Advertise Has Profile before'],
@@ -164,14 +73,14 @@ class process extends Controller
 		    $this->validate($req,$valarr);
 		}
 		$data=$req->except("_token");
-		$data["ad"]=$id;
+		$data["ad_id"]=$id;
 		Adspro::create($data);
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Advertise is now fully ready, Waiting Admin Approval');
 	    else
 	    	session()->push('m','إعلانك الان جاهز بالكامل , ينتظر موافقة المشرف');
-		return redirect('/addnew');
+		return redirect('/ads/create');
 	  }
 	  public function edituser(Request $req){
   		$valarr=[

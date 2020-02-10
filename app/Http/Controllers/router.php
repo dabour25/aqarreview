@@ -54,10 +54,7 @@ class router extends Controller
         }
         return back();
     }
-    public function addnew(){
-        $page=trans('strings.add_advertise');
-        return view('addnew',compact('page'));
-    }
+
     public function adpro($adid){
         $page='ADVERTISE DATA';
         return view('adpro',compact('page','adid'));

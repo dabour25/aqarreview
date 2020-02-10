@@ -116,7 +116,7 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown active">
-                            <a class="nav-link" href="/addnew">
+                            <a class="nav-link" href="/ads/create">
                                 @lang('strings.add_advertise')
                             </a>
                         </li>
@@ -184,7 +184,7 @@
                         </li>
                     </ul>
                 </div>
-                <a class="lang tinylang langbtn" href="/addnew">@lang('strings.add_advertise')</a>
+                <a class="lang tinylang langbtn" href="/ads/create">@lang('strings.add_advertise')</a>
                 <a class="navbar-brand company-logo" href="/">
                     <img src="{{asset('img/logos/black-logo.png')}}" alt="logo">
                 </a>
@@ -261,7 +261,7 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown active">
-                            <a class="nav-link" href="/addnew">
+                            <a class="nav-link" href="/ads/create">
                                 @lang('strings.add_advertise')
                             </a>
                         </li>
@@ -274,7 +274,7 @@
 
                 </div>
                 <a class="lang langbtn" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
-                <a class="lang tinylang langbtn" href="/addnew">@lang('strings.add_advertise')</a>
+                <a class="lang tinylang langbtn" href="/ads/create">@lang('strings.add_advertise')</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>

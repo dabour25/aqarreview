@@ -81,7 +81,7 @@
                                 <th scope="col">Phone</th>
                                 <th scope="col">Password</th>
                                 <th scope="col">Role</th>
-                                <th scope="col">Remove</th>
+                                <th scope="col">{{isset($filter)&&$filter=='removed'?'Restore':'Remove'}}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -106,11 +106,15 @@
                                             <option value="renter" {{$a->role=='renter'?'selected':''}}>Renter</option>
                                             <option value="engineer" {{$a->role=='engineer'?'selected':''}}>Engineer</option>
                                             <option value="contractor" {{$a->role=='contractor'?'selected':''}}>Contractor</option>
-                                            <option value="corporate" {{$a->role=='corporate'?'selected':''}}>Corporate</option>
+                                            <option value="corporation" {{$a->role=='corporation'?'selected':''}}>Corporation</option>
                                             <option value="blocked" {{$a->role=='blocked'?'selected':''}}>Blocked</option>
                                         </select>
                                     </td>
-                                    <td><a id="remove{{$a->slug}}" class="btn btn-danger">X</a></td>
+                                    @if(isset($filter)&&$filter=='removed')
+                                        <td><a id="remove{{$a->slug}}" class="btn btn-info">R</a></td>
+                                    @else
+                                        <td><a id="remove{{$a->slug}}" class="btn btn-danger">X</a></td>
+                                    @endif
                                     <script>
                                         $('#remove{{$a->slug}}').click(function () {
                                             $("#remove-form{{$a->slug}}").submit();

@@ -26,9 +26,9 @@ class adminprocess extends Controller
 		$face=$req->input('face');
 		$twit=$req->input('twit');
 		$inst=$req->input('inst');
-		Links::where('id',1)->update(['value'=>$phone]); Links::where('id',2)->update(['value'=>$email]);
-		Links::where('id',3)->update(['value'=>$face]); Links::where('id',4)->update(['value'=>$twit]);
-		Links::where('id',5)->update(['value'=>$inst]);
+		Link::where('id',1)->update(['value'=>$phone]); Link::where('id',2)->update(['value'=>$email]);
+		Link::where('id',3)->update(['value'=>$face]); Link::where('id',4)->update(['value'=>$twit]);
+		Link::where('id',5)->update(['value'=>$inst]);
 		session()->push('m','success');
 	    session()->push('m','Data Updates Saved');
 		return back();

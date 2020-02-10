@@ -17,7 +17,7 @@
 @endif
 <!-- Page Content-->
 <h3 class="title">@lang('strings.add_advertise')</h3>
-<form action="/addnew" method="post" enctype="multipart/form-data">
+<form action="/ads" method="post" enctype="multipart/form-data">
 @csrf
 <div class="form-group loginform">
 	<div class="row {{app()->getLocale()=='ar'?'ar':''}}">
@@ -107,7 +107,7 @@
 		</div>
 		<div class="col-sm-6" id="pathroom">
 			<label>@lang('strings.bathrooms_count')</label>
-			<input type="number" class="form-control {{ $errors->has('pathroom') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="pathroom" value="{{old('pathroom')}}">
+			<input type="number" class="form-control {{ $errors->has('pathrooms') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="pathrooms" value="{{old('pathrooms')}}">
 		</div>
 		<div class="col-sm-6" id="kitchens">
 			<label>@lang('strings.kitchens')</label>

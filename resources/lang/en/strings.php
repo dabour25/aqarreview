@@ -115,5 +115,13 @@
         'age'=>'Age',
         'blocked_account_message'=>'This account has been blocked from site',
         'image_count_error'=>'Images Count Must Be Less than 20',
+        'follow'=>'Follow',
+        'unfollow'=>'Unfollow',
+        'report'=>'Report',
+        'joint_from'=>'Join From',
+        'global_link'=>'Global Link',
+        'here'=>'Here',
+        'update'=>'Update',
+        'profile_info'=>'Profile info',
 	]
 ?>

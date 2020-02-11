@@ -24,6 +24,7 @@
     <!-- Custom stylesheet -->
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" type="text/css" id="style_sheet" href="{{asset('css/skins/gold.css')}}">
+    <link rel="stylesheet" type="text/css"  href="{{asset('css/profile.css')}}">
 
     <!-- Favicon icon -->
     <link rel="shortcut icon" href="{{asset('img/shico.png')}}" type="image/x-icon" >
@@ -99,14 +100,14 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light">
             @if(app()->getLocale()=='ar')
-                <a class="lang langbtn" href="lang/{{app()->getLocale()=="ar"?"en":"ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
+                <a class="lang langbtn" href="/lang/{{app()->getLocale()=="ar"?"en":"ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
                     <ul class="navbar-nav header-ml">
                         <li class="nav-item dropdown active tinylang">
-                            <a class="nav-link" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
+                            <a class="nav-link" href="/lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
                                 @lang('strings.langu')
                             </a>
                         </li>
@@ -195,7 +196,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav header-ml">
                         <li class="nav-item dropdown active tinylang">
-                            <a class="nav-link" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
+                            <a class="nav-link" href="/lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">
                                 @lang('strings.langu')
                             </a>
                         </li>
@@ -273,7 +274,7 @@
                     </ul>
 
                 </div>
-                <a class="lang langbtn" href="lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
+                <a class="lang langbtn" href="/lang{{app()->getLocale()=="ar"?"/en":"/ar"}}">@lang('strings.langu')<i class="fa fa-language"></i></a>
                 <a class="lang tinylang langbtn" href="/ads/create">@lang('strings.add_advertise')</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

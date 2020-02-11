@@ -259,15 +259,7 @@ class router extends Controller
         }
         return view('ads',compact('page','ads','pagear','fav','search'));
     }
-    public function profile(){
-        if(!Auth::user()){
-            return redirect('/');
-        }elseif(Auth::user()->role=='admin'){
-            return redirect('/admindb');
-        }
-        $page=Auth::user()->name." PROFILE";
-        return view('profile',compact('page'));
-    }
+
     public function userads(){
         if(!Auth::user()){
             return redirect('/');

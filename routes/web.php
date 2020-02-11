@@ -40,7 +40,10 @@ Route::get('/sell/{cat}','router@scat');
 Route::get('/search','router@gsearch');
 Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
-Route::get('/profile','router@profile');
+Route::get('/profile','User\UsersController@profile');
+Route::get('/profiles/{slug}','User\UsersController@globalProfile');
+Route::get('/follow/{slug}','User\UsersController@follow');
+
 Route::post('/edituser','process@edituser');
 Route::get('/userads','router@userads');
 Route::get('/removead/{id}','process@removead');

@@ -32,4 +32,7 @@ class User extends Authenticatable
     public function images(){
         return $this->morphMany('App\Models\Image', 'imagable');
     }
+    public function followers(){
+        return $this->belongsTo(Follower::class,'id','followed');
+    }
 }

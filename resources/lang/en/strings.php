@@ -123,5 +123,6 @@
         'here'=>'Here',
         'update'=>'Update',
         'profile_info'=>'Profile info',
+        'type_post'=>'Type Post Now',
 	]
 ?>

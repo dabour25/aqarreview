@@ -32,7 +32,7 @@
 					<div class="profile-usertitle-job"> {{trans('strings.'.$user->role)}} </div>
 				</div>
 				<div class="profile-userbuttons">
-					<button type="button" id="follow" class="btn follow-btn btn-sm">{{$isFollow?trans('strings.unfollow'):trans('strings.follow')}}</button>
+					<button type="button" id="follow" class="btn follow-btn btn-sm">{{$isFollow?trans('strings.unfollow'):trans('strings.follow')}} ({{$user->followers_count??count($followers)}})</button>
 					<button type="button" class="btn btn-info btn-sm">@lang('strings.message')</button>
 				</div>
 				<div class="profile-usermenu">
@@ -119,7 +119,19 @@
 						<!-- Tab panes -->
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane active" id="home">
+								@if($followers)
+									<form action="/posts" method="POST" enctype="multipart/form-data">
+										@csrf
+										<textarea class="form-control" name="post" placeholder="@lang('strings.type_post')"></textarea>
+										<br>
+										<input type="file" name="images[]" class="custom-file-input" multiple accept="image/gif, image/jpeg, image/png" id="post-img">
+										<br><br>
+										<button type="submit" class="btn follow-btn btn-sm">@lang('strings.send')</button>
+										<div id="images">
 
+										</div>
+									</form>
+								@endif
 							</div>
 						</div>
 
@@ -133,6 +145,26 @@
 	<script>
 		$('#follow').click(function (){
 			location.href='/follow/{{$user->slug}}';
+		});
+		function readURL(input) {
+			$('#images').html('');
+			var files = event.target.files; //FileList object
+			for (var i = 0; i < files.length; i++) {
+				var file = files[i];
+				//Only pics
+				if (!file.type.match('image')) continue;
+
+				var picReader = new FileReader();
+				picReader.addEventListener("load", function (event) {
+					var picFile = event.target;
+					$('#images').append('<img src="'+picFile.result+'" class="showimg">');
+				});
+				//Read the image
+				picReader.readAsDataURL(file);
+			}
+		}
+		$("#post-img").change(function(){
+			readURL(this);
 		});
 	</script>
 @stop

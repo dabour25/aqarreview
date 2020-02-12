@@ -27,11 +27,13 @@ class UsersController extends Controller
         }
         $page=Auth::user()->name." PROFILE";
         $user=Auth::user();
-        return view('profile',compact('page','user'));
+        $followers=Follower::where('followed',$user->id)->get();
+        $isFollow=false;
+        return view('profile',compact('page','user','isFollow','followers'));
     }
     public function globalProfile($slug){
-        $page=Auth::user()->name." PROFILE";
-        $user=User::where('slug',$slug)->first();
+        $user=User::where('slug',$slug)->withCount('followers')->first();
+        $page=$user->name." PROFILE";
         $isFollow=Follower::where('follower',Auth::user()->id??'')->where('followed',$user->id)->first();
         if(!$user){
             return redirect('/');

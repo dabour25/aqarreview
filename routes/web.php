@@ -44,6 +44,8 @@ Route::get('/profile','User\UsersController@profile');
 Route::get('/profiles/{slug}','User\UsersController@globalProfile');
 Route::get('/follow/{slug}','User\UsersController@follow');
 
+Route::resource('/posts','User\postsController');
+
 Route::post('/edituser','process@edituser');
 Route::get('/userads','router@userads');
 Route::get('/removead/{id}','process@removead');

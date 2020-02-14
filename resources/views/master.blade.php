@@ -117,6 +117,11 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown active">
+                            <a class="nav-link" href="/posts">
+                                @lang('strings.community')
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown active">
                             <a class="nav-link" href="/ads/create">
                                 @lang('strings.add_advertise')
                             </a>
@@ -264,6 +269,11 @@
                         <li class="nav-item dropdown active">
                             <a class="nav-link" href="/ads/create">
                                 @lang('strings.add_advertise')
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link" href="/posts">
+                                @lang('strings.community')
                             </a>
                         </li>
                         <li class="nav-item dropdown active">

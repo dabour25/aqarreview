@@ -124,5 +124,11 @@
         'update'=>'Update',
         'profile_info'=>'Profile info',
         'type_post'=>'Type Post Now',
+        'community'=>'Community',
+        'post'=>'Post',
+        'posts'=>'Posts',
+        'blogs'=>'Blogs',
+        'new_posts'=>'New Posts',
+        'new_blogs'=>'New Blogs',
 	]
 ?>

@@ -109,9 +109,9 @@
 			</div>
 			<div class="portlet light bordered">
 				<div class="portlet-title tabbable-line">
-					<div class="caption caption-md">
+					<div class="caption caption-md " style="{{app()->getLocale()=='ar'?'float: right;':''}}" >
 						<i class="icon-globe theme-font hide"></i>
-						<span class="caption-subject font-blue-madison bold uppercase">Posts</span>
+						<span class="caption-subject font-blue-madison bold uppercase">@lang('strings.posts')</span>
 					</div>
 				</div>
 				<div class="portlet-body">
@@ -119,7 +119,7 @@
 						<!-- Tab panes -->
 						<div class="tab-content">
 							<div role="tabpanel" class="tab-pane active" id="home">
-								@if($followers)
+								@if(isset($followers))
 									<form action="/posts" method="POST" enctype="multipart/form-data">
 										@csrf
 										<textarea class="form-control" name="post" placeholder="@lang('strings.type_post')"></textarea>

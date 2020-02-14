@@ -47,7 +47,7 @@ class PostsController extends Controller
         return back();
     }
     public function index(){
-        $page='Community|Posts';
+        $page=trans('strings.community').' | '.trans('strings.posts');
         return view('posts',compact('page'));
     }
 }

@@ -130,5 +130,8 @@
         'blogs'=>'Blogs',
         'new_posts'=>'New Posts',
         'new_blogs'=>'New Blogs',
+        'like'=>'Like',
+        'dislike'=>'Dislike',
+        'comment'=>'Comment',
 	]
 ?>

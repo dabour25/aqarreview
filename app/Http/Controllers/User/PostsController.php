@@ -30,10 +30,14 @@ class PostsController extends Controller
         $this->validate($request,$valarr);
         $images=$request->file('images');
         $photosPath = public_path('/img/posts');
-        foreach ($images as $k => $v) {
-            $ph[$k]=Str::random(32);
-            $ph[$k].='.'.$v->getClientOriginalExtension();
-            $v->move($photosPath,$ph[$k]);
+        if($images) {
+            foreach ($images as $k => $v) {
+                $ph[$k] = Str::random(32);
+                $ph[$k] .= '.' . $v->getClientOriginalExtension();
+                $v->move($photosPath, $ph[$k]);
+            }
+        }else{
+            $ph=[];
         }
         $data["content"]=$request->post;
         $data["privacy"]='all';
@@ -48,6 +52,7 @@ class PostsController extends Controller
     }
     public function index(){
         $page=trans('strings.community').' | '.trans('strings.posts');
-        return view('posts',compact('page'));
+        $posts=Post::with('users','images')->latest()->get();
+        return view('posts',compact('page','posts'));
     }
 }

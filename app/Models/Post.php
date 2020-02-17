@@ -16,4 +16,7 @@ class Post extends Model
     public function likes(){
         return $this->morphMany('App\Models\Like', 'likable');
     }
+    public function users(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

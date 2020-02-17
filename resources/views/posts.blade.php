@@ -33,15 +33,22 @@
 		<h4>@lang('strings.new_posts')</h4>
 	</div>
 	<!--Post-->
+	@foreach($posts as $post)
 	<div class="card post">
 		<div class="row">
 			<img src="{{asset('/img/profiles/default.png')}}" class="post-img">
-			<span class="post-name">Ahmed Magdy<p class="post-name-tiny">(2020-01-30 20:13) <span class="post-follow">Follow</span></p></span>
+			<span class="post-name">{{$post->users->name}}<p class="post-name-tiny">({{$post->created_at}}) <span class="post-follow">Follow</span></p></span>
 		</div>
 		<hr>
-		<p class="post-body">pla pla pla</p>
+		<p class="post-body">{{$post->content}}</p>
 		<hr>
-		<!-- if there are Images -->
+		<div class="row">
+		@foreach($post->images as $image)
+			<div class="col-md-4">
+				<img src="{{asset('img/posts').'/'.$image->url}}" width="100%" height="200px" style="padding: 10px;">
+			</div>
+		@endforeach
+		</div>
 		<hr>
 		<div class="row" style="width:80%;margin: auto;">
 			<div class="col-sm-3" style="cursor: pointer"><i class="fa fa-thumbs-o-up"></i> @lang('strings.like') (50)</div>
@@ -60,6 +67,8 @@
 			</div>
 		</div>
 	</div>
+		<br>
+	@endforeach
 	<div id="load_more" style="margin: 10px 49%;">
 		<img src="{{asset('img/loader.gif')}}">
 	</div>

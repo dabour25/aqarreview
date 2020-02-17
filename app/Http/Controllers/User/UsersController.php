@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Follower;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -55,6 +56,28 @@ class UsersController extends Controller
             $followed=$followed->id;
         }
         Follower::deleteOrCreate($follower,$followed);
+        return back();
+    }
+    public function reportShow($slug){
+        $page=trans('strings.report');
+        return view('report',compact('page','slug'));
+    }
+    public function report(Request $request,$slug){
+        $valarr=[
+            'report'=>'required|max:1000|min:2',
+        ];
+        $this->validate($request,$valarr);
+        $toUser=User::where('slug',$slug)->first()->id;
+        if(!$toUser){
+            return back();
+        }
+        $fromUser=Auth::user()->id;
+        if($toUser==$fromUser){
+            return back();
+        }
+        Report::create(['report'=>$request->report,'to_user'=>$toUser,'reporter'=>$fromUser]);
+        session()->push('m','success');
+        session()->push('m',trans('strings.report_success'));
         return back();
     }
 }

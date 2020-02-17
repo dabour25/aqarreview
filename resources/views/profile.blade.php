@@ -36,6 +36,7 @@
 					<button type="button" class="btn btn-info btn-sm">@lang('strings.message')</button>
 				</div>
 				<div class="profile-usermenu">
+					@if(auth()->user()&&!isset($followers))
 					<ul class="nav">
 						<li>
 							<a href="/report/{{$user->slug}}">
@@ -43,6 +44,7 @@
 							</a>
 						</li>
 					</ul>
+					@endif
 				</div>
 			</div>
 		</div>

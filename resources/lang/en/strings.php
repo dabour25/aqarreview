@@ -133,5 +133,7 @@
         'like'=>'Like',
         'dislike'=>'Dislike',
         'comment'=>'Comment',
+        'report_input'=>'Type the problem that happened from person who you will report',
+        'report_success'=>'Reported Successfully',
 	]
 ?>

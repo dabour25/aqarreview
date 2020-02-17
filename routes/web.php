@@ -42,6 +42,8 @@ Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
 Route::get('/profile','User\UsersController@profile');
 Route::get('/profiles/{slug}','User\UsersController@globalProfile');
+Route::get('/report/{slug}','User\UsersController@reportShow');
+Route::post('/report/{slug}','User\UsersController@report');
 Route::get('/follow/{slug}','User\UsersController@follow');
 
 Route::resource('/posts','User\PostsController');

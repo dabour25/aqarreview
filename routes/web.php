@@ -22,9 +22,6 @@ Route::get('lang/{language}','router@lang');
 Route::get('/contact','router@contact');
 Route::post('/sendmes','process@sendmes');
 
-//Route::get('/addnew','router@addnew');
-//Route::post('/addnew','process@addnew');
-
 Route::resource('/ads','User\AdsController');
 
 Route::get('/adpro/{adid}','router@adpro');
@@ -45,6 +42,8 @@ Route::get('/profiles/{slug}','User\UsersController@globalProfile');
 Route::get('/report/{slug}','User\UsersController@reportShow');
 Route::post('/report/{slug}','User\UsersController@report');
 Route::get('/follow/{slug}','User\UsersController@follow');
+Route::get('/like-post/{slug}','User\PostsController@like');
+Route::get('/dislike-post/{slug}','User\PostsController@dislike');
 
 Route::resource('/posts','User\PostsController');
 

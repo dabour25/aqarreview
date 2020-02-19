@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Follower;
+use App\Models\Post;
 use App\Models\Report;
 use Illuminate\Http\Request;
 use Auth;
@@ -28,18 +29,20 @@ class UsersController extends Controller
         }
         $page=Auth::user()->name." PROFILE";
         $user=Auth::user();
+        $posts=Post::with('images','likes')->where('user_id',$user->id)->latest()->get();
         $followers=Follower::where('followed',$user->id)->get();
         $isFollow=false;
-        return view('profile',compact('page','user','isFollow','followers'));
+        return view('profile',compact('page','user','isFollow','followers','posts'));
     }
     public function globalProfile($slug){
         $user=User::where('slug',$slug)->withCount('followers')->first();
         $page=$user->name." PROFILE";
         $isFollow=Follower::where('follower',Auth::user()->id??'')->where('followed',$user->id)->first();
+        $posts=Post::with('images','likes')->where('user_id',$user->id)->latest()->get();
         if(!$user){
             return redirect('/');
         }
-        return view('profile',compact('page','user','isFollow'));
+        return view('profile',compact('page','user','isFollow','posts'));
     }
     public function follow($slug){
         if(!Auth::user()){

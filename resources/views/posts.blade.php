@@ -51,8 +51,25 @@
 		</div>
 		<hr>
 		<div class="row" style="width:80%;margin: auto;">
-			<div class="col-sm-3" style="cursor: pointer"><i class="fa fa-thumbs-o-up"></i> @lang('strings.like') (50)</div>
-			<div class="col-sm-3" style="cursor: pointer"><i class="fa fa-thumbs-o-down"></i> @lang('strings.dislike') (30)</div>
+			<?php $isliked=$isdislike=false;$likescount=$dislikescount=0 ?>
+				@if(auth()->user())
+					@foreach($post->likes as $like)
+						@if($like->type==1)
+						<?php $likescount++; ?>
+						@else
+						<?php $dislikescount++; ?>
+						@endif
+						@if($like->user_id==auth()->user()->id&&$like->type==1)
+							<?php $isliked=true; ?>
+							@break;
+						@elseif($like->user_id==auth()->user()->id&&$like->type==0)
+							<?php $isdislike=true; ?>
+							@break;
+						@endif
+					@endforeach
+				@endif
+			<a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
+			<a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
 			<div class="col-sm-6" style="cursor: pointer" id="comment_btn"><i class="fa fa-comment"></i> @lang('strings.comment')(20)</div>
 			<br><br>
 			<div class="col-sm-12" id="comment_tab" style="display: none;">

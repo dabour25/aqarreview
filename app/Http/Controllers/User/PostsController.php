@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Like;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -52,7 +54,47 @@ class PostsController extends Controller
     }
     public function index(){
         $page=trans('strings.community').' | '.trans('strings.posts');
-        $posts=Post::with('users','images')->latest()->get();
+        $posts=Post::with('users','images','likes')->latest()->get();
         return view('posts',compact('page','posts'));
+    }
+    public function like($slug){
+        if(!Auth::user()){
+            return back();
+        }
+        $post=Post::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('slug',$slug)->first();
+        if($post){
+            if($post->likes[0]->type==0){
+                Like::where('id',$post->likes[0]->id)->update(['type'=>true]);
+            }else{
+                Like::where('id',$post->likes[0]->id)->delete();
+            }
+        }else{
+            $post=Post::where('slug',$slug)->first();
+            $like=new Like(['user_id'=>Auth::user()->id,'type'=>true]);
+            $post->likes()->save($like);
+        }
+        return back();
+    }
+    public function dislike($slug){
+        if(!Auth::user()){
+            return back();
+        }
+        $post=Post::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('slug',$slug)->first();
+        if($post){
+            if($post->likes[0]->type==1){
+                Like::where('id',$post->likes[0]->id)->update(['type'=>false]);
+            }else{
+                Like::where('id',$post->likes[0]->id)->delete();
+            }
+        }else{
+            $post=Post::where('slug',$slug)->first();
+            $like=new Like(['user_id'=>Auth::user()->id,'type'=>false]);
+            $post->likes()->save($like);
+        }
+        return back();
     }
 }

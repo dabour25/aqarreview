@@ -29,6 +29,24 @@
 </section>
 <hr>
 <section class="{{app()->getLocale()=='ar'?'ar':''}}">
+	@if(auth()->user())
+		<div class="card post p-1">
+			<form action="/posts" method="POST" enctype="multipart/form-data">
+				@csrf
+				<textarea class="form-control" name="post"
+						  placeholder="@lang('strings.type_post')"></textarea>
+				<br>
+				<input type="file" name="images[]" class="custom-file-input" multiple
+					   accept="image/gif, image/jpeg, image/png" id="post-img">
+				<br><br>
+				<button type="submit"
+						class="btn follow-btn btn-sm">@lang('strings.send')</button>
+				<div id="images">
+
+				</div>
+			</form>
+		</div>
+	@endif
 	<div class="main-title" style="margin-bottom: 10px;margin-top: 20px;">
 		<h4>@lang('strings.new_posts')</h4>
 	</div>
@@ -70,31 +88,38 @@
 				@endif
 			<a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
 			<a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
-			<div class="col-sm-6" style="cursor: pointer" id="comment_btn"><i class="fa fa-comment"></i> @lang('strings.comment')(20)</div>
+			<div class="col-sm-6" style="cursor: pointer" id="comment_btn{{$post->slug}}"><i class="fa fa-comment"></i> @lang('strings.comment')({{count($post->comments)}})</div>
 			<br><br>
-			<div class="col-sm-12" id="comment_tab" style="display: none;">
-				<input type="text" name="comment" class="form-control">
-				<button class="btn btn-primary" style="margin: 5px 0;">@lang('strings.comment')</button>
+			<div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
+				<form action="/posts/comment/{{$post->slug}}" method="post">
+					@csrf
+					<input type="text" name="comment" class="form-control">
+					<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
+				</form>
+				@foreach($post->comments as $comment)
 				<div class="row">
 					<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
-					<span class="comment-name">Ahmed Magdy
-						<p> pla pla pla</p>
+					<span class="comment-name">{{$comment->user->name}}
+						<p> {{$comment->comment}}</p>
 					</span>
 				</div>
+				@endforeach
 			</div>
 		</div>
 	</div>
 		<br>
+		<script>
+			$('#comment_btn{{$post->slug}}').click(function () {
+				$('#comment_tab{{$post->slug}}').toggle();
+			});
+		</script>
 	@endforeach
-	<div id="load_more" style="margin: 10px 49%;">
-		<img src="{{asset('img/loader.gif')}}">
-	</div>
+	{{--<div id="load_more" style="margin: 10px 49%;">--}}
+		{{--<img src="{{asset('img/loader.gif')}}">--}}
+	{{--</div>--}}
 </section>
 <!-- // End Page Content -->
 	<script>
-		$('#comment_btn').click(function () {
-			$('#comment_tab').toggle();
-		});
 		function readURL(input) {
 			$('#images').html('');
 			var files = event.target.files; //FileList object

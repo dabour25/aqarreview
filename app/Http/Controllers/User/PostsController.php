@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Report;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Auth;
@@ -21,6 +23,7 @@ class PostsController extends Controller
 {
     public function __construct(){
         $links = Link::all();
+        $this->middleware('auth',['except' => ['index']]);
         View::share('links',$links);
     }
     public function store(Request $request){
@@ -54,13 +57,10 @@ class PostsController extends Controller
     }
     public function index(){
         $page=trans('strings.community').' | '.trans('strings.posts');
-        $posts=Post::with('users','images','likes')->latest()->get();
+        $posts=Post::with('users','images','likes','comments')->latest()->take(10)->get();
         return view('posts',compact('page','posts'));
     }
     public function like($slug){
-        if(!Auth::user()){
-            return back();
-        }
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
@@ -78,9 +78,6 @@ class PostsController extends Controller
         return back();
     }
     public function dislike($slug){
-        if(!Auth::user()){
-            return back();
-        }
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
@@ -95,6 +92,19 @@ class PostsController extends Controller
             $like=new Like(['user_id'=>Auth::user()->id,'type'=>false]);
             $post->likes()->save($like);
         }
+        return back();
+    }
+    public function comment(Request $request,$slug){
+        $post=Post::where('slug',$slug)->first();
+        if(!$post){
+            return back();
+        }
+        $valarr=[
+            'comment'=>'required|max:500|min:1',
+        ];
+        $this->validate($request,$valarr);
+        $comment=new Comment(['comment'=>$request->comment,'user_id'=>Auth::user()->id]);
+        $post->comments()->save($comment);
         return back();
     }
 }

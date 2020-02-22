@@ -47,6 +47,7 @@ Route::get('/dislike-post/{slug}','User\PostsController@dislike');
 
 Route::resource('/posts','User\PostsController');
 Route::post('/posts/comment/{slug}','User\PostsController@comment');
+Route::post('/comments/reply/{id}','User\PostsController@reply');
 
 Route::post('/edituser','process@edituser');
 Route::get('/userads','router@userads');

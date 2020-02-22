@@ -23,7 +23,7 @@
 			@lang('strings.posts')
 		</div>
 		<div class="col-md-5 card my-card">
-			@lang('strings.blogs')
+			<a href="/blogs" style="all: unset;">@lang('strings.blogs')</a>
 		</div>
 	</div>
 </section>
@@ -91,18 +91,61 @@
 			<div class="col-sm-6" style="cursor: pointer" id="comment_btn{{$post->slug}}"><i class="fa fa-comment"></i> @lang('strings.comment')({{count($post->comments)}})</div>
 			<br><br>
 			<div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
-				<form action="/posts/comment/{{$post->slug}}" method="post">
-					@csrf
-					<input type="text" name="comment" class="form-control">
-					<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
-				</form>
+				@if(auth()->user())
+					<form action="/posts/comment/{{$post->slug}}" method="post">
+						@csrf
+						<input type="text" name="comment" class="form-control">
+						<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
+					</form>
+				@endif
 				@foreach($post->comments as $comment)
 				<div class="row">
-					<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
-					<span class="comment-name">{{$comment->user->name}}
-						<p> {{$comment->comment}}</p>
-					</span>
+					<div class="col-sm-12">
+						<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+						<span class="comment-name">{{$comment->user->name}}
+							<p> {{$comment->comment}}</p>
+						</span>
+					</div>
+					<div class="col-sm-8 mx-1">
+						<div class="row">
+							<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
+							<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
+							<div class="col-sm-6" style="cursor: pointer" id="reply_btn{{$comment->id}}"><i class="fa fa-comment"></i> @lang('strings.reply')({{count($comment->replies)}})</div>
+							<div class="col-sm-12" id="reply_tab{{$comment->id}}" style="display: none;">
+								@if(auth()->user())
+									<form action="/comments/reply/{{$comment->id}}" method="post">
+										@csrf
+										<input type="text" name="reply" class="form-control">
+										<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.reply')</button>
+									</form>
+								@endif
+								@foreach($comment->replies as $reply)
+									<div class="row">
+										<div class="col-sm-12">
+											<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+											<span class="comment-name">{{$reply->user->name}}
+												<p> {{$reply->reply}}</p>
+											</span>
+										</div>
+										<div class="col-sm-8 mx-1">
+											<div class="row">
+												<a class="col-sm-6" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
+												<a class="col-sm-6" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
+											</div>
+										</div>
+										<hr>
+									</div>
+								@endforeach
+							</div>
+						</div>
+					</div>
+					<hr>
 				</div>
+				<script>
+					$('#reply_btn{{$comment->id}}').click(function () {
+						$('#reply_tab{{$comment->id}}').toggle();
+					});
+				</script>
 				@endforeach
 			</div>
 		</div>

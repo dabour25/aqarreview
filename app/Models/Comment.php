@@ -14,7 +14,7 @@ class Comment extends Model
         return $this->morphMany('App\Models\Image', 'imagable');
     }
     public function replies(){
-        return $this->morphMany('App\Models\Reply', 'repliable');
+        return $this->morphMany('App\Models\Reply', 'repliable')->with('user');
     }
     public function likes(){
         return $this->morphMany('App\Models\Like', 'likable');

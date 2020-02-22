@@ -11,7 +11,7 @@ class Post extends Model
         return $this->morphMany('App\Models\Image', 'imagable');
     }
     public function comments(){
-        return $this->morphMany('App\Models\Comment', 'commentable')->with('user');
+        return $this->morphMany('App\Models\Comment', 'commentable')->with('user','replies');
     }
     public function likes(){
         return $this->morphMany('App\Models\Like', 'likable');

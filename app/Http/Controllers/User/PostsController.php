@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Reply;
 use App\Models\Report;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -105,6 +106,19 @@ class PostsController extends Controller
         $this->validate($request,$valarr);
         $comment=new Comment(['comment'=>$request->comment,'user_id'=>Auth::user()->id]);
         $post->comments()->save($comment);
+        return back();
+    }
+    public function reply(Request $request,$id){
+        $comment=Comment::find($id);
+        if(!$comment){
+            return back();
+        }
+        $valarr=[
+            'reply'=>'required|max:500|min:1',
+        ];
+        $this->validate($request,$valarr);
+        $reply=new Reply(['reply'=>$request->reply,'user_id'=>Auth::user()->id]);
+        $comment->replies()->save($reply);
         return back();
     }
 }

@@ -70,24 +70,20 @@
 		<hr>
 		<div class="row" style="width:80%;margin: auto;">
 			<?php $isliked=$isdislike=false;$likescount=$dislikescount=0 ?>
-				@if(auth()->user())
+
 					@foreach($post->likes as $like)
-						@if($like->type==1)
-						<?php $likescount++; ?>
-						@else
-						<?php $dislikescount++; ?>
-						@endif
-						@if($like->user_id==auth()->user()->id&&$like->type==1)
-							<?php $isliked=true; ?>
-							@break;
-						@elseif($like->user_id==auth()->user()->id&&$like->type==0)
-							<?php $isdislike=true; ?>
-							@break;
-						@endif
+							@if(auth()->user())
+								@if($like->user_id==auth()->user()->id&&$like->type==1)
+									<?php $isliked=true; ?>
+									@break;
+								@elseif($like->user_id==auth()->user()->id&&$like->type==0)
+									<?php $isdislike=true; ?>
+									@break;
+								@endif
+							@endif
 					@endforeach
-				@endif
-			<a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
-			<a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
+			<a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likes[$post->id]}})</a>
+			<a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikes[$post->id]}})</a>
 			<div class="col-sm-6" style="cursor: pointer" id="comment_btn{{$post->slug}}"><i class="fa fa-comment"></i> @lang('strings.comment')({{count($post->comments)}})</div>
 			<br><br>
 			<div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
@@ -99,6 +95,18 @@
 					</form>
 				@endif
 				@foreach($post->comments as $comment)
+						<?php $isliked=$isdislike=false; ?>
+						@foreach($comment->likes as $like)
+							@if(auth()->user())
+								@if($like->user_id==auth()->user()->id&&$like->type==1)
+									<?php $isliked=true; ?>
+									@break;
+								@elseif($like->user_id==auth()->user()->id&&$like->type==0)
+									<?php $isdislike=true; ?>
+									@break;
+								@endif
+							@endif
+						@endforeach
 				<div class="row">
 					<div class="col-sm-12">
 						<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
@@ -108,8 +116,8 @@
 					</div>
 					<div class="col-sm-8 mx-1">
 						<div class="row">
-							<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
-							<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
+							<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ()</a>
+							<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ()</a>
 							<div class="col-sm-6" style="cursor: pointer" id="reply_btn{{$comment->id}}"><i class="fa fa-comment"></i> @lang('strings.reply')({{count($comment->replies)}})</div>
 							<div class="col-sm-12" id="reply_tab{{$comment->id}}" style="display: none;">
 								@if(auth()->user())

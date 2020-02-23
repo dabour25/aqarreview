@@ -7,6 +7,8 @@ use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Reply;
 use App\Models\Report;
+use App\RequestForms\Social\CommentValidator;
+use App\Services\SocialService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Auth;
@@ -58,61 +60,36 @@ class PostsController extends Controller
     }
     public function index(){
         $page=trans('strings.community').' | '.trans('strings.posts');
-        $posts=Post::with('users','images','likes','comments')->latest()->take(10)->get();
-        return view('posts',compact('page','posts'));
+        $result=SocialService::getPosts();
+        $posts=$result[0];
+        $likes=$result[1];
+        $dislikes=$result[2];
+        return view('posts',compact('page','posts','likes','dislikes'));
     }
     public function like($slug){
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        if($post){
-            if($post->likes[0]->type==0){
-                Like::where('id',$post->likes[0]->id)->update(['type'=>true]);
-            }else{
-                Like::where('id',$post->likes[0]->id)->delete();
-            }
-        }else{
-            $post=Post::where('slug',$slug)->first();
-            $like=new Like(['user_id'=>Auth::user()->id,'type'=>true]);
-            $post->likes()->save($like);
-        }
+        SocialService::like_maker($post,Auth::user()->id,$slug,Post::class,1);
         return back();
     }
     public function dislike($slug){
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        if($post){
-            if($post->likes[0]->type==1){
-                Like::where('id',$post->likes[0]->id)->update(['type'=>false]);
-            }else{
-                Like::where('id',$post->likes[0]->id)->delete();
-            }
-        }else{
-            $post=Post::where('slug',$slug)->first();
-            $like=new Like(['user_id'=>Auth::user()->id,'type'=>false]);
-            $post->likes()->save($like);
-        }
+        SocialService::like_maker($post,Auth::user()->id,$slug,Post::class,0);
         return back();
     }
-    public function comment(Request $request,$slug){
+    public function comment(CommentValidator $request,$slug){
         $post=Post::where('slug',$slug)->first();
         if(!$post){
             return back();
         }
-        $valarr=[
-            'comment'=>'required|max:500|min:1',
-        ];
-        $this->validate($request,$valarr);
-        $comment=new Comment(['comment'=>$request->comment,'user_id'=>Auth::user()->id]);
-        $post->comments()->save($comment);
+        SocialService::comment_maker($request->request(),Auth::user()->id,$post);
         return back();
     }
     public function reply(Request $request,$id){
-        $comment=Comment::find($id);
-        if(!$comment){
-            return back();
-        }
+        $comment=Comment::findOrFail($id);
         $valarr=[
             'reply'=>'required|max:500|min:1',
         ];

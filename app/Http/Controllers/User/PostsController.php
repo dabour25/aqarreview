@@ -64,20 +64,54 @@ class PostsController extends Controller
         $posts=$result[0];
         $likes=$result[1];
         $dislikes=$result[2];
-        return view('posts',compact('page','posts','likes','dislikes'));
+        $commentlikes=$result[3];
+        $commentdislikes=$result[4];
+        $replieslikes=$result[5];
+        $repliesdislikes=$result[6];
+        return view('posts',compact('page','posts','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
     }
     public function like($slug){
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        SocialService::like_maker($post,Auth::user()->id,$slug,Post::class,1);
+        $pure=Post::where('slug',$slug)->first();
+        SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,1);
+        return back();
+    }
+    public function likeComment($id){
+        $commet=Comment::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('id',$id)->first();
+        SocialService::like_maker($commet,Auth::user()->id,$id,Comment::class,1);
+        return back();
+    }
+    public function likeReply($id){
+        $reply=Reply::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('id',$id)->first();
+        SocialService::like_maker($reply,Auth::user()->id,$id,Reply::class,1);
         return back();
     }
     public function dislike($slug){
         $post=Post::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        SocialService::like_maker($post,Auth::user()->id,$slug,Post::class,0);
+        $pure=Post::where('slug',$slug)->first();
+        SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,0);
+        return back();
+    }
+    public function dislikeComment($id){
+        $post=Comment::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('id',$id)->first();
+        SocialService::like_maker($post,Auth::user()->id,$id,Comment::class,0);
+        return back();
+    }
+    public function dislikeReply($id){
+        $reply=Reply::whereHas('likes', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where('id',$id)->first();
+        SocialService::like_maker($reply,Auth::user()->id,$id,Reply::class,0);
         return back();
     }
     public function comment(CommentValidator $request,$slug){

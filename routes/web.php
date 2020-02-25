@@ -45,6 +45,12 @@ Route::get('/follow/{slug}','User\UsersController@follow');
 Route::get('/like-post/{slug}','User\PostsController@like');
 Route::get('/dislike-post/{slug}','User\PostsController@dislike');
 
+Route::get('/like-comment/{id}','User\PostsController@likeComment');
+Route::get('/dislike-comment/{id}','User\PostsController@dislikeComment');
+
+Route::get('/like-reply/{id}','User\PostsController@likeReply');
+Route::get('/dislike-reply/{id}','User\PostsController@dislikeReply');
+
 Route::resource('/posts','User\PostsController');
 Route::post('/posts/comment/{slug}','User\PostsController@comment');
 Route::post('/comments/reply/{id}','User\PostsController@reply');

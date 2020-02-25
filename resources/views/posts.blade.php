@@ -116,8 +116,8 @@
 					</div>
 					<div class="col-sm-8 mx-1">
 						<div class="row">
-							<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ()</a>
-							<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ()</a>
+							<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$commentlikes[$post->id][$comment->id]}})</a>
+							<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$commentdislikes[$post->id][$comment->id]}})</a>
 							<div class="col-sm-6" style="cursor: pointer" id="reply_btn{{$comment->id}}"><i class="fa fa-comment"></i> @lang('strings.reply')({{count($comment->replies)}})</div>
 							<div class="col-sm-12" id="reply_tab{{$comment->id}}" style="display: none;">
 								@if(auth()->user())
@@ -128,6 +128,18 @@
 									</form>
 								@endif
 								@foreach($comment->replies as $reply)
+										<?php $isliked=$isdislike=false; ?>
+										@foreach($reply->likes as $like)
+											@if(auth()->user())
+												@if($like->user_id==auth()->user()->id&&$like->type==1)
+													<?php $isliked=true; ?>
+													@break;
+												@elseif($like->user_id==auth()->user()->id&&$like->type==0)
+													<?php $isdislike=true; ?>
+													@break;
+												@endif
+											@endif
+										@endforeach
 									<div class="row">
 										<div class="col-sm-12">
 											<img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
@@ -137,8 +149,8 @@
 										</div>
 										<div class="col-sm-8 mx-1">
 											<div class="row">
-												<a class="col-sm-6" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
-												<a class="col-sm-6" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
+												<a class="col-sm-4" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$replieslikes[$post->id][$comment->id][$reply->id]}})</a>
+												<a class="col-sm-4" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$repliesdislikes[$post->id][$comment->id][$reply->id]}})</a>
 											</div>
 										</div>
 										<hr>

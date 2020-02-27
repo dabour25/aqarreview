@@ -137,5 +137,9 @@
         'report_success'=>'Reported Successfully',
         'reply'=>'reply',
         'replies'=>'replies',
+        'save'=>'Save',
+        'old_password'=>'Old password',
+        'succes_register'=>'Registered Successfully , you can login now',
+        'success_update'=>'Data Updated Successfully',
 	]
 ?>

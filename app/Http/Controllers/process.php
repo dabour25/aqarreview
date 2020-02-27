@@ -32,26 +32,6 @@ class process extends Controller
 	    session()->push('m','Message Sent To Admin Successfully');
 		return back();
 	}
-	public function reg(Request $req){
-  		$valarr=[
-	       'name'=>'required|max:50|min:3',
-	       'phone'=>'max:30',
-	       'email'=>'required|max:50|min:5|email|unique:users,email',
-	       'password'=>'required|max:60|min:8|regex:/[A-z]*[0-9]+[A-z]*/|confirmed',
-	       'role'=>'required'
-	    ];
-	    $this->validate($req,$valarr);
-	    $data=$req->except('_token','password_confirmation');
-	    $data['slug']=Str::slug($data["name"]).'-'.Str::random(4).rand(10,99);
-	    $data['password']=Hash::make($data["password"]);
-		User::create($data);
-		session()->push('m','success');
-		if(Session::has('lang'))
-	    	session()->push('m','Registered Successfully , you can login now');
-	    else
-	    	session()->push('m','تم التسجيل بنجاح يمكنك تسجيل دخول الان');
-		return redirect('/log');
-	  }
 	public function adpro($id,Request $req){
 		$chk=Adspro::where('ad_id',$id)->first();
 		if(!empty($chk)){

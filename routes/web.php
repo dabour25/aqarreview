@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 Aqar Review Routes
 This file created by Eng.Ahmed Magdy at 8/7/2019 8:12PM
@@ -9,8 +11,7 @@ This file Modified and Developed by Eng.Ahmed Magdy
 Route::get('/','router@index');
 Route::get('/home','router@index');
 
-Route::get('/reg','router@reg');
-Route::post('/reg','process@reg');
+Route::resource('/reg','User\UsersController');
 Route::get('/log','Auth\LoginController@showUserLoginForm');
 Route::get('/log/admin','Auth\LoginController@showAdminLoginForm');
 Route::post('/login/my-admin','Auth\LoginController@adminLogin');

@@ -63,51 +63,77 @@
                         <div>
 
                             <!-- Nav tabs -->
+                            @if(auth()->user()&&isset($followers))
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                                          data-toggle="tab">@lang('strings.update')</a>
+                                <li role="presentation" class="active"><a href="#" id="update_btn">@lang('strings.update')</a>
                                 </li>
                             </ul>
-
-                            <!-- Tab panes -->
-                            <div class="tab-content">
+                            <div class="tab-content" id="update_data" style="display: none;">
                                 <div role="tabpanel" class="tab-pane active" id="home">
-                                    <!--<form>
-                                        <div class="form-group">
-                                            <label for="inputName">Name</label>
-                                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                    <form action="/reg/{{$user->slug}}" method="post">
+                                        @csrf
+                                        {{method_field('put')}}
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <label>@lang('strings.name')</label>
+                                                <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{$user->name}}">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label>@lang('strings.old_password')</label>
+                                                <input type="password" class="form-control {{ $errors->has('old_password') ? ' is-invalid' : '' }}" name="old_password">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>@lang('strings.password')</label>
+                                                <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>@lang('strings.password_confirm')</label>
+                                                <input type="password" class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label>@lang('strings.age')</label>
+                                                <input type="date" class="form-control {{ $errors->has('age') ? ' is-invalid' : '' }}" name="age" value="{{$user->age}}">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>@lang('strings.phone')</label>
+                                                <input type="text" class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" placeholder="@lang('strings.optional')" name="phone" value="{{$user->phone}}">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>@lang('strings.account_type')</label>
+                                                <select class="form-control" name="role">
+                                                    <option value="user" {{$user->role=='user'?'selected':''}}>@lang('strings.user')</option>
+                                                    <option value="developer" {{$user->role=='developer'?'selected':''}}>@lang('strings.developer')</option>
+                                                    <option value="broker" {{$user->role=='broker'?'selected':''}}>@lang('strings.broker')</option>
+                                                    <option value="owner" {{$user->role=='owner'?'selected':''}}>@lang('strings.owner')</option>
+                                                    <option value="renter" {{$user->role=='renter'?'selected':''}}>@lang('strings.renter')</option>
+                                                    <option value="engineer" {{$user->role=='engineer'?'selected':''}}>@lang('strings.engineer')</option>
+                                                    <option value="contractor" {{$user->role=='contractor'?'selected':''}}>@lang('strings.contractor')</option>
+                                                    <option value="corporation" {{$user->role=='corporation'?'selected':''}}>@lang('strings.corporation')</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:20px;">
+                                                <button class="btn btn-white" type="submit">@lang('strings.save')</button>
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputLastName">Last Name</label>
-                                            <input type="text" class="form-control" id="inputLastName" placeholder="Last Name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Password</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputFile">File input</label>
-                                            <input type="file" id="exampleInputFile">
-                                            <p class="help-block">Example block-level help text here.</p>
-                                        </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"> Check me out
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="btn btn-default">Submit</button>
-                                    </form>-->
+                                    </form>
+                                </div>
+                            </div>
+                                <script>
+                                    $('#update_btn').click(function (){
+                                        $('#update_data').toggle();
+                                        $('#user_data').toggle();
+                                    });
+                                </script>
+                            @endif
+                            <div class="tab-content" id="user_data">
+                                <div role="tabpanel" class="tab-pane active" id="home">
                                     <p>@lang('strings.name'): {{$user->name}}</p>
                                     <p>@lang('strings.email'): {{$user->email}}</p>
                                     <p>@lang('strings.phone'): {{$user->phone}}</p>
                                     <p>@lang('strings.age'): {{$user->age}}</p>
                                     <p>@lang('strings.joint_from'): {{$user->created_at}}</p>
                                     <p>@lang('strings.global_link'): <a
-                                                href="/profiles/{{$user->slug}}">@lang('strings.here')</a></p>
+                                                href="/profiles/{{$user->slug}}">{{request()->getHost()}}/profiles/{{$user->slug}}</a></p>
 
                                 </div>
                             </div>
@@ -148,11 +174,10 @@
                         </div>
                     </div>
                     @foreach($posts as $post)
-                        <div class="card my-5">
+                        <div class="card post">
                             <div class="row">
                                 <img src="{{asset('/img/profiles/default.png')}}" class="post-img">
-                                <span class="post-name">{{$post->users->name}}<p class="post-name-tiny">({{$post->created_at}}) <span
-                                                class="post-follow">Follow</span></p></span>
+                                <span class="post-name">{{$post->users->name}}<p class="post-name-tiny">({{$post->created_at}}) <span class="post-follow">Follow</span></p></span>
                             </div>
                             <hr>
                             <p class="post-body">{{$post->content}}</p>
@@ -160,21 +185,16 @@
                             <div class="row">
                                 @foreach($post->images as $image)
                                     <div class="col-md-4">
-                                        <img src="{{asset('img/posts').'/'.$image->url}}" width="100%"
-                                             height="200px" style="padding: 10px;">
+                                        <img src="{{asset('img/posts').'/'.$image->url}}" width="100%" height="200px" style="padding: 10px;">
                                     </div>
                                 @endforeach
                             </div>
                             <hr>
                             <div class="row" style="width:80%;margin: auto;">
                                 <?php $isliked=$isdislike=false;$likescount=$dislikescount=0 ?>
-                                @if(auth()->user())
-                                    @foreach($post->likes as $like)
-                                        @if($like->type==1)
-                                            <?php $likescount++; ?>
-                                        @else
-                                            <?php $dislikescount++; ?>
-                                        @endif
+
+                                @foreach($post->likes as $like)
+                                    @if(auth()->user())
                                         @if($like->user_id==auth()->user()->id&&$like->type==1)
                                             <?php $isliked=true; ?>
                                             @break;
@@ -182,30 +202,103 @@
                                             <?php $isdislike=true; ?>
                                             @break;
                                         @endif
-                                    @endforeach
-                                @endif
-                                    <a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likescount}})</a>
-                                    <a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikescount}})</a>
-                                <div class="col-sm-6" style="cursor: pointer" id="comment_btn"><i
-                                            class="fa fa-comment"></i> @lang('strings.comment')(20)
-                                </div>
+                                    @endif
+                                @endforeach
+                                <a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likes[$post->id]}})</a>
+                                <a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikes[$post->id]}})</a>
+                                <div class="col-sm-6" style="cursor: pointer" id="comment_btn{{$post->slug}}"><i class="fa fa-comment"></i> @lang('strings.comment')({{count($post->comments)}})</div>
                                 <br><br>
-                                <div class="col-sm-12" id="comment_tab" style="display: none;">
-                                    <input type="text" name="comment" class="form-control">
-                                    <button class="btn btn-primary"
-                                            style="margin: 5px 0;">@lang('strings.comment')</button>
-                                    <div class="row">
-                                        <img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
-                                        <span class="comment-name">Ahmed Magdy<p> pla pla pla</p></span>
-                                    </div>
+                                <div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
+                                    @if(auth()->user())
+                                        <form action="/posts/comment/{{$post->slug}}" method="post">
+                                            @csrf
+                                            <input type="text" name="comment" class="form-control">
+                                            <button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
+                                        </form>
+                                    @endif
+                                    @foreach($post->comments as $comment)
+                                        <?php $isliked=$isdislike=false; ?>
+                                        @foreach($comment->likes as $like)
+                                            @if(auth()->user())
+                                                @if($like->user_id==auth()->user()->id&&$like->type==1)
+                                                    <?php $isliked=true; ?>
+                                                    @break;
+                                                @elseif($like->user_id==auth()->user()->id&&$like->type==0)
+                                                    <?php $isdislike=true; ?>
+                                                    @break;
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+                                                <span class="comment-name">{{$comment->user->name}}
+							<p> {{$comment->comment}}</p>
+						</span>
+                                            </div>
+                                            <div class="col-sm-8 mx-1">
+                                                <div class="row">
+                                                    <a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$commentlikes[$post->id][$comment->id]}})</a>
+                                                    <a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$commentdislikes[$post->id][$comment->id]}})</a>
+                                                    <div class="col-sm-6" style="cursor: pointer" id="reply_btn{{$comment->id}}"><i class="fa fa-comment"></i> @lang('strings.reply')({{count($comment->replies)}})</div>
+                                                    <div class="col-sm-12" id="reply_tab{{$comment->id}}" style="display: none;">
+                                                        @if(auth()->user())
+                                                            <form action="/comments/reply/{{$comment->id}}" method="post">
+                                                                @csrf
+                                                                <input type="text" name="reply" class="form-control">
+                                                                <button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.reply')</button>
+                                                            </form>
+                                                        @endif
+                                                        @foreach($comment->replies as $reply)
+                                                            <?php $isliked=$isdislike=false; ?>
+                                                            @foreach($reply->likes as $like)
+                                                                @if(auth()->user())
+                                                                    @if($like->user_id==auth()->user()->id&&$like->type==1)
+                                                                        <?php $isliked=true; ?>
+                                                                        @break;
+                                                                    @elseif($like->user_id==auth()->user()->id&&$like->type==0)
+                                                                        <?php $isdislike=true; ?>
+                                                                        @break;
+                                                                    @endif
+                                                                @endif
+                                                            @endforeach
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+                                                                    <span class="comment-name">{{$reply->user->name}}
+												<p> {{$reply->reply}}</p>
+											</span>
+                                                                </div>
+                                                                <div class="col-sm-8 mx-1">
+                                                                    <div class="row">
+                                                                        <a class="col-sm-4" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$replieslikes[$post->id][$comment->id][$reply->id]}})</a>
+                                                                        <a class="col-sm-4" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$repliesdislikes[$post->id][$comment->id][$reply->id]}})</a>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <script>
+                                            $('#reply_btn{{$comment->id}}').click(function () {
+                                                $('#reply_tab{{$comment->id}}').toggle();
+                                            });
+                                        </script>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                         <br>
+                        <script>
+                            $('#comment_btn{{$post->slug}}').click(function () {
+                                $('#comment_tab{{$post->slug}}').toggle();
+                            });
+                        </script>
                     @endforeach
-                    <div id="load_more" style="margin: 10px 49%;">
-                        <img src="{{asset('img/loader.gif')}}">
-                    </div>
                 </div>
             </div>
         </div>

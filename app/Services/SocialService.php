@@ -41,9 +41,13 @@ class SocialService{
         $target->comments()->save($comment);
     }
 
-    public static function getPosts(){
+    public static function getPosts($user_id=null){
         $likes=$dislikes=[];
-        $posts=Post::with('users','images','likes','comments')->latest()->take(10)->get();
+        $posts=Post::with('users','images','likes','comments');
+        if($user_id){
+            $posts=$posts->where('user_id',$user_id);
+        }
+        $posts=$posts->latest()->take(10)->get();
         foreach ($posts as $post){
             $likes[$post->id]=0;
             $dislikes[$post->id]=0;

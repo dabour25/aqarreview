@@ -17,6 +17,6 @@ class Post extends Model
         return $this->morphMany('App\Models\Like', 'likable');
     }
     public function users(){
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_id')->with('images');
     }
 }

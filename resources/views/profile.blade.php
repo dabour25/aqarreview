@@ -24,7 +24,11 @@
                 <div class="portlet light profile-sidebar-portlet bordered">
                     <div class="profile-userpic">
                         <div style="margin: auto;width: 50%">
-                            <img src="{{asset('img/profiles/default.png')}}" class="img-responsive" alt="">
+                            <img src="{{asset('img/profiles').'/'.($user->images?($user->images[0]->url??'default.png'):'default.png')}}" class="img-responsive" alt="">
+                            <form action="/change-profile" method="post" enctype="multipart/form-data" id="change_image_form">
+                               @csrf
+                                <input type="file" name="profile" class="custom-file-input" title="Change profile image" id="profile-img">
+                            </form>
                         </div>
                     </div>
                     <div class="profile-usertitle">
@@ -176,7 +180,7 @@
                     @foreach($posts as $post)
                         <div class="card post">
                             <div class="row">
-                                <img src="{{asset('/img/profiles/default.png')}}" class="post-img">
+                                <img src="{{asset('img/profiles').'/'.($post->users->images?($post->users->images[0]->url??'default.png'):'default.png')}}" class="post-img">
                                 <span class="post-name">{{$post->users->name}}<p class="post-name-tiny">({{$post->created_at}}) <span class="post-follow">Follow</span></p></span>
                             </div>
                             <hr>
@@ -231,12 +235,12 @@
                                         @endforeach
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+                                                <img src="{{asset('img/profiles').'/'.($comment->user->images?($comment->user->images[0]->url??'default.png'):'default.png')}}" class="comment-img">
                                                 <span class="comment-name">{{$comment->user->name}}
 							<p> {{$comment->comment}}</p>
 						</span>
                                             </div>
-                                            <div class="col-sm-8 mx-1">
+                                            <div class="col-sm-12 mx-1">
                                                 <div class="row">
                                                     <a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$commentlikes[$post->id][$comment->id]}})</a>
                                                     <a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$commentdislikes[$post->id][$comment->id]}})</a>
@@ -264,15 +268,15 @@
                                                             @endforeach
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <img src="{{asset('/img/profiles/default.png')}}" class="comment-img">
+                                                                    <img src="{{asset('img/profiles').'/'.($reply->user->images?($reply->user->images[0]->url??'default.png'):'default.png')}}" class="comment-img">
                                                                     <span class="comment-name">{{$reply->user->name}}
 												<p> {{$reply->reply}}</p>
 											</span>
                                                                 </div>
                                                                 <div class="col-sm-8 mx-1">
                                                                     <div class="row">
-                                                                        <a class="col-sm-4" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$replieslikes[$post->id][$comment->id][$reply->id]}})</a>
-                                                                        <a class="col-sm-4" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$repliesdislikes[$post->id][$comment->id][$reply->id]}})</a>
+                                                                        <a class="col-sm-6" href="/like-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$replieslikes[$post->id][$comment->id][$reply->id]}})</a>
+                                                                        <a class="col-sm-6" href="/dislike-reply/{{$reply->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$repliesdislikes[$post->id][$comment->id][$reply->id]}})</a>
                                                                     </div>
                                                                 </div>
                                                                 <hr>
@@ -308,8 +312,8 @@
         $('#follow').click(function () {
             location.href = '/follow/{{$user->slug}}';
         });
-        $('#comment_btn').click(function () {
-            $('#comment_tab').toggle();
+        $('#profile-img').change(function () {
+            $('#change_image_form').submit();
         });
         function readURL(input) {
             $('#images').html('');

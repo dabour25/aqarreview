@@ -39,6 +39,7 @@ Route::get('/search','router@gsearch');
 Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
 Route::get('/profile','User\UsersController@profile');
+Route::post('/change-profile','User\UsersController@changeImage');
 Route::get('/profiles/{slug}','User\UsersController@globalProfile');
 Route::get('/report/{slug}','User\UsersController@reportShow');
 Route::post('/report/{slug}','User\UsersController@report');

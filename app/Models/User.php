@@ -30,7 +30,7 @@ class User extends Authenticatable
         self::where('slug',$slug)->delete();
     }
     public function images(){
-        return $this->morphMany('App\Models\Image', 'imagable');
+        return $this->morphMany('App\Models\Image', 'imagable')->latest();
     }
     public function followers(){
         return $this->belongsTo(Follower::class,'id','followed');

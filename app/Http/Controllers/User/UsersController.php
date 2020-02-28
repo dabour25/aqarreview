@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Follower;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Report;
 use App\RequestForms\User\CreateUserValidator;
@@ -12,6 +13,7 @@ use App\Services\SocialService;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Illuminate\Support\Str;
 use Session;
 use View;
 //DB Connect
@@ -31,7 +33,7 @@ class UsersController extends Controller
             return redirect('/admindb');
         }
         $page=Auth::user()->name." PROFILE";
-        $user=Auth::user();
+        $user=User::where('id',Auth::user()->id)->with('images')->withCount('followers')->first();
         $followers=Follower::where('followed',$user->id)->get();
         $isFollow=false;
         $result=SocialService::getPosts($user->id);
@@ -135,6 +137,19 @@ class UsersController extends Controller
         $user->update($data);
         session()->push('m','success');
         session()->push('m',trans('strings.success_update'));
+        return back();
+    }
+    public function changeImage(Request $request){
+        $image=$request->file('profile');
+        $photosPath = public_path('/img/profiles');
+        if($image) {
+            $ph = Str::random(32);
+            $ph .= '.' . $image->getClientOriginalExtension();
+            $image->move($photosPath, $ph);
+            $user=User::find(Auth::user()->id);
+            $image = new Image(['url' => $ph]);
+            $user->images()->save($image);
+        }
         return back();
     }
 }

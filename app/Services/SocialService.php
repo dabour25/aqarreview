@@ -42,7 +42,7 @@ class SocialService{
     }
 
     public static function getPosts($user_id=null){
-        $likes=$dislikes=[];
+        $likes=$dislikes=$commentlikes=$commentdislikes=$replieslikes=$repliesdislikes=[];
         $posts=Post::with('users','images','likes','comments');
         if($user_id){
             $posts=$posts->where('user_id',$user_id);

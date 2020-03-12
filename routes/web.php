@@ -58,6 +58,8 @@ Route::post('/posts/comment/{slug}','User\PostsController@comment');
 Route::post('/comments/reply/{id}','User\PostsController@reply');
 
 Route::resource('/blogs','User\BlogsController');
+Route::get('/like-blog/{slug}','User\BlogsController@like');
+Route::get('/dislike-blog/{slug}','User\BlogsController@dislike');
 Route::post('/blogs/comment/{slug}','User\BlogsController@comment');
 
 Route::post('/edituser','process@edituser');

@@ -142,5 +142,8 @@
         'succes_register'=>'Registered Successfully , you can login now',
         'success_update'=>'Data Updated Successfully',
         'type_blog'=>'Type Your Blog here',
+        'blog_title'=>'Blog Title',
+        'main_image'=>'Main Image',
+        'blog'=>'Blog',
 	]
 ?>

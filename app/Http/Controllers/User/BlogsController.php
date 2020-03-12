@@ -55,7 +55,7 @@ class BlogsController extends Controller
         return back();
     }
     public function index(){
-        $page=trans('strings.community').' | '.trans('strings.posts');
+        $page=trans('strings.community').' | '.trans('strings.blogs');
         $result=BlogsService::getBlogs();
         $blogs=$result[0];
         $likes=$result[1];
@@ -66,12 +66,24 @@ class BlogsController extends Controller
         $repliesdislikes=$result[6];
         return view('blogs',compact('page','blogs','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
     }
+    public function show($slug){
+        $page=trans('strings.community').' | '.trans('strings.blogs');
+        $result=BlogsService::getBlog($slug);
+        $blog=$result[0];
+        $likes=$result[1];
+        $dislikes=$result[2];
+        $commentlikes=$result[3];
+        $commentdislikes=$result[4];
+        $replieslikes=$result[5];
+        $repliesdislikes=$result[6];
+        return view('blog',compact('page','blog','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
+    }
     public function like($slug){
-        $post=Post::whereHas('likes', function (Builder $query) {
+        $blog=Blog::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        $pure=Post::where('slug',$slug)->first();
-        SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,1);
+        $pure=Blog::where('slug',$slug)->first();
+        SocialService::like_maker($blog,Auth::user()->id,$pure->id,Blog::class,1);
         return back();
     }
     public function likeComment($id){
@@ -89,11 +101,11 @@ class BlogsController extends Controller
         return back();
     }
     public function dislike($slug){
-        $post=Post::whereHas('likes', function (Builder $query) {
+        $blog=Blog::whereHas('likes', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where('slug',$slug)->first();
-        $pure=Post::where('slug',$slug)->first();
-        SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,0);
+        $pure=Blog::where('slug',$slug)->first();
+        SocialService::like_maker($blog,Auth::user()->id,$pure->id,Blog::class,0);
         return back();
     }
     public function dislikeComment($id){
@@ -111,11 +123,11 @@ class BlogsController extends Controller
         return back();
     }
     public function comment(CommentValidator $request,$slug){
-        $post=Post::where('slug',$slug)->first();
-        if(!$post){
+        $blog=Blog::where('slug',$slug)->first();
+        if(!$blog){
             return back();
         }
-        SocialService::comment_maker($request->request(),Auth::user()->id,$post);
+        SocialService::comment_maker($request->request(),Auth::user()->id,$blog);
         return back();
     }
     public function reply(Request $request,$id){

@@ -33,9 +33,9 @@
 		<div class="card post p-1">
 			<form action="/blogs" method="POST" enctype="multipart/form-data" id="blog-form">
 				@csrf
-				<label>@lang('strings.title')</label>
+				<label>@lang('strings.blog_title')</label>
 				<input class="form-control" name="title">
-				<label>@lang('strings.image')</label>
+				<label>@lang('strings.main_image')</label>
 				<input type="file" name="image" class="custom-file-input" multiple
 					   accept="image/gif, image/jpeg, image/png" id="post-img">
 				<br><br>
@@ -63,12 +63,16 @@
 					<span class="post-name">{{$post->users->name}}<p class="post-name-tiny">({{$post->created_at}}) <span class="post-follow">Follow</span></p></span>
 				</div>
 				<hr>
-				<p class="post-body">{{$post->title}}</p>
+				<a href="/blogs/{{$post->slug}}">
+					<p class="post-body">{{$post->title}}</p>
+				</a>
 				<hr>
 				<div class="row">
 					@foreach($post->images as $image)
 						<div class="col-md-4">
-							<img src="{{asset('img/blog').'/'.$image->url}}" width="100%" height="200px" style="padding: 10px;">
+							<a href="/blogs/{{$post->slug}}">
+								<img src="{{asset('img/blog').'/'.$image->url}}" width="100%" height="200px" style="padding: 10px;">
+							</a>
 						</div>
 					@endforeach
 				</div>
@@ -87,13 +91,13 @@
 							@endif
 						@endif
 					@endforeach
-					<a class="col-sm-3" href="/like-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likes[$post->id]}})</a>
-					<a class="col-sm-3" href="/dislike-post/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikes[$post->id]}})</a>
+					<a class="col-sm-3" href="/like-blog/{{$post->slug}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$likes[$post->id]}})</a>
+					<a class="col-sm-3" href="/dislike-blog/{{$post->slug}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$dislikes[$post->id]}})</a>
 					<div class="col-sm-6" style="cursor: pointer" id="comment_btn{{$post->slug}}"><i class="fa fa-comment"></i> @lang('strings.comment')({{count($post->comments)}})</div>
 					<br><br>
 					<div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
 						@if(auth()->user())
-							<form action="/posts/comment/{{$post->slug}}" method="post">
+							<form action="/blogs/comment/{{$post->slug}}" method="post">
 								@csrf
 								<input type="text" name="comment" class="form-control">
 								<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
@@ -148,9 +152,7 @@
 												<div class="row">
 													<div class="col-sm-12">
 														<img src="{{asset('img/profiles').'/'.($reply->user->images?($reply->user->images[0]->url??'default.png'):'default.png')}}" class="comment-img">
-														<span class="comment-name">{{$reply->user->name}}
-												<p> {{$reply->reply}}</p>
-											</span>
+														<span class="comment-name">{{$reply->user->name}}<p> {{$reply->reply}}</p></span>
 													</div>
 													<div class="col-sm-8 mx-1">
 														<div class="row">

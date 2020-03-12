@@ -8,7 +8,7 @@ use App\Models\Comment;
 
 class BlogsService{
 
-    public static function getBlogs($user_id=null){
+    public static function getBlogs($user_id=null):array{
         $likes=$dislikes=$commentlikes=$commentdislikes=$replieslikes=$repliesdislikes=[];
         $posts=Blog::with('users','images','likes','comments');
         if($user_id){
@@ -36,22 +36,61 @@ class BlogsService{
                     }elseif ($like->type==0){
                         $commentdislikes[$post->id][$comment->id]++;
                     }
-                    $replieslikes[$post->id][$comment->id]=[];
-                    $repliesdislikes[$post->id][$comment->id]=[];
-                    foreach ($comment->replies as $reply){
-                        $replieslikes[$post->id][$comment->id][$reply->id]=0;
-                        $repliesdislikes[$post->id][$comment->id][$reply->id]=0;
-                        foreach ($reply->likes as $like){
-                            if($like->type==1){
-                                $replieslikes[$post->id][$comment->id][$reply->id]++;
-                            }elseif ($like->type==0){
-                                $repliesdislikes[$post->id][$comment->id][$reply->id]++;
-                            }
+                }
+                $replieslikes[$post->id][$comment->id]=[];
+                $repliesdislikes[$post->id][$comment->id]=[];
+                foreach ($comment->replies as $reply){
+                    $replieslikes[$post->id][$comment->id][$reply->id]=0;
+                    $repliesdislikes[$post->id][$comment->id][$reply->id]=0;
+                    foreach ($reply->likes as $like){
+                        if($like->type==1){
+                            $replieslikes[$post->id][$comment->id][$reply->id]++;
+                        }elseif ($like->type==0){
+                            $repliesdislikes[$post->id][$comment->id][$reply->id]++;
                         }
                     }
                 }
             }
         }
         return [$posts,$likes,$dislikes,$commentlikes,$commentdislikes,$replieslikes,$repliesdislikes];
+    }
+    public static function getblog(string $slug):array{
+        $blog=Blog::with('users','images','likes','comments')->where('slug',$slug)->first();
+        $likes=0;
+        $dislikes=0;
+        foreach ($blog->likes as $like){
+            if($like->type==1){
+                $likes++;
+            }elseif ($like->type==0){
+                $dislikes++;
+            }
+        }
+        $commentlikes=[];
+        $commentdislikes=$replieslikes=$repliesdislikes=[];
+        foreach ($blog->comments as $comment){
+            $commentlikes[$comment->id]=0;
+            $commentdislikes[$comment->id]=0;
+            foreach ($comment->likes as $like) {
+                if($like->type==1){
+                    $commentlikes[$comment->id]++;
+                }elseif ($like->type==0){
+                    $commentdislikes[$comment->id]++;
+                }
+            }
+            $replieslikes[$comment->id]=[];
+            $repliesdislikes[$comment->id]=[];
+            foreach ($comment->replies as $reply){
+                $replieslikes[$comment->id][$reply->id]=0;
+                $repliesdislikes[$comment->id][$reply->id]=0;
+                foreach ($reply->likes as $like){
+                    if($like->type==1){
+                        $replieslikes[$comment->id][$reply->id]++;
+                    }elseif ($like->type==0){
+                        $repliesdislikes[$comment->id][$reply->id]++;
+                    }
+                }
+            }
+        }
+        return [$blog,$likes,$dislikes,$commentlikes,$commentdislikes,$replieslikes,$repliesdislikes];
     }
 }

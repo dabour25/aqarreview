@@ -28,7 +28,7 @@ class BlogsController extends Controller
 {
     public function __construct(){
         $links = Link::all();
-        $this->middleware('auth',['except' => ['index']]);
+        $this->middleware('auth',['except' => ['index','show']]);
         View::share('links',$links);
     }
     public function store(Request $request){

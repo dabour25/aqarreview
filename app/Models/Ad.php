@@ -16,4 +16,7 @@ class Ad extends Model
     public function images(){
         return $this->morphMany('App\Models\Image', 'imagable');
     }
+    public function profile(){
+        return $this->belongsTo(Adspro::class, 'id','ad_id');
+    }
 }

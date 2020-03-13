@@ -51,9 +51,18 @@
                     <td>{{$a->title}}</td>
                     <td>{{$a->name}}</td>
                     <td>{{$a->email}}</td>
-                    <td><a href="/admindb/review/{{$a->adid}}" class="btn btn-success" target="blank">Review</a></td>
-                    <td><a href="/admindb/removead/{{$a->adid}}" class="btn btn-danger">X</a></td>
+                    <td><a href="/admindb/ads/{{$a->id}}" class="btn btn-success" target="blank">Review</a></td>
+                    <td><a id="removal{{$a->id}}" href="#" class="btn btn-danger">X</a></td>
                   </tr>
+                      <form action="/admindb/ads/{{$a->id}}" method="post" id="remove{{$a->id}}">
+                          @csrf
+                          {{method_field('DELETE')}}
+                      </form>
+                      <script>
+                        $('#removal{{$a->id}}').click(function () {
+                            $('#remove{{$a->id}}').submit();
+                        });
+                      </script>
                   @endforeach
                 </tbody>
               </table>

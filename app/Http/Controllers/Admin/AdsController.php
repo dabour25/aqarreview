@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Adspro;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
@@ -21,25 +22,54 @@ class AdsController extends Controller
         $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
     }
+
+    public function approve(){
+        $ads=Ad::where('seen',0)->orderBy('id','desc')->paginate(10);
+        $oldads=Ad::where('seen',1)->where('show',0)->orderBy('id','desc')->paginate(10);
+        Ad::where('seen',0)->orderBy('id','desc')->limit(10)->update(['seen'=>1]);
+        return view('admin/approve',compact('ads','oldads'));
+    }
+
+    public function show($id){
+        $adpro = Adspro::where('ad_id', $id)->first();
+        if (empty($adpro)) {
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'redirect' => ['This Advertise Still Haven\'t communication data'],
+            ]);
+            throw $error;
+        }
+        $name = $adpro->name;
+        $phone = $adpro->phone;
+        $email = $adpro->email;
+
+        return redirect('/review/' . $id . '?name=' . $name . '&phone=' . $phone . '&email=' . $email);
+    }
+
+    public function index(){
+        $ads=Ad::with('profile')->where('seen',1)->whereHas('profile')->latest()->paginate(20);
+        return view('admin/adscontrol',compact('ads'));
+    }
 	
-	public function update($slug){
-		$ad=Ad::where('slug',$slug)->first();
-	    $adpro=Adspro::where('ad',$ad->id)->first();
+	public function update($id){
+		$ad=Ad::findOrFail($id);
+	    $adpro=Adspro::where('ad_id',$ad->id)->first();
 	    if(empty($adpro)){
 	        $error = \Illuminate\Validation\ValidationException::withMessages([
 	           'redirect' => ['This Advertise Still Haven\'t communication data'],
 	        ]);
 	        throw $error;
 	    }
-      	Ad::where('slug',$slug)->update(['show'=>1]);
+      	$ad->show=1;
+	    $ad->save();
       	session()->push('m','success');
 	    session()->push('m','Advertise Approved!');
   		return back();
     }
 	
-    public function destroy($slug){
-		Ad::where('slug',$slug)->update(["deleted_by"=>Auth::guard('admin')->user()->id]);
-        Ad::remove($slug);
+    public function destroy($id){
+        $ad=Ad::findOrFail($id);
+		$ad->update(["updated_by"=>Auth::guard('admin')->user()->id]);
+        $ad->delete();
 		session()->push('m','success');
 	    session()->push('m','Advertise Removed!');
         return back();

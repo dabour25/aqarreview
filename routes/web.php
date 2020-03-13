@@ -77,7 +77,11 @@ Route::group(['prefix' =>'admindb','middleware' => 'auth:admin'],function () {
     Route::get('/messages', 'Admin\adminrouter@messages');
 
     Route::resource('/ads','Admin\AdsController');
+    Route::get('/approve','Admin\AdsController@approve');
     Route::resource('/users','Admin\UserController');
+    Route::resource('/admins','Admin\AdminsController');
+    Route::resource('/posts','Admin\PostsController');
+    Route::resource('/blogs','Admin\BlogsController');
 
     Route::get('/links', 'Admin\adminrouter@links');
     Route::post('/links', 'Admin\adminprocess@links');

@@ -99,7 +99,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                   <a class="dropdown-item" href="/admindb/approve">Approve Ads ({{$newads}})</a>
-                  <a class="dropdown-item" href="/admindb/adscontrol">Ads Control</a>
+                  <a class="dropdown-item" href="/admindb/ads">Ads Control</a>
               </div>
           </li>
           <li class="nav-item dropdown">

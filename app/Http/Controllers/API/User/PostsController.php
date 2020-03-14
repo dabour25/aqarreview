@@ -26,7 +26,6 @@ class PostsController extends Controller
 {
     public function __construct(){
         $links = Link::all();
-        $this->middleware('auth',['except' => ['index']]);
         View::share('links',$links);
     }
     public function store(Request $request){
@@ -71,12 +70,12 @@ class PostsController extends Controller
         SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,1);
         return back();
     }
-    public function likeComment($id){
-        $commet=Comment::whereHas('likes', function (Builder $query) {
-            $query->where('user_id', Auth::user()->id);
-        })->where('id',$id)->first();
-        SocialService::like_maker($commet,Auth::user()->id,$id,Comment::class,1);
-        return back();
+    public function likeComment(Request $request){
+        $commet=Comment::whereHas('likes', function (Builder $query)use($request) {
+            $query->where('user_id', $request->user_id);
+        })->where('id',$request->id)->first();
+        $response=SocialService::like_maker($commet,$request->user_id,$request->id,Comment::class,1);
+        return response()->json(['liked'=>$response],200);
     }
     public function likeReply($id){
         $reply=Reply::whereHas('likes', function (Builder $query) {
@@ -93,12 +92,12 @@ class PostsController extends Controller
         SocialService::like_maker($post,Auth::user()->id,$pure->id,Post::class,0);
         return back();
     }
-    public function dislikeComment($id){
-        $post=Comment::whereHas('likes', function (Builder $query) {
-            $query->where('user_id', Auth::user()->id);
-        })->where('id',$id)->first();
-        SocialService::like_maker($post,Auth::user()->id,$id,Comment::class,0);
-        return back();
+    public function dislikeComment(Request $request){
+        $post=Comment::whereHas('likes', function (Builder $query)use($request) {
+            $query->where('user_id', $request->user_id);
+        })->where('id',$request->id)->first();
+        $response=SocialService::like_maker($post,$request->user_id,$request->id,Comment::class,0);
+        return response()->json(['liked'=>$response],200);
     }
     public function dislikeReply($id){
         $reply=Reply::whereHas('likes', function (Builder $query) {

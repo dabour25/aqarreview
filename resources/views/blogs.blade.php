@@ -38,17 +38,14 @@
 				<label>@lang('strings.main_image')</label>
 				<input type="file" name="image" class="custom-file-input" multiple
 					   accept="image/gif, image/jpeg, image/png" id="post-img">
-				<br><br>
+				<label>@lang('strings.fast_image_uploader')</label>
+				<input type="file" id="fast-image" class="custom-file-input" name="fast-image">
 				<div id="images">
 
 				</div>
 				<br>
-				<div id="toolbar-container"></div>
-				<div id="editor">
-					<p>@lang('strings.type_blog')</p>
-				</div>
-				<a class="btn follow-btn btn-sm" id="submit">@lang('strings.send')</a>
-				<textarea id="editor-result" name="blog" hidden></textarea>
+				<textarea name="blog"><p>@lang('strings.type_blog')</p></textarea>
+				<button type="submit" class="btn follow-btn btn-sm">@lang('strings.send')</button>
 			</form>
 		</div>
 	@endif
@@ -125,8 +122,11 @@
 								</div>
 								<div class="col-sm-12 mx-1">
 									<div class="row">
-										<a class="col-sm-3" href="/like-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like') ({{$commentlikes[$post->id][$comment->id]}})</a>
-										<a class="col-sm-3" href="/dislike-comment/{{$comment->id}}"><i class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike') ({{$commentdislikes[$post->id][$comment->id]}})</a>
+										<a class="col-sm-3" onclick="like_comment('{{$comment->id}}')"><i id="comment{{$comment->id}}like" class="fa fa-thumbs{{$isliked?'':'-o'}}-up"></i> @lang('strings.like')
+											(<span id="comment{{$comment->id}}likes">{{$commentlikes[$post->id][$comment->id]}}</span>)</a>
+										<a class="col-sm-3" onclick="dislike_comment('{{$comment->id}}')">
+											<i id="comment{{$comment->id}}dislike" class="fa fa-thumbs{{$isdislike?'':'-o'}}-down"></i> @lang('strings.dislike')
+											(<span id="comment{{$comment->id}}dislikes">{{$commentdislikes[$post->id][$comment->id]}}</span>)</a>
 										<div class="col-sm-6" style="cursor: pointer" id="reply_btn{{$comment->id}}"><i class="fa fa-comment"></i> @lang('strings.reply')({{count($comment->replies)}})</div>
 										<div class="col-sm-12" id="reply_tab{{$comment->id}}" style="display: none;">
 											@if(auth()->user())
@@ -188,31 +188,9 @@
 		{{--<img src="{{asset('img/loader.gif')}}">--}}
 	{{--</div>--}}
 </section>
-<!-- CK Editor -->
-<script src="{{asset('ckeditor5/ckeditor.js')}}"></script>
 <!-- // End Page Content -->
 	<script>
-		var data;
-		DecoupledEditor
-				.create(document.querySelector( '#editor' ),{
-					ckfinder: {
-						uploadUrl: '/api/fast-upload',
-					}
-				})
-				.then( editor => {
-					const toolbarContainer = document.querySelector( '#toolbar-container' );
-
-					toolbarContainer.appendChild( editor.ui.view.toolbar.element );
-					data=editor;
-				} )
-				.catch( error => {
-					console.error( error );
-				} );
-		$('#submit').click(function () {
-			const editorData = data.getData();
-			$('#editor-result').val(editorData);
-			$('#blog-form').submit();
-		});
+		CKEDITOR.replace( 'blog' );
 		function readURL(input) {
 			$('#images').html('');
 			var files = event.target.files; //FileList object
@@ -233,5 +211,73 @@
 		$("#post-img").change(function(){
 			readURL(this);
 		});
+		//Fast Image API
+		$('#fast-image').change(function () {
+			var formData = new FormData();
+			formData.append("upload", this.files[0]); //upload==filename
+			var request = new XMLHttpRequest();
+			request.open("POST", "/api/fast-upload");
+			request.send(formData);
+			request.onreadystatechange = function() {
+				if (request.readyState === 4) {
+					var response=JSON.parse(request.response);
+					Swal.fire({
+						icon: 'success',
+						title: 'Fast Upload Successfully',
+						html: '<h4>Copy This Url and paste it in the Editor Image Url:</h4>' +
+								'<p>'+response.domain+'/img/blog/'+response.name+'</p>',
+					});
+				}
+			}
+		});
+		function like_comment(id) {
+			var request = new XMLHttpRequest();
+			request.open("GET", "/api/like-comment?id="+id+"&user_id={{auth()->user()->id}}");
+			request.send();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4) {
+					if($('#comment'+id+'dislike').hasClass('fa-thumbs-down')){
+						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())-1);
+						$('#comment'+id+'dislike').removeClass('fa-thumbs-down');
+						$('#comment'+id+'dislike').addClass('fa-thumbs-o-down');
+					}
+
+					var response = JSON.parse(request.response);
+					if(response.liked==true){
+						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())+1);
+						$('#comment'+id+'like').removeClass('fa-thumbs-o-up');
+						$('#comment'+id+'like').addClass('fa-thumbs-up');
+					}else{
+						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())-1);
+						$('#comment'+id+'like').removeClass('fa-thumbs-up');
+						$('#comment'+id+'like').addClass('fa-thumbs-o-up');
+					}
+				}
+			}
+		}
+		function dislike_comment(id) {
+			var request = new XMLHttpRequest();
+			request.open("GET", "/api/dislike-comment?id="+id+"&user_id={{auth()->user()->id}}");
+			request.send();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4) {
+					if($('#comment'+id+'like').hasClass('fa-thumbs-up')){
+						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())-1);
+						$('#comment'+id+'like').removeClass('fa-thumbs-up');
+						$('#comment'+id+'like').addClass('fa-thumbs-o-up');
+					}
+					var response = JSON.parse(request.response);
+					if(response.liked==true){
+						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())+1);
+						$('#comment'+id+'dislike').removeClass('fa-thumbs-o-down');
+						$('#comment'+id+'dislike').addClass('fa-thumbs-down');
+					}else{
+						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())-1);
+						$('#comment'+id+'dislike').removeClass('fa-thumbs-down');
+						$('#comment'+id+'dislike').addClass('fa-thumbs-o-down');
+					}
+				}
+			}
+		}
 	</script>
 @stop

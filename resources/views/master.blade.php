@@ -59,6 +59,10 @@
         }
     </style>
     @endif
+    <!--Ck Editor -->
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <!--Sweet Alert -->
+    <script src="{{asset('sweetalert/dist/sweetalert2.all.min.js')}}"></script>
 </head>
 <body>
 <div class="page_loader"></div>

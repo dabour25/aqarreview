@@ -145,5 +145,6 @@
         'blog_title'=>'Blog Title',
         'main_image'=>'Main Image',
         'blog'=>'Blog',
+        'fast_image_uploader'=>'Fast Image Uploader',
 	]
 ?>

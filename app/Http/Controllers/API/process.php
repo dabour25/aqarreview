@@ -17,12 +17,14 @@ class process extends Controller
 	public function __construct(){
 	}
 	public function fastUpload(Request $request){
+	    $valarr=['upload'=>'required|file'];
+        $this->validate($request,$valarr);
+
 	    $file=$request->file('upload');
 	    $path=public_path('/img/blog');
 	    $name=Str::random(16);
         $name.='.'.$file->getClientOriginalExtension();
         $file->move($path,$name);
-        $final_url=$request->root().'/img/blog/'.$name;
-        return response()->json(['uploaded'=>1,'fileName'=>$name,'url'=>$final_url]);
+        return response()->json(['domain'=>$request->root(),'name'=>$name]);
     }
 }

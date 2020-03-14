@@ -9,31 +9,37 @@ use App\Models\Comment;
 class SocialService{
 
 
-    public static function like_maker($targetData,$user_id,$id,$target,$type=1){
+    public static function like_maker($targetData,$user_id,$id,$target,$type=1):bool{
+        $response=false;
         $data= $target::where('id',$id)->first();
         if($type==1){
             if($targetData){
                 if($targetData->likes[0]->type==0){
                     Like::where('id',$targetData->likes[0]->id)->update(['type'=>true]);
+                    $response=true;
                 }else{
                     Like::where('id',$targetData->likes[0]->id)->delete();
                 }
             }else{
                 $like=new Like(['user_id'=>$user_id,'type'=>true]);
                 $data->likes()->save($like);
+                $response=true;
             }
         }else{
             if($targetData){
                 if($targetData->likes[0]->type==1){
                     Like::where('id',$targetData->likes[0]->id)->update(['type'=>false]);
+                    $response=true;
                 }else{
                     Like::where('id',$targetData->likes[0]->id)->delete();
                 }
             }else{
                 $like=new Like(['user_id'=>$user_id,'type'=>false]);
                 $data->likes()->save($like);
+                $response=true;
             }
         }
+        return $response;
     }
 
     public static function comment_maker($data,$user,$target){

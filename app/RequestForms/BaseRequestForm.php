@@ -33,17 +33,15 @@ abstract class BaseRequestForm
 //        if (!$this->authorized())
 //            appSystem()->response()->unAuthorized()->json(200, true);
 
-
         if (!is_null($request)) {
             $this->_request = $request;
             $rules = $this->rules();
-
             $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
                 if ($forceDie) {
-                    $error = \Illuminate\Validation\ValidationException::withMessages($validator->errors()->toArray());
-                    throw $error;
+                    $error=$validator->errors()->toArray();
+                    response()->json($error,406)->send();
                 }else{
                     $this->status = false;
                     $this->errors  =$validator->errors()->toArray();

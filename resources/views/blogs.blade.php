@@ -94,11 +94,8 @@
 					<br><br>
 					<div class="col-sm-12" id="comment_tab{{$post->slug}}" style="display: none;">
 						@if(auth()->user())
-							<form action="/blogs/comment/{{$post->slug}}" method="post">
-								@csrf
-								<input type="text" name="comment" class="form-control">
-								<button class="btn btn-primary" style="margin: 5px 0;" type="submit">@lang('strings.comment')</button>
-							</form>
+							<input type="text" id="comment{{$post->slug}}" class="form-control">
+							<a class="btn btn-primary" style="margin: 5px 0;" onclick="commentBlog('{{$post->slug}}')">@lang('strings.comment')</a>
 						@endif
 						@foreach($post->comments as $comment)
 							<?php $isliked=$isdislike=false; ?>
@@ -227,57 +224,12 @@
 						html: '<h4>Copy This Url and paste it in the Editor Image Url:</h4>' +
 								'<p>'+response.domain+'/img/blog/'+response.name+'</p>',
 					});
+				}else{
+
 				}
 			}
 		});
-		function like_comment(id) {
-			var request = new XMLHttpRequest();
-			request.open("GET", "/api/like-comment?id="+id+"&user_id={{auth()->user()->id}}");
-			request.send();
-			request.onreadystatechange = function() {
-				if (request.readyState === 4) {
-					if($('#comment'+id+'dislike').hasClass('fa-thumbs-down')){
-						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())-1);
-						$('#comment'+id+'dislike').removeClass('fa-thumbs-down');
-						$('#comment'+id+'dislike').addClass('fa-thumbs-o-down');
-					}
-
-					var response = JSON.parse(request.response);
-					if(response.liked==true){
-						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())+1);
-						$('#comment'+id+'like').removeClass('fa-thumbs-o-up');
-						$('#comment'+id+'like').addClass('fa-thumbs-up');
-					}else{
-						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())-1);
-						$('#comment'+id+'like').removeClass('fa-thumbs-up');
-						$('#comment'+id+'like').addClass('fa-thumbs-o-up');
-					}
-				}
-			}
-		}
-		function dislike_comment(id) {
-			var request = new XMLHttpRequest();
-			request.open("GET", "/api/dislike-comment?id="+id+"&user_id={{auth()->user()->id}}");
-			request.send();
-			request.onreadystatechange = function() {
-				if (request.readyState === 4) {
-					if($('#comment'+id+'like').hasClass('fa-thumbs-up')){
-						$('#comment'+id+'likes').text(parseInt($('#comment'+id+'likes').text())-1);
-						$('#comment'+id+'like').removeClass('fa-thumbs-up');
-						$('#comment'+id+'like').addClass('fa-thumbs-o-up');
-					}
-					var response = JSON.parse(request.response);
-					if(response.liked==true){
-						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())+1);
-						$('#comment'+id+'dislike').removeClass('fa-thumbs-o-down');
-						$('#comment'+id+'dislike').addClass('fa-thumbs-down');
-					}else{
-						$('#comment'+id+'dislikes').text(parseInt($('#comment'+id+'dislikes').text())-1);
-						$('#comment'+id+'dislike').removeClass('fa-thumbs-down');
-						$('#comment'+id+'dislike').addClass('fa-thumbs-o-down');
-					}
-				}
-			}
-		}
+		let current='{{auth()->user()->id??null}}';
 	</script>
+	<script src="{{asset('/js/custom/likesMaker.js')}}"></script>
 @stop

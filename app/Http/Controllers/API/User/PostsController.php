@@ -15,6 +15,7 @@ use Auth;
 use Hash;
 use Session;
 use View;
+use Validator;
 use Illuminate\Support\Str;
 //DB Connect
 use App\Models\Link;
@@ -77,11 +78,11 @@ class PostsController extends Controller
         $response=SocialService::like_maker($commet,$request->user_id,$request->id,Comment::class,1);
         return response()->json(['liked'=>$response],200);
     }
-    public function likeReply($id){
-        $reply=Reply::whereHas('likes', function (Builder $query) {
-            $query->where('user_id', Auth::user()->id);
-        })->where('id',$id)->first();
-        SocialService::like_maker($reply,Auth::user()->id,$id,Reply::class,1);
+    public function likeReply(Request $request){
+        $reply=Reply::whereHas('likes', function (Builder $query)use($request) {
+            $query->where('user_id', $request->user_id);
+        })->where('id',$request->id)->first();
+        SocialService::like_maker($reply,$request->user_id,$request->id,Reply::class,1);
         return back();
     }
     public function dislike($slug){
@@ -99,29 +100,38 @@ class PostsController extends Controller
         $response=SocialService::like_maker($post,$request->user_id,$request->id,Comment::class,0);
         return response()->json(['liked'=>$response],200);
     }
-    public function dislikeReply($id){
-        $reply=Reply::whereHas('likes', function (Builder $query) {
-            $query->where('user_id', Auth::user()->id);
-        })->where('id',$id)->first();
-        SocialService::like_maker($reply,Auth::user()->id,$id,Reply::class,0);
+    public function dislikeReply(Request $request){
+        $reply=Reply::whereHas('likes', function (Builder $query)use($request) {
+            $query->where('user_id', $request->user_id);
+        })->where('id',$request->id)->first();
+        SocialService::like_maker($reply,$request->user_id,$request->id,Reply::class,0);
         return back();
     }
-    public function comment(CommentValidator $request,$slug){
-        $post=Post::where('slug',$slug)->first();
-        if(!$post){
-            return back();
+    public function commentBlog(Request $request){
+        $valarr=[
+            'comment'=>'required|max:500|min:1',
+        ];
+        $validator = Validator::make($request->all(), $valarr);
+        if ($validator->fails()) {
+            $error=$validator->errors()->toArray();
+            return response()->json($error,406);
+
         }
-        SocialService::comment_maker($request->request(),Auth::user()->id,$post);
-        return back();
+        $post=Post::where('slug',$request->slug)->first();
+        if(!$post){
+            return response()->json(['comment'=>'Blog Not Found'],406);
+        }
+        SocialService::comment_maker($request->request(),$request->user_id,$post);
+        return response()->json([$request->comment]);
     }
-    public function reply(Request $request,$id){
-        $comment=Comment::findOrFail($id);
+    public function reply(Request $request){
+        $comment=Comment::findOrFail($request->id);
         $valarr=[
             'reply'=>'required|max:500|min:1',
         ];
         $this->validate($request,$valarr);
-        $reply=new Reply(['reply'=>$request->reply,'user_id'=>Auth::user()->id]);
+        $reply=new Reply(['reply'=>$request->reply,'user_id'=>$request->user_id]);
         $comment->replies()->save($reply);
-        return back();
+        return response()->json([$request->reply]);
     }
 }

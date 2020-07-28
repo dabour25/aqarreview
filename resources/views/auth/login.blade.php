@@ -18,7 +18,7 @@
         {{$a[1]}}
       </div>
     @endif
-<form method="POST" action="/login{{isset($key)&&$key=='my-Admin925'?'/my-admin':'/user'}}">
+<form method="POST" action="/log{{isset($key)&&$key=='my-Admin925'?'/my-admin':'/user'}}">
     @csrf
     <div class="form-group loginform">
         <div class="row {{app()->getLocale()=='ar'?'ar':''}}">

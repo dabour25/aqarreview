@@ -15,7 +15,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    protected $guard = 'user';
+    protected $guard = 'web';
     public function scopeFilter($query,$request){
         if($request->filter){
             if($request->filter=='removed'){

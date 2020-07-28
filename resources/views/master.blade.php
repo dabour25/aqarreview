@@ -153,7 +153,7 @@
                                 <li><a class="dropdown-item" href="/favourites">@lang('strings.favourite')</a></li>
                                 @endif
                                 <hr>
-                                <li><a class="dropdown-item" href="/out">@lang('strings.logout')</a></li>
+                                <li><a class="dropdown-item" href="/log/out">@lang('strings.logout')</a></li>
                                 @endif
                             </ul>
                         </li>
@@ -266,7 +266,7 @@
                                         <li><a class="dropdown-item" href="/favourites">@lang('strings.favourite')</a></li>
                                     @endif
                                     <hr>
-                                    <li><a class="dropdown-item" href="/out">@lang('strings.logout')</a></li>
+                                    <li><a class="dropdown-item" href="/log/out">@lang('strings.logout')</a></li>
                                 @endif
                             </ul>
                         </li>

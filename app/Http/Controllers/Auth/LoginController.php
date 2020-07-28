@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\RequestsWeb\User\LoginUserValidator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -50,25 +51,18 @@ class LoginController extends Controller
         return view('auth.login',compact('page'));
     }
 
-    public function adminLogin(Request $request)
+    public function adminLogin(LoginUserValidator $validator)
     {
-        $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:6'
-        ]);
-
+        $request=$validator->request();
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/admindb');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
-    public function userLogin(Request $request)
+    public function userLogin(LoginUserValidator $validator)
     {
-        $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:6'
-        ]);
+        $request=$validator->request();
         $chkBlock=User::where('email',$request->email)->first();
         if($chkBlock&&$chkBlock->role=="blocked"){
             $error = \Illuminate\Validation\ValidationException::withMessages([
@@ -79,7 +73,11 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/');
+        }else{
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'email' => [trans('strings.email_password_wrong')],
+            ]);
+            throw $error;
         }
-        return back()->withInput($request->only('email', 'remember'));
     }
 }

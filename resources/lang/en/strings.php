@@ -146,5 +146,7 @@
         'main_image'=>'Main Image',
         'blog'=>'Blog',
         'fast_image_uploader'=>'Fast Image Uploader',
+        'success_register'=>'Register Success ! You can login now',
+        'email_password_wrong'=>'The Email or Password Invalid',
 	]
 ?>

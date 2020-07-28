@@ -8,15 +8,21 @@ This file created by Eng.Ahmed Magdy at 8/7/2019 8:12PM
 This file Modified and Developed by Eng.Ahmed Magdy
 */
 
-Route::get('/','router@index');
-Route::get('/home','router@index');
+use App\Http\Controllers\User\UsersController;
+use App\Http\Controllers\router;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::resource('/reg','User\UsersController');
-Route::get('/log','Auth\LoginController@showUserLoginForm');
-Route::get('/log/admin','Auth\LoginController@showAdminLoginForm');
-Route::post('/login/my-admin','Auth\LoginController@adminLogin');
-Route::post('/login/user','Auth\LoginController@userLogin');
-Route::get('/out','Auth\LoginController@logout');
+Route::get('/',get_controller(router::class,'index'));
+Route::get('/home',get_controller(router::class,'index'));
+
+Route::resource('/reg',get_controller(UsersController::class));
+Route::group(['prefix' => 'log'],function(){
+    Route::get('/','Auth\LoginController@showUserLoginForm');
+    Route::get('/admin','Auth\LoginController@showAdminLoginForm');
+    Route::post('/my-admin','Auth\LoginController@adminLogin');
+    Route::post('/user',get_controller(LoginController::class,'userLogin'));
+    Route::get('/out','Auth\LoginController@logout');
+});
 
 Route::get('lang/{language}','router@lang');
 

@@ -42,6 +42,7 @@ abstract class BaseRequestForm
                 if ($forceDie) {
                     $error=$validator->errors()->toArray();
                     response()->json($error,406)->send();
+                    exit;
                 }else{
                     $this->status = false;
                     $this->errors  =$validator->errors()->toArray();

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use App\DTOs\Users\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Follower;
 use App\Models\Image;
 use App\Models\Post;
 use App\Models\Report;
-use App\RequestForms\User\CreateUserValidator;
+use App\RequestsWeb\User\CreateUserValidator;
 use App\RequestForms\User\UpdateUserValidator;
 use App\Services\SocialService;
+use App\Services\Users\UserService;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Hash;
 use Illuminate\Support\Str;
 use Session;
@@ -25,6 +27,14 @@ class UsersController extends Controller
     public function __construct(){
         $links = Link::all();
         View::share('links',$links);
+    }
+    public function index(){
+        if(!Auth::user()){
+            $page=trans('strings.register');
+            return view('reg',compact('page'));
+        }else{
+            return redirect('/');
+        }
     }
     public function profile(){
         if(!Auth::user()){
@@ -102,22 +112,17 @@ class UsersController extends Controller
         session()->push('m',trans('strings.report_success'));
         return back();
     }
-    public function index(){
-        if(!Auth::user()){
-            $page=trans('strings.register');
-            return view('reg',compact('page'));
-        }else{
-            return redirect('/');
-        }
-    }
-    public function create(CreateUserValidator $req){
+    public function store(CreateUserValidator $req,UserService $userService){
+
         $data=$req->request()->except('_token','password_confirmation');
         $data['slug']=Str::slug($data["name"]).'-'.Str::random(4).rand(10,99);
-        $data['password']=Hash::make($data["password"]);
-        User::create($data);
-        session()->push('m','success');
-        session()->push('m',trans('strings.success_register'));
-        return redirect('/log');
+        $userDTO=UserDTO::fromArray($data);
+        $response=$userService->create_user($userDTO);
+        if($response){
+            session()->push('m','success');
+            session()->push('m',trans('strings.success_register'));
+            return redirect('/log');
+        }
     }
     public function update(UpdateUserValidator $req,$slug){
         $data=$req->request()->except('_token','_method','password_confirmation');

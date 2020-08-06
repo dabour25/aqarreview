@@ -148,5 +148,6 @@
         'fast_image_uploader'=>'Fast Image Uploader',
         'success_register'=>'Register Success ! You can login now',
         'email_password_wrong'=>'The Email or Password Invalid',
+        'Message_Sent_To_Admin_Successfully'=>'Message_Sent_To_Admin_Successfully',
 	]
 ?>

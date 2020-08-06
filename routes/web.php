@@ -11,6 +11,7 @@ This file Modified and Developed by Eng.Ahmed Magdy
 use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\router;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\User\ContactusController;
 
 Route::get('/',get_controller(router::class,'index'));
 Route::get('/home',get_controller(router::class,'index'));
@@ -26,8 +27,7 @@ Route::group(['prefix' => 'log'],function(){
 
 Route::get('lang/{language}','router@lang');
 
-Route::get('/contact','router@contact');
-Route::post('/sendmes','process@sendmes');
+Route::resource('/contact',get_controller(ContactusController::class));
 
 Route::resource('/ads','User\AdsController');
 

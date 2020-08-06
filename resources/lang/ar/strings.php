@@ -148,5 +148,6 @@
         'fast_image_uploader'=>'رفع سريع لصورة',
         'success_register'=>'تم التسجيل بنجاح يمكنك تسجيل دخول الان',
         'email_password_wrong'=>'خطأ بالبريد الإلكترونى او كلمة السر',
+        'Message_Sent_To_Admin_Successfully'=>'تم إرسال الرسالة الى الإدارة بنجاح',
 	]
 ?>

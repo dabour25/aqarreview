@@ -19,19 +19,7 @@ class process extends Controller
 {
 	public function __construct(){
 	}
-	public function sendmes(Request $req){
-		$valarr=[
-	       'name'=>'required|max:50|min:5',
-	       'email'=>'required|max:50|min:5|email',
-	       'subject'=>'required|max:80|min:5',
-	       'message'=>'required|max:1000',
-	    ];
-	    $this->validate($req,$valarr);
-		Message::create($req->all());
-		session()->push('m','success');
-	    session()->push('m','Message Sent To Admin Successfully');
-		return back();
-	}
+
 	public function adpro($id,Request $req){
 		$chk=Adspro::where('ad_id',$id)->first();
 		if(!empty($chk)){
@@ -83,7 +71,7 @@ class process extends Controller
 		if($role=='admin'){
 			$role='user';
 		}
-		Users::where('id',Auth::user()->id)->update(['name'=>$name,'phone'=>$phone,'password'=>$password,'role'=>$role]);	
+		Users::where('id',Auth::user()->id)->update(['name'=>$name,'phone'=>$phone,'password'=>$password,'role'=>$role]);
 		session()->push('m','success');
 		if(Session::has('lang'))
 	    	session()->push('m','Your Data Updated');
@@ -120,6 +108,6 @@ class process extends Controller
 		}else{
 			Fav::where('id',$chk->id)->delete();
 			return response()->json(array('msg'=> 'Removed From Favourites','type'=>2), 200);
-		}	
+		}
 	}
 }

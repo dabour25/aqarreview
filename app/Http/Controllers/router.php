@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Ads\AdService;
 use Illuminate\Http\Request;
 use Hash;
 use View;
@@ -25,19 +26,16 @@ class router extends Controller
         View::share('links',$links);
     }
 
-    public function index(){
+    public function index(AdService $adService){
 		$page=trans('strings.home_page');
-        $newads=Ad::where('show',1)->orderBy('id','desc')->take(3)->get();
+        $newads=$adService->getNewAds();
         $fav=[];
         if(Auth::user()){
             $fav=Fav::where('user_id',Auth::user()->id)->get();
         }
     	return view('index',compact('page','newads','fav'));
     }
-	public function contact(){
-		$page=trans('strings.contact');
-    	return view('contact',compact('page'));
-    }
+
     public function reg(){
         if(!Auth::user()){
             $page=trans('strings.register');

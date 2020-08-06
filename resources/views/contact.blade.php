@@ -19,7 +19,7 @@
         {{$a[1]}}
       </div>
     @endif
-	<form action="/sendmes" method="post">
+	<form action="/contact" method="post">
 		@csrf
 		<div class="row {{app()->getLocale()=='ar'?'ar':''}}">
 			<div class="col-sm-6">

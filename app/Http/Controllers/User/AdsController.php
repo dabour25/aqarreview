@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\User;
 
+use App\DTOs\Users\AdDataDTO;
+use App\DTOs\Users\AdDTO;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Auth;
-use Hash;
-use Session;
-use View;
-//DB Connect
-use App\Models\Link;
-use App\Models\Image;
 use App\Models\Ad;
+use App\Models\Adspro;
+use App\Models\Fav;
+use App\Models\Link;
+use App\RequestsWeb\User\AdDataValidator;
+use App\RequestsWeb\User\CreateAdValidator;
+use App\Services\Ads\AdService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
+
 
 class AdsController extends Controller
 {
@@ -24,76 +28,60 @@ class AdsController extends Controller
         $page=trans('strings.add_advertise');
         return view('addnew',compact('page'));
     }
-    public function store(Request $req){
-        $type=$req->input('type');
-        if($type!='land'){
-            $valarr=[
-                'title'=>'required|max:60|min:3',
-                'price'=>'required|numeric',
-                'description'=>'required|max:1000',
-                'size'=>'required|numeric',
-                'general_type'=>'required|in:sell,rent',
-                'type'=>'required',
-                'floor'=>'required|numeric',
-                'rooms'=>'required|numeric',
-                'pathrooms'=>'required|numeric',
-                'kitchens'=>'required|numeric',
-                'finish'=>'required',
-                'furniture'=>'required|in:yes,no',
-                'parking'=>'required|in:yes,no',
-                'address'=>'required|min:1|max:1000'
-            ];
+    public function store(CreateAdValidator $adValidator,AdService $adService){
+        $request=$adValidator->request()->all();
+        $request['images']=$request['images']??[];
+        $adDTO=AdDTO::fromArray($request);
+        $ad=$adService->createAd($adDTO);
+        return redirect('/adpro/'.$ad->slug);
+    }
+
+    public function show($slug,AdService $adService){
+        $ad['ad']=$adService->getAdBySlug($slug,true);
+        if(empty($ad)){
+            return redirect('/');
+        }
+        $data=$ad['ad']->profile;
+        if(empty($data)){
+            return redirect('/');
+        }
+        $ad['name']=$data->name;$ad['phone']=$data->phone;
+        if($data->email_show==1){
+            $ad['email']=$data->email;
         }else{
-            $valarr=[
-                'title'=>'required|max:60|min:3',
-                'price'=>'required|numeric',
-                'description'=>'required|max:1000',
-                'size'=>'required|numeric',
-                'general_type'=>'required|in:sell,rent',
-                'type'=>'required',
-                'address'=>'required|max:1000'
-            ];
+            $ad['email']='';
         }
-        $this->validate($req,$valarr);
-
-        $images=$req->file('images');
-        $ph=[];
-        if(!empty($images)){
-            if(count($images)>20){
-                $error = \Illuminate\Validation\ValidationException::withMessages([
-                    'images' => [trans('strings.image_count_error')],
-                ]);
-                throw $error;
-
-            }
-            $photosPath = public_path('/img/ads');
-            foreach ($images as $k => $v) {
-                $ph[$k]=Str::random(32);
-                $ph[$k].='.'.$v->getClientOriginalExtension();
-                $v->move($photosPath,$ph[$k]);
-            }
-        }
-
+        $page='ADVERTISE:'.$ad['ad']->title;
+        $fav=[];
         if(Auth::user()){
-            $user=Auth::user()->id;
+            $fav=Fav::where('user_id',Auth::user()->id)->where('ad_id',$ad['ad']->id)->first();
+        }
+        return view('single',compact('page','ad','fav'));
+    }
+
+    public function adpro($slug){
+        $page=trans('strings.ADVERTISE_DATA');
+        return view('adpro',compact('page','slug'));
+    }
+
+    public function adproProcess($slug,AdDataValidator $adDataValidator,AdService $adService){
+        $request=$adDataValidator->request()->all();
+        if(isset($request['showemail'])){
+            $request['showemail']=1;
         }else{
-            $user=null;
+            $request['showemail']=0;
         }
-        $data=$req->except('_token','images');
-        $data["user_id"]=$user;
-        $data["slug"]=Str::slug($data['title']).Str::random(3).rand(100,999);
-        Ad::create($data);
-        $ad=Ad::latest()->first();
-        $advertise=Ad::find($ad->id);
-        foreach ($ph as $p){
-            $photo = new Image(['url' => $p]);
-            $advertise->images()->save($photo);
+        $adDataDto=AdDataDTO::fromArray($request);
+        $adService->attachAdvertisorData($adDataDto,$slug);
+        return redirect('/ads/create');
+    }
+
+    public function review($slug,Request $request,AdService $adService){
+        $page=trans('strings.REVIEW ADVERTISE');
+        $ad=$adService->reviewAd($slug,$request);
+        if(empty($ad['ad'])){
+            return redirect('/');
         }
-        session()->push('m','success');
-        if(Session::has('lang'))
-            session()->push('m','Advertise Sent But You must add this data to brodcast Advertise');
-        else
-            session()->push('m','تم إرسال إعلانك لكن عليك ملئ هذة البيانات والتأكيد لنشر إعلانك');
-        return redirect('/adpro/'.$ad->id);
+        return view('single',compact('page','ad'));
     }
 }

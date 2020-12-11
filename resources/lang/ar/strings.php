@@ -149,5 +149,8 @@
         'success_register'=>'تم التسجيل بنجاح يمكنك تسجيل دخول الان',
         'email_password_wrong'=>'خطأ بالبريد الإلكترونى او كلمة السر',
         'Message_Sent_To_Admin_Successfully'=>'تم إرسال الرسالة الى الإدارة بنجاح',
+        'ADVERTISE_DATA'=>'بيانات الإعلان',
+        'This Advertise Has Profile before'=>'هذا الإعلان لدية بيانات معلن من قبل',
+        'REVIEW ADVERTISE'=>'مراجعة الإعلان',
 	]
 ?>

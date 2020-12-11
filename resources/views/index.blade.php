@@ -84,7 +84,7 @@
                                 <?php
                                     $fa=false;
                                     foreach ($fav as $f) {
-                                        if($f->ad==$n->id){
+                                        if($f->ad_id==$n->id){
                                             $fa=true;
                                         }
                                     }
@@ -97,19 +97,19 @@
                             </div>
                             @endif
                             <div class="price-box"><span>{{$n->price}} @lang('strings.le')</span> {{$n->general_type=='rent'?trans('strings.per_month'):''}}</div>
-                            @if($n->image=='')
+                            @if(count($n->images)==0)
                             <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$links[5]->value}}" alt="properties" style="height: 330px;object-fit: contain">
                             @else
-                            <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" alt="properties" style="height: 330px;object-fit: contain">
+                            <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->images[0]->url}}" alt="properties" style="height: 330px;object-fit: contain">
                             @endif
                         </div>
                     </div>
                     <div class="detail">
                         <h1 class="title">
-                            <a href="/ad/{{$n->id}}" target="_blank">{{$n->title}}</a>
+                            <a href="/ads/{{$n->slug}}" target="_blank">{{$n->title}}</a>
                         </h1>
                         <div class="location">
-                            <a href="/ad/{{$n->id}}" target="_blank">
+                            <a href="/ads/{{$n->slug}}" target="_blank">
                                 <i class="flaticon-pin">{{$n->address}}</i>
                             </a>
                         </div>

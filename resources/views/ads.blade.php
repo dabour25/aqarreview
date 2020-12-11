@@ -69,7 +69,7 @@
                                         <?php
                                         $fa=false;
                                         foreach ($fav as $f) {
-                                            if($f->ad==$n->id){
+                                            if($f->ad_id==$n->id){
                                                 $fa=true;
                                             }
                                         }
@@ -81,19 +81,19 @@
                                         @endif
                                     </div>
                                     <div class="price-box"><span>{{$n->price}}@lang('strings.le')</span> {{$n->general_type=='rent'?trans('strings.per_month'):''}}</div>
-                                    @if($n->image=='')
+                                    @if(count($n->images)==0)
                                         <img class="d-block w-100" src="{{asset('img/ads')}}/{{$links[5]->value}}" style="height: 330px;object-fit: contain">
                                     @else
-                                        <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->image}}" style="height: 330px;object-fit: contain">
+                                        <img class="d-block w-100" src="{{asset('/img/ads')}}/{{$n->images[0]->url}}" style="height: 330px;object-fit: contain">
                                     @endif
                                 </div>
                             </div>
                             <div class="detail">
                                 <h1 class="title">
-                                    <a href="/ad/{{$n->id}}" target="blank">{{$n->title}}</a>
+                                    <a href="/ads/{{$n->slug}}" target="blank">{{$n->title}}</a>
                                 </h1>
                                 <div class="location">
-                                    <a href="/ad/{{$n->id}}" target="blank">
+                                    <a href="/ads/{{$n->slug}}" target="blank">
                                         <i class="flaticon-pin">{{$n->address}}</i>
                                     </a>
                                 </div>
@@ -107,7 +107,7 @@
                                             <i class="flaticon-bed"></i>@lang('strings.rooms'):  {{$n->rooms}}
                                         </li>
                                         <li>
-                                            <i class="flaticon-bathroom"></i>@lang('strings.bathrooms'): {{$n->pathroom}}
+                                            <i class="flaticon-bathroom"></i>@lang('strings.bathrooms'): {{$n->bathrooms}}
                                         </li>
                                         <li>
                                             <i class="flaticon-ui"></i>@lang('strings.meter') {{$n->size}}

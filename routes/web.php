@@ -12,6 +12,7 @@ use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\router;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ContactusController;
+use App\Http\Controllers\User\AdsController;
 
 Route::get('/',get_controller(router::class,'index'));
 Route::get('/home',get_controller(router::class,'index'));
@@ -29,14 +30,13 @@ Route::get('lang/{language}','router@lang');
 
 Route::resource('/contact',get_controller(ContactusController::class));
 
-Route::resource('/ads','User\AdsController');
+Route::resource('/ads',get_controller(AdsController::class));
 
-Route::get('/adpro/{adid}','router@adpro');
-Route::post('/addpro/{adid}','process@adpro');
+Route::get('/adpro/{slug}',get_controller(AdsController::class,'adpro'));
+Route::post('/addpro/{slug}',get_controller(AdsController::class,'adproProcess'));
 
-Route::get('/review/{adid}','router@review');
+Route::get('/review/{slug}',get_controller(AdsController::class,'review'));
 
-Route::get('/ad/{id}','router@ad');
 Route::get('/cat/{cat}','router@cat');
 Route::get('/rent/{cat}','router@rcat');
 Route::get('/sell/{cat}','router@scat');

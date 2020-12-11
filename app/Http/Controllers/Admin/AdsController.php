@@ -30,19 +30,22 @@ class AdsController extends Controller
         return view('admin/approve',compact('ads','oldads'));
     }
 
-    public function show($id){
-        $adpro = Adspro::where('ad_id', $id)->first();
-        if (empty($adpro)) {
+    public function show($slug){
+        $ad = Ad::where('slug', $slug)->with('profile')->first();
+        if (empty($ad->profile)) {
             $error = \Illuminate\Validation\ValidationException::withMessages([
                 'redirect' => ['This Advertise Still Haven\'t communication data'],
             ]);
             throw $error;
         }
-        $name = $adpro->name;
-        $phone = $adpro->phone;
-        $email = $adpro->email;
+        $name = $ad->profile->name;
+        $phone = $ad->profile->phone;
+        $email='';
+        if($ad->profile->email_show==1){
+            $email = $ad->profile->email;
+        }
 
-        return redirect('/review/' . $id . '?name=' . $name . '&phone=' . $phone . '&email=' . $email);
+        return redirect('/review/' . $slug . '?name=' . $name . '&phone=' . $phone . '&email=' . $email);
     }
 
     public function index(){

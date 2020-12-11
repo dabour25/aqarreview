@@ -26,7 +26,7 @@
 </p>
 <hr>
 @endif
-<form action="/addpro/{{$adid}}" method="post">
+<form action="/addpro/{{$slug}}" method="post">
 	@csrf
 	<div class="form-group loginform">
 		<div class="row {{app()->getLocale()=='ar'?'ar':''}}">
@@ -62,12 +62,12 @@
 		}else{
 			if($('#showemail').prop("checked")==true){
 				window.open(
-				  '{{Request::root()}}/review/{{$adid}}?name='+$('#name').val()+'&phone='+$('#phone').val()+'&email='+$('#email').val(),
+				  '{{Request::root()}}/review/{{$slug}}?name='+$('#name').val()+'&phone='+$('#phone').val()+'&email='+$('#email').val(),
 				  '_blank'
 				);
 			}else{
 				window.open(
-				  '{{Request::root()}}/review/{{$adid}}?name='+$('#name').val()+'&phone='+$('#phone').val(),
+				  '{{Request::root()}}/review/{{$slug}}?name='+$('#name').val()+'&phone='+$('#phone').val(),
 				  '_blank'
 				);
 			}

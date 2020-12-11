@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Ad extends Model
 {
     use SoftDeletes;
-    protected $fillable=["title","user_id","price","description","size","general_type","type","floor","rooms","pathroom","kitchen","finish","furniture","parking","image","images","address","slug"];
+    protected $fillable=["title","user_id","price","description","size","general_type","type","floor","rooms","bathrooms","kitchens","finish","furniture","parking","image","images","address","slug"];
 
     public function updater(){
         return $this->belongsTo(Admin::class,'updated_by');
@@ -18,5 +18,8 @@ class Ad extends Model
     }
     public function profile(){
         return $this->belongsTo(Adspro::class, 'id','ad_id');
+    }
+    public function favourite(){
+        return $this->belongsTo(Fav::class, 'id','ad_id');
     }
 }

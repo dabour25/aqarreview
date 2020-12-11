@@ -53,10 +53,6 @@ class router extends Controller
         return back();
     }
 
-    public function adpro($adid){
-        $page='ADVERTISE DATA';
-        return view('adpro',compact('page','adid'));
-    }
     public function review($adid,Request $request){
         $page='REVIEW ADVERTISE';
         $ad=Ad::where('id',$adid)->first();
@@ -69,46 +65,24 @@ class router extends Controller
         return view('single',compact('page','ad','name','phone','email'));
     }
 
-    public function ad($id){
-        $ad=Ad::where('id',$id)->where('show',1)->first();
-        if(empty($ad)){
-            return redirect('/');
-        }
-        $data=Adspro::where('ad',$id)->first();
-        if(empty($data)){
-            return redirect('/');
-        }
-        $name=$data->name;$phone=$data->phone;
-        if($data->email_show==1){
-            $email=$data->email;
-        }else{
-            $email='';
-        }
-        $page='ADVERTISE:'.$ad->name;
-        $fav=[];
-        if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->where('ad',$id)->first();
-        }
-        return view('single',compact('page','ad','name','phone','email','fav'));
-    }
-    public function cat($cat){
+        public function cat($cat){
         $ads=Ad::where('type',$cat)->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat==1){
+        if($cat=='apartment'){
             $page='APARTMENTS';
             $pagear='شقق';
-        }elseif($cat==2){
+        }elseif($cat=='villa'){
             $page='VILLAS';
             $pagear='فيلات';
-        }elseif($cat==3){
+        }elseif($cat=='land'){
             $page='LANDS';
             $pagear='أراضى';
-        }elseif($cat==4){
+        }elseif($cat=='houses'){
             $page='HOMES';
             $pagear='بيوت';
-        }elseif($cat==5){
+        }elseif($cat=='shop'){
             $page='SHOPS';
             $pagear='محلات تجارية';
-        }elseif($cat==6){
+        }elseif($cat=='chalet'){
             $page='CHALETS';
             $pagear='شاليهات';
         }
@@ -120,22 +94,22 @@ class router extends Controller
     }
     public function rcat($cat){
         $ads=Ad::where('type',$cat)->where('general_type','rent')->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat==1){
+        if($cat=='apartment'){
             $page='APARTMENTS';
             $pagear='شقق';
-        }elseif($cat==2){
+        }elseif($cat=='villa'){
             $page='VILLAS';
             $pagear='فيلات';
-        }elseif($cat==3){
+        }elseif($cat=='land'){
             $page='LANDS';
             $pagear='أراضى';
-        }elseif($cat==4){
+        }elseif($cat=='houses'){
             $page='HOMES';
             $pagear='بيوت';
-        }elseif($cat==5){
+        }elseif($cat=='shop'){
             $page='SHOPS';
             $pagear='محلات تجارية';
-        }elseif($cat==6){
+        }elseif($cat=='chalet'){
             $page='CHALETS';
             $pagear='شاليهات';
         }
@@ -149,22 +123,22 @@ class router extends Controller
     }
     public function scat($cat){
         $ads=Ad::where('type',$cat)->where('general_type','sell')->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat==1){
+        if($cat=='apartment'){
             $page='APARTMENTS';
             $pagear='شقق';
-        }elseif($cat==2){
+        }elseif($cat=='villa'){
             $page='VILLAS';
             $pagear='فيلات';
-        }elseif($cat==3){
+        }elseif($cat=='land'){
             $page='LANDS';
             $pagear='أراضى';
-        }elseif($cat==4){
+        }elseif($cat=='houses'){
             $page='HOMES';
             $pagear='بيوت';
-        }elseif($cat==5){
+        }elseif($cat=='shop'){
             $page='SHOPS';
             $pagear='محلات تجارية';
-        }elseif($cat==6){
+        }elseif($cat=='chalet'){
             $page='CHALETS';
             $pagear='شاليهات';
         }
@@ -275,8 +249,8 @@ class router extends Controller
         if(!Auth::user()){
             return redirect('/');
         }
-        $ads=Ad::join('favourites','favourites.ad','=','ads.id')
-        ->where('favourites.user',Auth::user()->id)->orderBy('favourites.id','desc')
+        $ads=Ad::join('favourites','favourites.ad_id','=','ads.id')
+        ->where('favourites.user_id',Auth::user()->id)->orderBy('favourites.id','desc')
         ->select('ads.*')->paginate(21);
         $page='Your Favourite Ad';
         $pagear='إعلاناتك المفضلة';

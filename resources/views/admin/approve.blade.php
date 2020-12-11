@@ -36,7 +36,7 @@
                 @foreach($ads as $ad)
                 <a style="cursor: pointer" data-toggle="collapse" data-target="#ad{{$ad->id}}" class="list-group-item"><b>New Advertise : {{$ad->title}}</b></a>
                 <div id="ad{{$ad->id}}" class="collapse">
-                  <a href="/admindb/ads/{{$ad->id}}" class="btn btn-success" target="blank">Review</a>
+                  <a href="/admindb/ads/{{$ad->slug}}" class="btn btn-success" target="blank">Review</a>
                   <a href="#" id="approveal{{$ad->id}}" class="btn btn-primary">Approve</a>
                   <a href="#" id="removal{{$ad->id}}" class="btn btn-danger">Remove</a>
                 </div>
@@ -61,7 +61,7 @@
                 <a style="cursor: pointer" data-toggle="collapse" data-target="#ad{{$oad->id}}" class="list-group-item">
                 Advertise : {{$oad->title}} Still not Approved</a>
                 <div id="ad{{$oad->id}}" class="collapse">
-                  <a href="/admindb/ads/{{$oad->id}}" class="btn btn-success" target="blank">Review</a>
+                  <a href="/admindb/ads/{{$oad->slug}}" class="btn btn-success" target="blank">Review</a>
                   <a href="#" id="approveal{{$oad->id}}" class="btn btn-primary">Approve</a>
                   <a href="#" id="removal{{$oad->id}}" class="btn btn-danger">Remove</a>
                 </div>

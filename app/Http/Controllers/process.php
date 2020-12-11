@@ -20,37 +20,7 @@ class process extends Controller
 	public function __construct(){
 	}
 
-	public function adpro($id,Request $req){
-		$chk=Adspro::where('ad_id',$id)->first();
-		if(!empty($chk)){
-			$error = \Illuminate\Validation\ValidationException::withMessages([
-			   'redirect' => ['This Advertise Has Profile before'],
-			]);
-			throw $error;
-		}
-  		$valarr=[
-	       'name'=>'required|max:50|min:3',
-	       'phone'=>'required|max:30|min:10',
-	    ];
-	    $this->validate($req,$valarr);
-		$showemail=$req->input('showemail');
-		if($showemail){
-			$valarr=[
-		       'email'=>'required|max:50|min:5|email',
-		    ];
-		    $this->validate($req,$valarr);
-		}
-		$data=$req->except("_token");
-		$data["ad_id"]=$id;
-		Adspro::create($data);
-		session()->push('m','success');
-		if(Session::has('lang'))
-	    	session()->push('m','Advertise is now fully ready, Waiting Admin Approval');
-	    else
-	    	session()->push('m','إعلانك الان جاهز بالكامل , ينتظر موافقة المشرف');
-		return redirect('/ads/create');
-	  }
-	  public function edituser(Request $req){
+	public function edituser(Request $req){
   		$valarr=[
 	       'name'=>'required|max:50|min:3',
 	       'role'=>'required'
@@ -101,9 +71,9 @@ class process extends Controller
 		if(!Auth::user()){
 			return response()->json(array('msg'=> 'Error : You Must Login first','type'=>0), 200);
 		}
-		$chk=Fav::where('user',Auth::user()->id)->where('ad',$id)->first();
+		$chk=Fav::where('user_id',Auth::user()->id)->where('ad_id',$id)->first();
 		if(empty($chk)){
-			Fav::insert(['user'=>Auth::user()->id,'ad'=>$id]);
+			Fav::insert(['user_id'=>Auth::user()->id,'ad_id'=>$id]);
 			return response()->json(array('msg'=> 'Added To Favourites','type'=>1), 200);
 		}else{
 			Fav::where('id',$chk->id)->delete();

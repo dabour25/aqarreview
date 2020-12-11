@@ -27,7 +27,7 @@
 		</div>
 		<div class="col-sm-6">
 			<label>@lang('strings.price')</label>
-			<input type="number" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="@lang('strings.price_str')" name="price"  value="{{old('price')}}">
+			<input type="text" class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="@lang('strings.price_str')" name="price"  value="{{old('price')}}">
 		</div>
 		<div class="col-sm-12">
 			<label>@lang('strings.description')</label>
@@ -140,7 +140,7 @@
 			<br>
 			<input type="file" name="images[]" class="custom-file-input" multiple accept="image/gif, image/jpeg, image/png" id="profile-img">
 			<div id="images">
-				
+
 			</div>
 			<script type="text/javascript">
 			    function readURL(input) {

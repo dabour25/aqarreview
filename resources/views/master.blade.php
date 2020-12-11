@@ -164,20 +164,20 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">@lang('strings.rent')</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/rent/1">@lang('strings.apartments')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/2">@lang('strings.villas')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/5">@lang('strings.shops')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/6">@lang('strings.chalets')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/apartment">@lang('strings.apartments')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/villa">@lang('strings.villas')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/shop">@lang('strings.shops')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/chalet">@lang('strings.chalets')</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">@lang('strings.sell')</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/sell/1">@lang('strings.apartments')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/2">@lang('strings.villas')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/3">@lang('strings.lands')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/4">@lang('strings.houses')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/5">@lang('strings.shops')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/6">@lang('strings.chalets')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/apartment">@lang('strings.apartments')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/villa">@lang('strings.villas')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/land">@lang('strings.lands')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/houses">@lang('strings.houses')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/shop">@lang('strings.shops')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/chalet">@lang('strings.chalets')</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -227,20 +227,20 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">@lang('strings.rent')</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/rent/1">@lang('strings.apartments')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/2">@lang('strings.villas')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/5">@lang('strings.shops')</a></li>
-                                        <li><a class="dropdown-item" href="/rent/6">@lang('strings.chalets')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/apartment">@lang('strings.apartments')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/villa">@lang('strings.villas')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/shop">@lang('strings.shops')</a></li>
+                                        <li><a class="dropdown-item" href="/rent/chalet">@lang('strings.chalets')</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">@lang('strings.sell')</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/sell/1">@lang('strings.apartments')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/2">@lang('strings.villas')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/3">@lang('strings.lands')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/4">@lang('strings.houses')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/5">@lang('strings.shops')</a></li>
-                                        <li><a class="dropdown-item" href="/sell/6">@lang('strings.chalets')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/apartment">@lang('strings.apartments')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/villa">@lang('strings.villas')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/land">@lang('strings.lands')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/houses">@lang('strings.houses')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/shop">@lang('strings.shops')</a></li>
+                                        <li><a class="dropdown-item" href="/sell/chalet">@lang('strings.chalets')</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -379,22 +379,22 @@
                     </h4>
                     <ul class="links">
                         <li>
-                            <a href="/cat/5">@lang('strings.shops')</a>
+                            <a href="/cat/shop">@lang('strings.shops')</a>
                         </li>
                         <li>
-                            <a href="/cat/2">@lang('strings.villas')</a>
+                            <a href="/cat/villa">@lang('strings.villas')</a>
                         </li>
                         <li>
-                            <a href="/cat/3">@lang('strings.lands')</a>
+                            <a href="/cat/3land">@lang('strings.lands')</a>
                         </li>
                         <li>
-                            <a href="/cat/1">@lang('strings.apartments')</a>
+                            <a href="/cat/apartment">@lang('strings.apartments')</a>
                         </li>
                         <li>
-                            <a href="/cat/4">@lang('strings.houses')</a>
+                            <a href="/cat/houses">@lang('strings.houses')</a>
                         </li>
 						<li>
-                            <a href="/cat/6">@lang('strings.chalets')</a>
+                            <a href="/cat/chalet">@lang('strings.chalets')</a>
                         </li>
                     </ul>
                 </div>

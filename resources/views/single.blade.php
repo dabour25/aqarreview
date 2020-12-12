@@ -111,13 +111,13 @@
 							<i class="flaticon-bed"></i>@lang('strings.rooms') : {{$ad['ad']->rooms}}
 						</li>
 						<li>
-							<i class="flaticon-bathroom"></i>@lang('strings.bathrooms') : {{$ad['ad']->bathrooms}}/@lang('strings.kitchens') : {{$ad['ad']->kitchen}}
+							<i class="flaticon-bathroom"></i>@lang('strings.bathrooms') : {{$ad['ad']->bathrooms}}/@lang('strings.kitchens') : {{$ad['ad']->kitchens}}
 						</li>
 						<li>
 							<i class="flaticon-ui"></i>@lang('strings.area') : {{$ad['ad']->size}} @lang('strings.meter')
 						</li>
 						<li>
-							<i class="flaticon-car"></i>{{$ad['ad']->parking=="yes"?trans('strins.park'):trans('strings.no_park')}}
+							<i class="flaticon-car"></i>{{$ad['ad']->parking=="yes"?trans('strings.park'):trans('strings.no_park')}}
 						</li>
 						<li>
 							<i class="fa fa-building"></i>@lang('strings.floor') : {{$ad['ad']->floor}}

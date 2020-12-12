@@ -22,7 +22,7 @@ class CreateAdValidator extends BaseRequestForm
                 'type'=>'required',
                 'floor'=>'required|numeric',
                 'rooms'=>'required|numeric',
-                'pathrooms'=>'required|numeric',
+                'bathrooms'=>'required|numeric',
                 'kitchens'=>'required|numeric',
                 'finish'=>'required',
                 'furniture'=>'required|in:yes,no',

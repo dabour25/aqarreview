@@ -107,7 +107,7 @@
 		</div>
 		<div class="col-sm-6" id="pathroom">
 			<label>@lang('strings.bathrooms_count')</label>
-			<input type="number" class="form-control {{ $errors->has('pathrooms') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="pathrooms" value="{{old('pathrooms')}}">
+			<input type="number" class="form-control {{ $errors->has('bathrooms') ? ' is-invalid' : '' }}" placeholder="@lang('strings.bathrooms_str')" name="bathrooms" value="{{old('bathrooms')}}">
 		</div>
 		<div class="col-sm-6" id="kitchens">
 			<label>@lang('strings.kitchens')</label>

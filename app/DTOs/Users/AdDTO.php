@@ -42,7 +42,7 @@ class AdDTO extends BaseDTO
     /**
      * @var int $pathrooms
      */
-    public $pathrooms;
+    public $bathrooms;
     /**
      * @var int $kitchens
      */

@@ -123,7 +123,7 @@
                                 <i class="flaticon-bed"></i>@lang('strings.rooms'):  {{$n->rooms}}
                             </li>
                             <li>
-                                <i class="flaticon-bathroom"></i>@lang('strings.bathrooms'): {{$n->pathroom}}
+                                <i class="flaticon-bathroom"></i>@lang('strings.bathrooms'): {{$n->bathrooms}}
                             </li>
                             <li>
                                 <i class="flaticon-ui"></i>@lang('strings.meter') {{$n->size}}

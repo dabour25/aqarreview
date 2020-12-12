@@ -13,6 +13,7 @@ use App\Http\Controllers\router;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ContactusController;
 use App\Http\Controllers\User\AdsController;
+use App\Http\Controllers\User\SearchController;
 
 Route::get('/',get_controller(router::class,'index'));
 Route::get('/home',get_controller(router::class,'index'));
@@ -26,7 +27,7 @@ Route::group(['prefix' => 'log'],function(){
     Route::get('/out','Auth\LoginController@logout');
 });
 
-Route::get('lang/{language}','router@lang');
+Route::get('lang/{language}',get_controller(router::class,'lang'));
 
 Route::resource('/contact',get_controller(ContactusController::class));
 
@@ -37,11 +38,11 @@ Route::post('/addpro/{slug}',get_controller(AdsController::class,'adproProcess')
 
 Route::get('/review/{slug}',get_controller(AdsController::class,'review'));
 
-Route::get('/cat/{cat}','router@cat');
-Route::get('/rent/{cat}','router@rcat');
-Route::get('/sell/{cat}','router@scat');
+Route::get('/cat/{category}',get_controller(SearchController::class,'byCategory'));
+Route::get('/rent/{category}',get_controller(SearchController::class,'rentCategory'));
+Route::get('/sell/{category}',get_controller(SearchController::class,'sellCategory'));
 
-Route::get('/search','router@gsearch');
+Route::get('/search',get_controller(SearchController::class,'index'));
 Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
 Route::get('/profile','User\UsersController@profile');

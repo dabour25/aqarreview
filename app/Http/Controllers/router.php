@@ -65,91 +65,6 @@ class router extends Controller
         return view('single',compact('page','ad','name','phone','email'));
     }
 
-        public function cat($cat){
-        $ads=Ad::where('type',$cat)->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat=='apartment'){
-            $page='APARTMENTS';
-            $pagear='شقق';
-        }elseif($cat=='villa'){
-            $page='VILLAS';
-            $pagear='فيلات';
-        }elseif($cat=='land'){
-            $page='LANDS';
-            $pagear='أراضى';
-        }elseif($cat=='houses'){
-            $page='HOMES';
-            $pagear='بيوت';
-        }elseif($cat=='shop'){
-            $page='SHOPS';
-            $pagear='محلات تجارية';
-        }elseif($cat=='chalet'){
-            $page='CHALETS';
-            $pagear='شاليهات';
-        }
-        $fav=[];
-        if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
-        }
-        return view('ads',compact('page','ads','pagear','fav'));
-    }
-    public function rcat($cat){
-        $ads=Ad::where('type',$cat)->where('general_type','rent')->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat=='apartment'){
-            $page='APARTMENTS';
-            $pagear='شقق';
-        }elseif($cat=='villa'){
-            $page='VILLAS';
-            $pagear='فيلات';
-        }elseif($cat=='land'){
-            $page='LANDS';
-            $pagear='أراضى';
-        }elseif($cat=='houses'){
-            $page='HOMES';
-            $pagear='بيوت';
-        }elseif($cat=='shop'){
-            $page='SHOPS';
-            $pagear='محلات تجارية';
-        }elseif($cat=='chalet'){
-            $page='CHALETS';
-            $pagear='شاليهات';
-        }
-        $page.=' FOR RENT';
-        $pagear.=' للإيجار';
-        $fav=[];
-        if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
-        }
-        return view('ads',compact('page','ads','pagear','fav'));
-    }
-    public function scat($cat){
-        $ads=Ad::where('type',$cat)->where('general_type','sell')->where('show',1)->orderBy('id','desc')->paginate(21);
-        if($cat=='apartment'){
-            $page='APARTMENTS';
-            $pagear='شقق';
-        }elseif($cat=='villa'){
-            $page='VILLAS';
-            $pagear='فيلات';
-        }elseif($cat=='land'){
-            $page='LANDS';
-            $pagear='أراضى';
-        }elseif($cat=='houses'){
-            $page='HOMES';
-            $pagear='بيوت';
-        }elseif($cat=='shop'){
-            $page='SHOPS';
-            $pagear='محلات تجارية';
-        }elseif($cat=='chalet'){
-            $page='CHALETS';
-            $pagear='شاليهات';
-        }
-        $page.=' FOR SELL';
-        $pagear.=' للبيع';
-        $fav=[];
-        if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
-        }
-        return view('ads',compact('page','ads','pagear','fav'));
-    }
     public function search($search,$type,$min,$max){
         if($search=='all'){
             if($type=='all'){
@@ -216,21 +131,7 @@ class router extends Controller
         }
         return view('ads',compact('page','ads','pagear','search','type','min','max','fav'));
     }
-    public function gsearch(){
-        if(Session::has('lang')){
-            $search="ALL";
-        }else{
-            $search="الكل";
-        }
-        $ads=Ad::where('show',1)->orderBy('id','desc')->paginate(21);
-        $page='SEARCH : '.$search;
-        $pagear='بحث عن : '.$search;
-        $fav=[];
-        if(Auth::user()){
-            $fav=Fav::where('user',Auth::user()->id)->get();
-        }
-        return view('ads',compact('page','ads','pagear','fav','search'));
-    }
+
 
     public function userads(){
         if(!Auth::user()){

@@ -152,5 +152,6 @@
         'ADVERTISE_DATA'=>'ADVERTISE DATA',
         'This Advertise Has Profile before'=>'This Advertise Has Profile before',
         'REVIEW ADVERTISE'=>'REVIEW ADVERTISE',
+        'ALL'=>'ALL',
 	]
 ?>

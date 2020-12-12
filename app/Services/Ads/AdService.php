@@ -37,6 +37,37 @@ class AdService{
     }
 
     /**
+     * @param string $category
+     * @param bool $show
+     */
+    public function getAdsByCategory(string $category,bool $show=false){
+        if($show){
+            $ads=Ad::where('type',$category)->where('show',1)->orderBy('id','desc')->paginate(21);
+        }else{
+            $ads=Ad::where('type',$category)->orderBy('id','desc')->paginate(21);
+        }
+        return $ads;
+    }
+
+    /**
+     * @param string $category
+     * @param bool $show
+     * @return mixed
+     */
+    public function getTypeAdsByCategory(string $category,string $type,bool $show=false){
+        if($show){
+            $ads=Ad::where('type',$category)->where('general_type',$type)->where('show',1)->orderBy('id','desc')->paginate(21);
+        }else{
+            $ads=Ad::where('type',$category)->where('general_type',$type)->orderBy('id','desc')->paginate(21);
+        }
+        return $ads;
+    }
+
+    public function getAds(){
+        return Ad::where('show',1)->orderBy('id','desc')->paginate(21);
+    }
+
+    /**
      * @param AdDTO $adDTO
      * @return mixed
      */

@@ -385,7 +385,7 @@
                             <a href="/cat/villa">@lang('strings.villas')</a>
                         </li>
                         <li>
-                            <a href="/cat/3land">@lang('strings.lands')</a>
+                            <a href="/cat/land">@lang('strings.lands')</a>
                         </li>
                         <li>
                             <a href="/cat/apartment">@lang('strings.apartments')</a>

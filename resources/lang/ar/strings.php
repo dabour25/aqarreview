@@ -152,5 +152,6 @@
         'ADVERTISE_DATA'=>'بيانات الإعلان',
         'This Advertise Has Profile before'=>'هذا الإعلان لدية بيانات معلن من قبل',
         'REVIEW ADVERTISE'=>'مراجعة الإعلان',
+        'ALL'=>'الكل',
 	]
 ?>

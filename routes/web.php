@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ContactusController;
 use App\Http\Controllers\User\AdsController;
 use App\Http\Controllers\User\SearchController;
+use App\Http\Controllers\Admin\adminprocess;
 
 Route::get('/',get_controller(router::class,'index'));
 Route::get('/home',get_controller(router::class,'index'));
@@ -93,6 +94,7 @@ Route::group(['prefix' =>'admindb','middleware' => 'auth:admin'],function () {
     Route::get('/links', 'Admin\adminrouter@links');
     Route::post('/links', 'Admin\adminprocess@links');
     Route::post('/adsdefault', 'Admin\adminprocess@adsdefault');
+    Route::post('/profiledefault', get_controller(adminprocess::class,'profile_default'));
 });
 
 Auth::routes();

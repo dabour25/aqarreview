@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -50,4 +50,5 @@ class adminprocess extends Controller
 	    session()->push('m','Image Updated Saved');
 		return back();
 	}
+
 }

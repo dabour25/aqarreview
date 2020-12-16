@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\DTOs\Users\BlogDTO;
 use App\Models\Blog;
+use App\Models\Image;
 use App\Models\Like;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class BlogsService{
 
@@ -92,5 +96,22 @@ class BlogsService{
             }
         }
         return [$blog,$likes,$dislikes,$commentlikes,$commentdislikes,$replieslikes,$repliesdislikes];
+    }
+
+    public function createBlog(BlogDTO $blogDTO){
+        $image=$blogDTO->image;
+        $photosPath = public_path('/img/blog');
+        $ph = Str::random(16);
+        $ph .= '.' . $image->getClientOriginalExtension();
+        $image->move($photosPath, $ph);
+        $data["content"]=$blogDTO->blog;
+        $data["title"]=$blogDTO->title;
+        $data["privacy"]='all';
+        $data["user_id"]=Auth::user()->id;
+        $data["slug"]=Str::random(6).rand(100,999);
+        $blog=Blog::create($data);
+        $photo = new Image(['url' => $ph]);
+        $blog->images()->save($photo);
+        return $blog;
     }
 }

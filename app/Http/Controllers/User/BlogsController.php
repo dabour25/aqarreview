@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\DTOs\Users\BlogDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Comment;
@@ -9,6 +10,7 @@ use App\Models\Like;
 use App\Models\Reply;
 use App\Models\Report;
 use App\RequestForms\Social\CommentValidator;
+use App\RequestsWeb\User\CreateBlogValidator;
 use App\Services\BlogsService;
 use App\Services\SocialService;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,27 +33,9 @@ class BlogsController extends Controller
         $this->middleware('auth',['except' => ['index','show']]);
         View::share('links',$links);
     }
-    public function store(Request $request){
-        $valarr=[
-            'blog'=>'required|min:1',
-            'image'=>'required|max:8192',
-            'title'=>'required|min:5|max:191'
-        ];
-        $this->validate($request,$valarr);
-        $image=$request->file('image');
-        $photosPath = public_path('/img/blog');
-
-        $ph = Str::random(16);
-        $ph .= '.' . $image->getClientOriginalExtension();
-        $image->move($photosPath, $ph);
-        $data["content"]=$request->blog;
-        $data["title"]=$request->title;
-        $data["privacy"]='all';
-        $data["user_id"]=Auth::user()->id;
-        $data["slug"]=Str::random(6).rand(100,999);
-        $blog=Blog::create($data);
-        $photo = new Image(['url' => $ph]);
-        $blog->images()->save($photo);
+    public function store(CreateBlogValidator $createBlogValidator,BlogsService $blogsService){
+        $BlogDTO=BlogDTO::fromArray($createBlogValidator->request()->all());
+        $blogsService->createBlog($BlogDTO);
         return back();
     }
     public function index(){

@@ -24,7 +24,7 @@
                 <div class="portlet light profile-sidebar-portlet bordered">
                     <div class="profile-userpic">
                         <div style="margin: auto;width: 50%">
-                            <img src="{{asset('img/profiles').'/'.($user->images?($user->images[0]->url??'default.png'):'default.png')}}" class="img-responsive" alt="">
+                            <img src="{{asset('img/profiles').'/'.($user->images?($user->images[0]->url??$links[6]->value):$links[6]->value)}}" class="img-responsive" alt="">
                             <form action="/change-profile" method="post" enctype="multipart/form-data" id="change_image_form">
                                @csrf
                                 <input type="file" name="profile" class="custom-file-input" title="Change profile image" id="profile-img">

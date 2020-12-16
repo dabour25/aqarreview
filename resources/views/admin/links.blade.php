@@ -57,6 +57,18 @@
               <input type="file" name="default">
               <br><br>
               <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+              <hr>
+              <form action="/admindb/profiledefault" method="post" enctype="multipart/form-data">
+                  @csrf
+                  <label>Default Profile Image</label>
+                  <br>
+                  <img src="{{asset('/img/profiles')}}/{{$data[6]->value}}" width="150px">
+                  <br><br>
+                  <input type="file" name="default">
+                  <br><br>
+                  <button type="submit" class="btn btn-primary">Save</button>
+              </form>
             </div>
           </div>
           </div>

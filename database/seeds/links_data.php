@@ -33,7 +33,7 @@ class links_data extends Seeder
             ['name'=>'twitter','value'=>'https://twitter.com/AqarReview'],
             ['name'=>'inst','value'=>'https://www.instagram.com/aqarreview'],
             ['name'=>'default_img','value'=>'default.jpg'],
-            ['name'=>'default_profile','value'=>'default.jpg'],
+            ['name'=>'default_profile','value'=>'default.png'],
         ];
     }
     /**

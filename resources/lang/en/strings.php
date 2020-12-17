@@ -153,5 +153,7 @@
         'This Advertise Has Profile before'=>'This Advertise Has Profile before',
         'REVIEW ADVERTISE'=>'REVIEW ADVERTISE',
         'ALL'=>'ALL',
+        'report_user_fail'=>'User Not Found',
+        'report_same_user'=>'You can\'t report yourself',
 	]
 ?>

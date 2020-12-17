@@ -95,7 +95,7 @@
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-fw fa-folder"></i>
-                  <span>Advertises</span>
+                  <span>Advertises {{$newads==0?'':'('.$newads.')'}}</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                   <a class="dropdown-item" href="/admindb/approve">Approve Ads ({{$newads}})</a>
@@ -103,10 +103,14 @@
               </div>
           </li>
           <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="/admindb/users">
+              <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-fw fa-user"></i>
-                  <span>Users Control</span>
+                  <span>Users Control {{$reports==0?'':'('.$reports.')'}}</span>
               </a>
+              <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                  <a class="dropdown-item" href="/admindb/users">Users Management</a>
+                  <a class="dropdown-item" href="/admindb/reports">Reports ({{$reports}}) </a>
+              </div>
           </li>
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="/admindb/links">

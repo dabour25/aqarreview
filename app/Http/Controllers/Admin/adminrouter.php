@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Hash;
-use View;
 use Auth;
+use Illuminate\Support\Facades\View;
 use Socialite;
 use Session;
 //DB Connect
@@ -24,6 +25,8 @@ class adminrouter extends Controller
         View::share('messagescount',$messagescount);
         $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
+        $reports=Report::where('seen',0)->count();
+        View::share('reports',$reports);
     }
     public function index(){
       $usercount=User::count();

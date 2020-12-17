@@ -153,5 +153,7 @@
         'This Advertise Has Profile before'=>'هذا الإعلان لدية بيانات معلن من قبل',
         'REVIEW ADVERTISE'=>'مراجعة الإعلان',
         'ALL'=>'الكل',
+        'report_user_fail'=>'المستخدم غير موجود',
+        'report_same_user'=>'لا يمكنك الإبلاغ عن نفسك',
 	]
 ?>

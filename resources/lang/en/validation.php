@@ -161,6 +161,7 @@ return [
 		'rooms' => 'rooms',
 		'pathroom' => 'pathroom',
 		'kitchens' => 'kitchens',
+        'report'=>'Report',
     ],
 
 ];

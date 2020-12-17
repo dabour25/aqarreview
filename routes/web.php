@@ -15,6 +15,9 @@ use App\Http\Controllers\User\ContactusController;
 use App\Http\Controllers\User\AdsController;
 use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\Admin\adminprocess;
+use App\Http\Controllers\User\ReportsController;
+use App\Http\Controllers\Admin\ReportsController as ReportsControllerAdmin;
+use App\Http\Controllers\Admin\UserController as UserControllerAdmin;
 
 Route::get('/',get_controller(router::class,'index'));
 Route::get('/home',get_controller(router::class,'index'));
@@ -49,8 +52,9 @@ Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 Route::get('/profile','User\UsersController@profile');
 Route::post('/change-profile','User\UsersController@changeImage');
 Route::get('/profiles/{slug}','User\UsersController@globalProfile');
-Route::get('/report/{slug}','User\UsersController@reportShow');
-Route::post('/report/{slug}','User\UsersController@report');
+
+Route::resource('/report',get_controller(ReportsController::class));
+
 Route::get('/follow/{slug}','User\UsersController@follow');
 Route::get('/like-post/{slug}','User\PostsController@like');
 Route::get('/dislike-post/{slug}','User\PostsController@dislike');
@@ -87,6 +91,8 @@ Route::group(['prefix' =>'admindb','middleware' => 'auth:admin'],function () {
     Route::resource('/ads','Admin\AdsController');
     Route::get('/approve','Admin\AdsController@approve');
     Route::resource('/users','Admin\UserController');
+    Route::post('block-user',get_controller(UserControllerAdmin::class,'blockUser'));
+    Route::resource('/reports',get_controller(ReportsControllerAdmin::class));
     Route::resource('/admins','Admin\AdminsController');
     Route::resource('/posts','Admin\PostsController');
     Route::resource('/blogs','Admin\BlogsController');

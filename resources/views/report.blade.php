@@ -23,7 +23,8 @@
 		<div class="col-sm-10">
 			<form action="/report/{{$slug}}" method="post">
 				@csrf
-				<label>@lang('strings.report_input')</label>
+                {{method_field('put')}}
+				<label>@lang('strings.report_input') ({{$user->name}})</label>
 				<textarea name="report" class="form-control" rows="8"></textarea>
 				<br>
 				<button class="btn btn-primary">@lang('strings.report')</button>

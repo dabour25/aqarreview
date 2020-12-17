@@ -1,5 +1,6 @@
 <?php
 
+
 Route::get('/','API\router@index');
 Route::resource('/posts','API\User\PostsController');
 
@@ -12,5 +13,6 @@ Route::post('/comment-blog','API\User\PostsController@commentBlog');
 Route::get('/like-reply','API\User\PostsController@likeReply');
 Route::get('/dislike-reply','API\User\PostsController@dislikeReply');
 Route::post('/reply-comment','API\User\PostsController@reply');
+
 
 Auth::routes();

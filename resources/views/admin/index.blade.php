@@ -53,6 +53,7 @@
             </a>
           </div>
         </div>
+
         <div class="col-xl-3 col-sm-6 mb-3">
           <div class="card text-white bg-success o-hidden h-100">
             <div class="card-body">
@@ -63,5 +64,27 @@
             </div>
           </div>
         </div>
+
+          <div class="col-xl-3 col-sm-6 mb-3">
+              <div class="card text-white bg-warning o-hidden h-100">
+                  <div class="card-body">
+                      <div class="card-body-icon">
+                          <i class="fas fa-fw fa-bullhorn"></i>
+                      </div>
+                      @if($reports!=0)
+                          <div class="mr-5">{{$reports}} New Reports!</div>
+                      @else
+                          <div class="mr-5">No New Reports</div>
+                      @endif
+                  </div>
+                  <a class="card-footer text-white clearfix small z-1" href="/admindb/reports">
+                      <span class="float-left">View Reports</span>
+                      <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+              </span>
+                  </a>
+              </div>
+          </div>
+
       </div>
 @stop

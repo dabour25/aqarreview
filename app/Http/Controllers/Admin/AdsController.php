@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Adspro;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Illuminate\Support\Facades\View;
 use Session;
-use View;
 //DB Connect
 use App\Models\User;
 use App\Models\Message;
@@ -21,6 +22,8 @@ class AdsController extends Controller
         View::share('messagescount',$messagescount);
         $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
+        $reports=Report::where('seen',0)->count();
+        View::share('reports',$reports);
     }
 
     public function approve(){

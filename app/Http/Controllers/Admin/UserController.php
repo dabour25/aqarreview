@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Report;
+use App\Services\Users\UserService;
 use Illuminate\Http\Request;
 use Auth;
 use Hash;
+use Illuminate\Support\Facades\View;
 use Session;
-use View;
 //DB Connect
 use App\Models\User;
 use App\Models\Message;
@@ -22,6 +24,8 @@ class UserController extends Controller
         View::share('messagescount',$messagescount);
         $newads = Ad::where('seen',0)->count();
         View::share('newads',$newads);
+        $reports=Report::where('seen',0)->count();
+        View::share('reports',$reports);
     }
 	public function index(Request $request){
         if($request->filter=="admin"){
@@ -67,6 +71,12 @@ class UserController extends Controller
             session()->push('m','success');
             session()->push('m','User Restored');
         }
+        return back();
+    }
+
+    public function blockUser(Request $request,UserService $userService){
+        $slug=$request->slug??'';
+        $userService->blockUser($slug);
         return back();
     }
 }

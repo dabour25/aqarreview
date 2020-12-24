@@ -25,10 +25,12 @@
                     <div class="profile-userpic">
                         <div style="margin: auto;width: 50%">
                             <img src="{{asset('img/profiles').'/'.($user->images?($user->images[0]->url??$links[6]->value):$links[6]->value)}}" class="img-responsive" alt="">
+                            @if($user->id==auth()->user()->id)
                             <form action="/change-profile" method="post" enctype="multipart/form-data" id="change_image_form">
                                @csrf
                                 <input type="file" name="profile" class="custom-file-input" title="Change profile image" id="profile-img">
                             </form>
+                            @endif
                         </div>
                     </div>
                     <div class="profile-usertitle">
@@ -43,7 +45,7 @@
                         <button type="button" class="btn btn-info btn-sm">@lang('strings.message')</button>
                     </div>
                     <div class="profile-usermenu">
-                        @if(auth()->user()&&!isset($followers))
+                        @if(auth()->user()&&($user->id!=auth()->user()->id))
                             <ul class="nav">
                                 <li>
                                     <a href="/report/{{$user->slug}}">
@@ -52,6 +54,36 @@
                                 </li>
                             </ul>
                         @endif
+                    </div>
+                </div>
+                <div class="portlet light profile-sidebar-portlet bordered">
+                    <h5>@lang('strings.followers') ({{count($followers)}})</h5>
+                    <div style="padding: 10px;">
+                        <div class="row">
+                            @foreach($followers as $follow)
+                                <div class="col-1">
+                                    <a href="/profiles/{{$follow->followerData->slug}}">
+                                        <img src="{{asset('img/profiles').'/'.($follow->followerData->images?($follow->followerData->images[0]->url??$links[6]->value):$links[6]->value)}}"
+                                             style="width:60px;border-radius: 50%;">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet light profile-sidebar-portlet bordered">
+                    <h5>@lang('strings.following') ({{count($following)}})</h5>
+                    <div style="padding: 10px;">
+                        <div class="row">
+                            @foreach($following as $follow)
+                                <div class="col-1">
+                                    <a href="/profiles/{{$follow->followingData->slug}}">
+                                        <img src="{{asset('img/profiles').'/'.($follow->followingData->images?($follow->followingData->images[0]->url??$links[6]->value):$links[6]->value)}}"
+                                             style="width:60px;border-radius: 50%;" title="{{$follow->followingData->name}}">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,9 +97,8 @@
                     </div>
                     <div class="portlet-body">
                         <div>
-
                             <!-- Nav tabs -->
-                            @if(auth()->user()&&isset($followers))
+                            @if(auth()->user()&&($user->id==auth()->user()->id))
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#" id="update_btn">@lang('strings.update')</a>
                                 </li>
@@ -157,7 +188,7 @@
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="home">
-                                    @if(isset($followers))
+                                    @if($user->id==auth()->user()->id)
                                         <form action="/posts" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             <textarea class="form-control" name="post"

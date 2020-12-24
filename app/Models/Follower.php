@@ -16,4 +16,10 @@ class Follower extends Model
             self::insert(['follower'=>$follower,'followed'=>$followed]);
         }
     }
+    public function followerData(){
+        return $this->belongsTo(User::class,'follower');
+    }
+    public function followingData(){
+        return $this->belongsTo(User::class,'followed');
+    }
 }

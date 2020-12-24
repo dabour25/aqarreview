@@ -42,9 +42,10 @@ class UsersController extends Controller
         }elseif(Auth::user()->role=='admin'){
             return redirect('/admindb');
         }
-        $page=Auth::user()->name." PROFILE";
+        $page=Auth::user()->name.' '.trans('strings.profile');
         $user=User::where('id',Auth::user()->id)->with('images')->withCount('followers')->first();
-        $followers=Follower::where('followed',$user->id)->get();
+        $followers=Follower::with('followerData')->where('followed',$user->id)->get();
+        $following=Follower::with('followingData')->where('follower',$user->id)->get();
         $isFollow=false;
         $result=SocialService::getPosts($user->id);
         $posts=$result[0];
@@ -54,15 +55,17 @@ class UsersController extends Controller
         $commentdislikes=$result[4];
         $replieslikes=$result[5];
         $repliesdislikes=$result[6];
-        return view('profile',compact('page','user','isFollow','followers','posts','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
+        return view('profile',compact('page','user','isFollow','followers','following','posts','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
     }
     public function globalProfile($slug){
         $user=User::where('slug',$slug)->withCount('followers')->first();
         if(!$user){
             return redirect('/');
         }
-        $page=$user->name." PROFILE";
+        $page=$user->name.' '.trans('strings.profile');
         $isFollow=Follower::where('follower',Auth::user()->id??'')->where('followed',$user->id)->first();
+        $followers=Follower::with('followerData')->where('followed',$user->id)->get();
+        $following=Follower::with('followingData')->where('follower',$user->id)->get();
         $result=SocialService::getPosts($user->id);
         $posts=$result[0];
         $likes=$result[1];
@@ -71,7 +74,7 @@ class UsersController extends Controller
         $commentdislikes=$result[4];
         $replieslikes=$result[5];
         $repliesdislikes=$result[6];
-        return view('profile',compact('page','user','isFollow','posts','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
+        return view('profile',compact('page','user','isFollow','followers','following','posts','likes','dislikes','commentlikes','commentdislikes','replieslikes','repliesdislikes'));
     }
     public function follow($slug){
         if(!Auth::user()){

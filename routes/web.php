@@ -49,7 +49,7 @@ Route::get('/sell/{category}',get_controller(SearchController::class,'sellCatego
 Route::get('/search',get_controller(SearchController::class,'index'));
 Route::get('/search/{search}/{type}/{min}/{max}','router@search');
 
-Route::get('/profile','User\UsersController@profile');
+Route::get('/profile',get_controller(UsersController::class,'profile'));
 Route::post('/change-profile','User\UsersController@changeImage');
 Route::get('/profiles/{slug}','User\UsersController@globalProfile');
 
